@@ -6,12 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-public class MainActivity extends AppCompatActivity {
+public class StartActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.start);
 
 
 
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
 
 
-                Intent intent = new Intent(MainActivity.this,MainActivity2.class);
+                Intent intent = new Intent(StartActivity.this,Main.class);
                 startActivity(intent);
                 finish();
             }
