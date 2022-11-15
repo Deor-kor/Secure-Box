@@ -5,17 +5,26 @@ public class Ob_List {
     String url;
     String name;
     String date;
+    String key;
 
     public Ob_List() {
 
     }
 
-    public Ob_List(String url,String name,String date) {
+    public Ob_List(String url,String name,String date,String key) {
         this.url=url;
         this.name=name;
         this.date=date;
+        this.key=key;
     }
 
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public String getUrl() {
         return url;

@@ -6,10 +6,15 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -17,6 +22,9 @@ public  class CustomAdapter_List2 extends RecyclerView.Adapter<CustomAdapter_Lis
 
     ArrayList<Ob_List> arrayList;
     Context context;
+    FirebaseDatabase database;
+    DatabaseReference databaseReference;
+    long backKeyPressedTime = 0; //뒤로가기 버튼을 누른 시간
 
     public CustomAdapter_List2(ArrayList<Ob_List> arrayList, Context context) {
         this.arrayList = arrayList;
@@ -57,16 +65,23 @@ public  class CustomAdapter_List2 extends RecyclerView.Adapter<CustomAdapter_Lis
         TextView position;
         TextView date;
         View view;
+        LinearLayout look;
+        TextView delete;
 
         public CusromViewHolder(@NonNull View itemView) {
             super(itemView);
             this.name = itemView.findViewById(R.id.name);
             this.date = itemView.findViewById(R.id.date);
             this.position = itemView.findViewById(R.id.position);
+            this.look = itemView.findViewById(R.id.look);
+            this.delete =itemView.findViewById(R.id.delete);
 
             view = itemView;
 
-            view.setOnClickListener(new View.OnClickListener() {
+            database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
+            databaseReference = database.getReference("video").child("list");
+
+            look.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
@@ -80,9 +95,33 @@ public  class CustomAdapter_List2 extends RecyclerView.Adapter<CustomAdapter_Lis
                 }
             });
 
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if(System.currentTimeMillis() > backKeyPressedTime + 2000){
+                        backKeyPressedTime = System.currentTimeMillis();
+                        Toast.makeText(context, "한 번 더 누르면 삭제됩니다.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    //한 번의 뒤로가기 버튼이 눌린 후 0~2초 사이에 한 번더 눌리게 되면 현재 엑티비티를 호출
+                    if(System.currentTimeMillis() <= backKeyPressedTime + 2000){
+
+                        int position = getLayoutPosition();
+                        databaseReference.child(arrayList.get(position).getKey()).removeValue();
+                        Toast.makeText(context, "삭제 완료", Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+                }
+
+        });
+
         }
 
     }
+
 
 
 }
