@@ -21,7 +21,7 @@ public class StartActivity extends AppCompatActivity {
             public void run() {
 
 
-                Intent intent = new Intent(StartActivity.this,Real_Video.class);
+                Intent intent = new Intent(StartActivity.this,Login.class);
                 startActivity(intent);
                 finish();
             }

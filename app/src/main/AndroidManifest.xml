@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
 
     <application
         android:allowBackup="true"
@@ -15,6 +16,22 @@
         android:theme="@style/Theme.CJ"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:label=""
+            android:name=".Permission"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Dialog">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Login"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".Option"
             android:exported="false">
@@ -44,6 +61,7 @@
                 android:value="" />
         </activity>
         <activity
+            android:label=""
             android:name=".Video_Dialog"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Dialog">
@@ -52,6 +70,7 @@
                 android:value="" />
         </activity>
         <activity
+            android:label=""
             android:name=".Photo_Dialog"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Dialog">
