@@ -19,7 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public  class CustomAdapter_List extends RecyclerView.Adapter<CustomAdapter_List.CusromViewHolder>{
+public  class CustomAdapter_List extends RecyclerView.Adapter<CustomAdapter_List.CustomViewHolder>{
 
     ArrayList<Ob_List> arrayList;
     Context context;
@@ -34,15 +34,15 @@ public  class CustomAdapter_List extends RecyclerView.Adapter<CustomAdapter_List
 
     @NonNull
     @Override
-    public CusromViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_url,parent,false);
-        CusromViewHolder holder = new CusromViewHolder(view);
+        CustomViewHolder holder = new CustomViewHolder(view);
         return holder;
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull CustomAdapter_List.CusromViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CustomAdapter_List.CustomViewHolder holder, int position) {
 
         try {
             holder.name.setText(arrayList.get(position).getName());
@@ -61,7 +61,7 @@ public  class CustomAdapter_List extends RecyclerView.Adapter<CustomAdapter_List
         return (arrayList != null ? arrayList.size():0);
     }
 
-    public class CusromViewHolder extends RecyclerView.ViewHolder{
+    public class CustomViewHolder extends RecyclerView.ViewHolder{
         TextView name;
         TextView position;
         TextView date;
@@ -69,7 +69,7 @@ public  class CustomAdapter_List extends RecyclerView.Adapter<CustomAdapter_List
         LinearLayout look;
         TextView delete;
 
-        public CusromViewHolder(@NonNull View itemView) {
+        public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
             this.name = itemView.findViewById(R.id.name);
             this.date = itemView.findViewById(R.id.date);
