@@ -269,7 +269,7 @@ public class Video extends AppCompatActivity {
 
                                         }
                                         catch (NullPointerException nullPointerException){
-
+                                            databaseReference_auto.setValue("OFF");
                                         }
                                     }
 
