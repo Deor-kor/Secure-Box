@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -29,8 +30,8 @@ public class Video extends AppCompatActivity {
 
     FirebaseDatabase database;
     DatabaseReference databaseReference;
-    TextView text;
-    Button button;
+    TextView text1,text2;
+    Button button1,button2;
     RecyclerView list;
     ArrayList<Ob_List> arraylist;
     DatabaseReference databaseReference_video;
@@ -43,10 +44,13 @@ public class Video extends AppCompatActivity {
 
     DatabaseReference databaseReference1;
     DatabaseReference databaseReference2;
-    String value1,value2;
+    DatabaseReference databaseReference_auto;
+    String value1,value2,value3,value4;
 
     Dialog dialog;
     TextView power;
+
+    TextView option;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +68,18 @@ public class Video extends AppCompatActivity {
 
         check = (TextView)findViewById(R.id.check);
         check.setVisibility(View.INVISIBLE);
-        button = (Button)findViewById(R.id.button2);
-        text = (TextView)findViewById(R.id.text2);
+        button1 = (Button)findViewById(R.id.button1);
+        text1 = (TextView)findViewById(R.id.text1);
+        button2 = (Button)findViewById(R.id.button2);
+        text2 = (TextView)findViewById(R.id.text2);
+        option = (TextView)findViewById(R.id.option);
+        option.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Video.this,Option.class);
+                startActivity(intent);
+            }
+        });
 
         database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
         databaseReference1 =database.getReference("system").child("stop").child("power");
@@ -107,6 +121,7 @@ public class Video extends AppCompatActivity {
         });
 
 
+
         databaseReference_p = database.getReference("photo").child("write").child("power");
         databaseReference_p.addValueEventListener(new ValueEventListener() {
             @Override
@@ -121,73 +136,151 @@ public class Video extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             try {
-                                String value = snapshot.getValue().toString();
-                                text.setText(value);
+                                value3 = snapshot.getValue().toString();
+                                text1.setText(value3);
 
-                                if(value.equals("ON"))
-                                {
-                                    check.setVisibility(View.VISIBLE);
-                                }
-                                else if(value.equals("OFF")){
-                                    check.setVisibility(View.INVISIBLE);
-                                }
-
-                                button.setOnClickListener(new View.OnClickListener() {
+                                databaseReference_auto =database.getReference("system").child("video_auto").child("video_auto").child("power");
+                                databaseReference_auto.addValueEventListener(new ValueEventListener() {
                                     @Override
-                                    public void onClick(View v) {
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        try {
+                                            value4 = snapshot.getValue().toString();
+                                            text2.setText(value4);
 
-                                        if (value1.equals(value2))
-                                        {
-                                            if (value_p.equals("ON"))
+                                            if(value4.equals("ON")||value3.equals("ON"))
                                             {
-                                                Toast.makeText(Video.this, "사진 촬영 중에는 영상 녹화 불가", Toast.LENGTH_SHORT).show();
+                                                check.setVisibility(View.VISIBLE);
                                             }
-                                            else{
-
-                                                if(value.equals("OFF"))
-                                                {
-                                                    Toast.makeText(Video.this, "촬영 시작", Toast.LENGTH_SHORT).show();
-                                                    databaseReference.setValue("ON");
-                                                }
-
-
+                                            else if(value4.equals("OFF")||value3.equals("OFF")){
+                                                check.setVisibility(View.INVISIBLE);
                                             }
 
-                                            if (value.equals("ON"))
-                                            {
-                                                Toast.makeText(Video.this, "잠시만 기다려 주세요.", Toast.LENGTH_SHORT).show();
-                                            }
 
-                                        }
-
-                                        else{
-                                            dialog.show();
-                                            power.setOnClickListener(new View.OnClickListener() {
+                                            //일반 동영상
+                                            button1.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
-                                                    if (value1.equals(value2)){
-                                                        dialog.dismiss();
-                                                        Toast.makeText(Video.this, "연결 성공", Toast.LENGTH_SHORT).show();
+                                                    //블랙박스 연결확인
+                                                    if (value1.equals(value2))
+                                                    {
+                                                        if (value_p.equals("ON"))
+                                                        {
+                                                            Toast.makeText(Video.this, "사진 촬영 중에는 영상 녹화 불가", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                        else if(value4.equals("ON")){
+                                                            Toast.makeText(Video.this, "자동 녹화 중에는 일반 녹화 불가", Toast.LENGTH_SHORT).show();
+
+                                                        }
+                                                        else{
+                                                            if(value3.equals("OFF"))
+                                                            {
+                                                                Toast.makeText(Video.this, "촬영 시작", Toast.LENGTH_SHORT).show();
+                                                                databaseReference.setValue("ON");
+                                                            }
+                                                        }
+
+                                                        if (value3.equals("ON"))
+                                                        {
+                                                            Toast.makeText(Video.this, "잠시만 기다려 주세요.", Toast.LENGTH_SHORT).show();
+                                                        }
 
                                                     }
-                                                    else {
-                                                        Toast.makeText(Video.this, "블랙박스 전원이 꺼져있습니다.", Toast.LENGTH_SHORT).show();
-                                                    }
 
+                                                    else{
+                                                        dialog.show();
+                                                        power.setOnClickListener(new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View v) {
+                                                                if (value1.equals(value2)){
+                                                                    dialog.dismiss();
+                                                                    Toast.makeText(Video.this, "연결 성공", Toast.LENGTH_SHORT).show();
+
+                                                                }
+                                                                else {
+                                                                    Toast.makeText(Video.this, "블랙박스 전원이 꺼져있습니다.", Toast.LENGTH_SHORT).show();
+                                                                }
+
+                                                            }
+
+                                                        });
+                                                        Toast.makeText(Video.this, "블랙박스를 연결해 주세요.", Toast.LENGTH_SHORT).show();
+                                                    }
                                                 }
-
                                             });
-                                            Toast.makeText(Video.this, "블랙박스를 연결해 주세요.", Toast.LENGTH_SHORT).show();
+
+
+
+
+                                            //자동 동영상
+                                            button2.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    //블랙박스 연결확인
+                                                    if (value1.equals(value2))
+                                                    {
+                                                        if (value_p.equals("ON"))
+                                                        {
+                                                            Toast.makeText(Video.this, "사진 촬영 중에는 영상 녹화 불가", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                        else if(value3.equals("ON")){
+                                                            Toast.makeText(Video.this, "일반 녹화 중에는 자동 녹화 불가", Toast.LENGTH_SHORT).show();
+
+                                                        }
+                                                        else{
+                                                            if(value4.equals("OFF"))
+                                                            {
+                                                                Toast.makeText(Video.this, "촬영 시작", Toast.LENGTH_SHORT).show();
+                                                                databaseReference_auto.setValue("ON");
+                                                            }
+                                                        }
+
+                                                        if (value4.equals("ON"))
+                                                        {
+                                                            Toast.makeText(Video.this, "잠시만 기다려 주세요.", Toast.LENGTH_SHORT).show();
+                                                        }
+
+                                                    }
+
+                                                    else{
+                                                        dialog.show();
+                                                        power.setOnClickListener(new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View v) {
+                                                                if (value1.equals(value2)){
+                                                                    dialog.dismiss();
+                                                                    Toast.makeText(Video.this, "연결 성공", Toast.LENGTH_SHORT).show();
+
+                                                                }
+                                                                else {
+                                                                    Toast.makeText(Video.this, "블랙박스 전원이 꺼져있습니다.", Toast.LENGTH_SHORT).show();
+                                                                }
+
+                                                            }
+
+                                                        });
+                                                        Toast.makeText(Video.this, "블랙박스를 연결해 주세요.", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+
+
+
+
+
                                         }
+                                        catch (NullPointerException nullPointerException){
 
+                                        }
+                                    }
 
-
-
-
-
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
 
                                     }
                                 });
+
+
+
 
 
                             }
@@ -201,6 +294,9 @@ public class Video extends AppCompatActivity {
                         public void onCancelled(@NonNull DatabaseError error) {
                         }
                     });
+
+
+
 
 
 

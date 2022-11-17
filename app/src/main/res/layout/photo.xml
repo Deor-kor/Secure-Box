@@ -20,7 +20,7 @@
             android:background="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="사진 촬영"
+            android:text="사진"
             android:textSize="25dp"
             android:gravity="center"
             android:layout_gravity="center"
@@ -52,7 +52,7 @@
                 android:id="@+id/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="시작"
+                android:text="촬영"
                 android:backgroundTint="@color/black"/>
 
 
