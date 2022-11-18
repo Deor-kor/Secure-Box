@@ -48,6 +48,9 @@ public class Photo extends AppCompatActivity {
     Dialog dialog;
     TextView power;
 
+    String mt;
+    DatabaseReference databaseReference_motion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,55 +143,87 @@ public class Photo extends AppCompatActivity {
                                         try {
                                             value_auto = snapshot.getValue().toString();
 
-                                            button.setOnClickListener(new View.OnClickListener() {
+
+
+                                            databaseReference_motion = database.getReference("system").child("motion").child("power");
+                                            databaseReference_motion.addValueEventListener(new ValueEventListener() {
                                                 @Override
-                                                public void onClick(View v) {
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    try {
+                                                        mt = snapshot.getValue().toString();
+                                           
 
-                                                    if (value1.equals(value2))
-                                                    {
-
-                                                        if(value_v.equals("ON")||value_auto.equals("ON"))
-                                                        {
-                                                            Toast.makeText(Photo.this, "영상 녹화 중에는 사진 촬영 불가", Toast.LENGTH_SHORT).show();
-                                                        }
-
-                                                        else{
-                                                            if(value.equals("OFF"))
-                                                            {
-                                                                Toast.makeText(Photo.this, "촬영 시작", Toast.LENGTH_SHORT).show();
-                                                                databaseReference.setValue("ON");
-                                                            }
-
-                                                        }
-
-                                                        if (value.equals("ON"))
-                                                        {
-                                                            Toast.makeText(Photo.this, "잠시만 기다려 주세요.", Toast.LENGTH_SHORT).show();
-                                                        }
-
-                                                    }
-                                                    else{
-                                                        dialog.show();
-                                                        power.setOnClickListener(new View.OnClickListener() {
+                                                        button.setOnClickListener(new View.OnClickListener() {
                                                             @Override
                                                             public void onClick(View v) {
-                                                                if (value1.equals(value2)){
-                                                                    dialog.dismiss();
-                                                                    Toast.makeText(Photo.this, "연결 성공", Toast.LENGTH_SHORT).show();
+
+                                                                if (value1.equals(value2))
+                                                                {
+
+                                                                    if(value_v.equals("ON")||value_auto.equals("ON")||mt.equals("ON"))
+                                                                    {
+                                                                        Toast.makeText(Photo.this, "영상 녹화 중에는 사진 촬영 불가", Toast.LENGTH_SHORT).show();
+                                                                    }
+
+                                                                    else{
+                                                                        if(value.equals("OFF"))
+                                                                        {
+                                                                            Toast.makeText(Photo.this, "촬영 시작", Toast.LENGTH_SHORT).show();
+                                                                            databaseReference.setValue("ON");
+                                                                        }
+
+                                                                    }
+
+                                                                    if (value.equals("ON"))
+                                                                    {
+                                                                        Toast.makeText(Photo.this, "잠시만 기다려 주세요.", Toast.LENGTH_SHORT).show();
+                                                                    }
 
                                                                 }
-                                                                else {
-                                                                    Toast.makeText(Photo.this, "블랙박스 전원이 꺼져있습니다.", Toast.LENGTH_SHORT).show();
+                                                                else{
+                                                                    dialog.show();
+                                                                    power.setOnClickListener(new View.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(View v) {
+                                                                            if (value1.equals(value2)){
+                                                                                dialog.dismiss();
+                                                                                Toast.makeText(Photo.this, "연결 성공", Toast.LENGTH_SHORT).show();
+
+                                                                            }
+                                                                            else {
+                                                                                Toast.makeText(Photo.this, "블랙박스 전원이 꺼져있습니다.", Toast.LENGTH_SHORT).show();
+                                                                            }
+
+                                                                        }
+
+                                                                    });
+                                                                    Toast.makeText(Photo.this, "블랙박스를 연결해 주세요.", Toast.LENGTH_SHORT).show();
                                                                 }
 
                                                             }
-
                                                         });
-                                                        Toast.makeText(Photo.this, "블랙박스를 연결해 주세요.", Toast.LENGTH_SHORT).show();
+
+
+
+
+
+
+
+
                                                     }
+                                                    catch (NullPointerException nullPointerException){
+
+
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
 
                                                 }
                                             });
+
+
 
 
 

@@ -52,6 +52,9 @@ public class Video extends AppCompatActivity {
 
     TextView option;
 
+    TextView motion;
+    String mt;
+    DatabaseReference databaseReference_motion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +75,7 @@ public class Video extends AppCompatActivity {
         text1 = (TextView)findViewById(R.id.text1);
         button2 = (Button)findViewById(R.id.button2);
         text2 = (TextView)findViewById(R.id.text2);
+        motion = (TextView)findViewById(R.id.motion);
         option = (TextView)findViewById(R.id.option);
         option.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,121 +151,225 @@ public class Video extends AppCompatActivity {
                                             value4 = snapshot.getValue().toString();
                                             text2.setText(value4);
 
-                                            if(value4.equals("ON")||value3.equals("ON"))
-                                            {
-                                                check.setVisibility(View.VISIBLE);
-                                            }
-                                            else if(value4.equals("OFF")||value3.equals("OFF")){
-                                                check.setVisibility(View.INVISIBLE);
-                                            }
 
 
-                                            //일반 동영상
-                                            button1.setOnClickListener(new View.OnClickListener() {
+                                            databaseReference_motion = database.getReference("system").child("motion").child("power");
+                                            databaseReference_motion.addValueEventListener(new ValueEventListener() {
                                                 @Override
-                                                public void onClick(View v) {
-                                                    //블랙박스 연결확인
-                                                    if (value1.equals(value2))
-                                                    {
-                                                        if (value_p.equals("ON"))
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    try {
+                                                        mt = snapshot.getValue().toString();
+                                                        if (mt.equals("OFF")){
+
+                                                            motion.setText("동작 감지 모드 OFF");
+                                                        }
+                                                        else if(mt.equals("ON")){
+                                                            motion.setText("동작 감지 모드 ON");
+
+                                                        }
+
+
+                                                        //영상 촬영 중 바
+                                                        if(value4.equals("ON")||value3.equals("ON")||mt.equals("ON"))
                                                         {
-                                                            Toast.makeText(Video.this, "사진 촬영 중에는 영상 녹화 불가", Toast.LENGTH_SHORT).show();
+                                                            check.setVisibility(View.VISIBLE);
                                                         }
-                                                        else if(value4.equals("ON")){
-                                                            Toast.makeText(Video.this, "자동 녹화 중에는 일반 녹화 불가", Toast.LENGTH_SHORT).show();
-
-                                                        }
-                                                        else{
-                                                            if(value3.equals("OFF"))
-                                                            {
-                                                                Toast.makeText(Video.this, "촬영 시작", Toast.LENGTH_SHORT).show();
-                                                                databaseReference.setValue("ON");
-                                                            }
+                                                        else if(value4.equals("OFF")||value3.equals("OFF")||mt.equals("OFF")){
+                                                            check.setVisibility(View.INVISIBLE);
                                                         }
 
-                                                        if (value3.equals("ON"))
-                                                        {
-                                                            Toast.makeText(Video.this, "잠시만 기다려 주세요.", Toast.LENGTH_SHORT).show();
-                                                        }
-
-                                                    }
-
-                                                    else{
-                                                        dialog.show();
-                                                        power.setOnClickListener(new View.OnClickListener() {
+                                                        //동작 감지 모드
+                                                        motion.setOnClickListener(new View.OnClickListener() {
                                                             @Override
                                                             public void onClick(View v) {
-                                                                if (value1.equals(value2)){
-                                                                    dialog.dismiss();
-                                                                    Toast.makeText(Video.this, "연결 성공", Toast.LENGTH_SHORT).show();
+
+                                                                //블랙박스 연결확인
+                                                                if (value1.equals(value2))
+                                                                {
+                                                                    if (value_p.equals("ON"))
+                                                                    {
+                                                                        Toast.makeText(Video.this, "사진 촬영 중에는 녹화 불가", Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                    else if(value4.equals("ON")||value3.equals("ON")){
+                                                                        Toast.makeText(Video.this, "녹화 중에는 동작 감지 불가", Toast.LENGTH_SHORT).show();
+
+                                                                    }
+                                                                    else{
+                                                                        if(mt.equals("OFF"))
+                                                                        {
+                                                                            Toast.makeText(Video.this, "동작 감지 모드 시작", Toast.LENGTH_SHORT).show();
+                                                                            databaseReference_motion.setValue("ON");
+                                                                        }
+                                                                    }
+
+                                                                    if (mt.equals("ON"))
+                                                                    {
+                                                                        Toast.makeText(Video.this, "잠시만 기다려 주세요.", Toast.LENGTH_SHORT).show();
+                                                                    }
 
                                                                 }
-                                                                else {
-                                                                    Toast.makeText(Video.this, "블랙박스 전원이 꺼져있습니다.", Toast.LENGTH_SHORT).show();
+
+                                                                else{
+                                                                    dialog.show();
+                                                                    power.setOnClickListener(new View.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(View v) {
+                                                                            if (value1.equals(value2)){
+                                                                                dialog.dismiss();
+                                                                                Toast.makeText(Video.this, "연결 성공", Toast.LENGTH_SHORT).show();
+
+                                                                            }
+                                                                            else {
+                                                                                Toast.makeText(Video.this, "블랙박스 전원이 꺼져있습니다.", Toast.LENGTH_SHORT).show();
+                                                                            }
+
+                                                                        }
+
+                                                                    });
+                                                                    Toast.makeText(Video.this, "블랙박스를 연결해 주세요.", Toast.LENGTH_SHORT).show();
                                                                 }
+
+
 
                                                             }
-
                                                         });
-                                                        Toast.makeText(Video.this, "블랙박스를 연결해 주세요.", Toast.LENGTH_SHORT).show();
+
+
+
+
+                                                        //일반 동영상
+                                                        button1.setOnClickListener(new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View v) {
+                                                                //블랙박스 연결확인
+                                                                if (value1.equals(value2))
+                                                                {
+                                                                    if (value_p.equals("ON"))
+                                                                    {
+                                                                        Toast.makeText(Video.this, "사진 촬영 중에는 영상 녹화 불가", Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                    else if(value4.equals("ON")){
+                                                                        Toast.makeText(Video.this, "자동 녹화 중에는 일반 녹화 불가", Toast.LENGTH_SHORT).show();
+
+                                                                    }
+                                                                    else if(mt.equals("ON")){
+                                                                        Toast.makeText(Video.this, "동작 감지 모드 중에는 녹화 불가", Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                    else{
+                                                                        if(value3.equals("OFF"))
+                                                                        {
+                                                                            Toast.makeText(Video.this, "촬영 시작", Toast.LENGTH_SHORT).show();
+                                                                            databaseReference.setValue("ON");
+                                                                        }
+                                                                    }
+
+                                                                    if (value3.equals("ON"))
+                                                                    {
+                                                                        Toast.makeText(Video.this, "잠시만 기다려 주세요.", Toast.LENGTH_SHORT).show();
+                                                                    }
+
+                                                                }
+
+                                                                else{
+                                                                    dialog.show();
+                                                                    power.setOnClickListener(new View.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(View v) {
+                                                                            if (value1.equals(value2)){
+                                                                                dialog.dismiss();
+                                                                                Toast.makeText(Video.this, "연결 성공", Toast.LENGTH_SHORT).show();
+
+                                                                            }
+                                                                            else {
+                                                                                Toast.makeText(Video.this, "블랙박스 전원이 꺼져있습니다.", Toast.LENGTH_SHORT).show();
+                                                                            }
+
+                                                                        }
+
+                                                                    });
+                                                                    Toast.makeText(Video.this, "블랙박스를 연결해 주세요.", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            }
+                                                        });
+
+
+
+
+                                                        //자동 동영상
+                                                        button2.setOnClickListener(new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View v) {
+                                                                //블랙박스 연결확인
+                                                                if (value1.equals(value2))
+                                                                {
+                                                                    if (value_p.equals("ON"))
+                                                                    {
+                                                                        Toast.makeText(Video.this, "사진 촬영 중에는 영상 녹화 불가", Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                    else if(value3.equals("ON")){
+                                                                        Toast.makeText(Video.this, "일반 녹화 중에는 자동 녹화 불가", Toast.LENGTH_SHORT).show();
+
+                                                                    }
+                                                                    else if(mt.equals("ON")){
+                                                                        Toast.makeText(Video.this, "동작 감지 모드 중에는 녹화 불가", Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                    else{
+                                                                        if(value4.equals("OFF"))
+                                                                        {
+                                                                            Toast.makeText(Video.this, "촬영 시작", Toast.LENGTH_SHORT).show();
+                                                                            databaseReference_auto.setValue("ON");
+                                                                        }
+                                                                    }
+
+                                                                    if (value4.equals("ON"))
+                                                                    {
+                                                                        Toast.makeText(Video.this, "잠시만 기다려 주세요.", Toast.LENGTH_SHORT).show();
+                                                                    }
+
+                                                                }
+
+                                                                else{
+                                                                    dialog.show();
+                                                                    power.setOnClickListener(new View.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(View v) {
+                                                                            if (value1.equals(value2)){
+                                                                                dialog.dismiss();
+                                                                                Toast.makeText(Video.this, "연결 성공", Toast.LENGTH_SHORT).show();
+
+                                                                            }
+                                                                            else {
+                                                                                Toast.makeText(Video.this, "블랙박스 전원이 꺼져있습니다.", Toast.LENGTH_SHORT).show();
+                                                                            }
+
+                                                                        }
+
+                                                                    });
+                                                                    Toast.makeText(Video.this, "블랙박스를 연결해 주세요.", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            }
+                                                        });
+
+
+
+
+
+
+
+
                                                     }
+                                                    catch (NullPointerException nullPointerException){
+
+
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
                                                 }
                                             });
 
-
-
-
-                                            //자동 동영상
-                                            button2.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-                                                    //블랙박스 연결확인
-                                                    if (value1.equals(value2))
-                                                    {
-                                                        if (value_p.equals("ON"))
-                                                        {
-                                                            Toast.makeText(Video.this, "사진 촬영 중에는 영상 녹화 불가", Toast.LENGTH_SHORT).show();
-                                                        }
-                                                        else if(value3.equals("ON")){
-                                                            Toast.makeText(Video.this, "일반 녹화 중에는 자동 녹화 불가", Toast.LENGTH_SHORT).show();
-
-                                                        }
-                                                        else{
-                                                            if(value4.equals("OFF"))
-                                                            {
-                                                                Toast.makeText(Video.this, "촬영 시작", Toast.LENGTH_SHORT).show();
-                                                                databaseReference_auto.setValue("ON");
-                                                            }
-                                                        }
-
-                                                        if (value4.equals("ON"))
-                                                        {
-                                                            Toast.makeText(Video.this, "잠시만 기다려 주세요.", Toast.LENGTH_SHORT).show();
-                                                        }
-
-                                                    }
-
-                                                    else{
-                                                        dialog.show();
-                                                        power.setOnClickListener(new View.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(View v) {
-                                                                if (value1.equals(value2)){
-                                                                    dialog.dismiss();
-                                                                    Toast.makeText(Video.this, "연결 성공", Toast.LENGTH_SHORT).show();
-
-                                                                }
-                                                                else {
-                                                                    Toast.makeText(Video.this, "블랙박스 전원이 꺼져있습니다.", Toast.LENGTH_SHORT).show();
-                                                                }
-
-                                                            }
-
-                                                        });
-                                                        Toast.makeText(Video.this, "블랙박스를 연결해 주세요.", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                }
-                                            });
 
 
 

@@ -36,7 +36,7 @@ public class Real_Video extends AppCompatActivity {
     DatabaseReference databaseReference_p;
     DatabaseReference databaseReference_v;
     DatabaseReference databaseReference_auto;
-
+    DatabaseReference databaseReference_motion;
     String value_p,value_v;
 
 
@@ -111,9 +111,12 @@ public class Real_Video extends AppCompatActivity {
         databaseReference_v = database.getReference("video").child("write").child("power");
         databaseReference_p = database.getReference("photo").child("write").child("power");
         databaseReference_auto = database.getReference("system").child("video_auto").child("video_auto").child("power");
+        databaseReference_motion = database.getReference("system").child("motion").child("power");
+
         databaseReference_p.setValue("OFF");
         databaseReference_v.setValue("OFF");
         databaseReference_auto.setValue("OFF");
+        databaseReference_motion.setValue("OFF");
         databaseReference1.setValue(check_power); //블랙박스에 신호를 보냄
         databaseReference2.addValueEventListener(new ValueEventListener() {
             @Override
