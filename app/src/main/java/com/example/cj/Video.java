@@ -424,8 +424,6 @@ public class Video extends AppCompatActivity {
 
 
         list = (RecyclerView)findViewById(R.id.list1);
-        list.setLayoutManager(new GridLayoutManager(Video.this,1));
-        list.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(Video.this);
         layoutManager.setReverseLayout(true); //리사이클러뷰 역순으로 보여짐
         layoutManager.setStackFromEnd(true);

@@ -268,8 +268,6 @@ public class Photo extends AppCompatActivity {
 
 
         list = (RecyclerView)findViewById(R.id.list);
-        list.setLayoutManager(new GridLayoutManager(Photo.this,1));
-        list.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(Photo.this);
         layoutManager.setReverseLayout(true); //리사이클러뷰 역순으로 보여짐
         layoutManager.setStackFromEnd(true);

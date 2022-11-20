@@ -19,6 +19,7 @@
         android:textColor="@color/white"/>
 
     <LinearLayout
+        android:paddingLeft="5dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -51,12 +52,73 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"/>
     </LinearLayout>
+
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:src="@color/black"/>
 
     <LinearLayout
+        android:paddingLeft="5dp"
+        android:gravity="left"
+        android:layout_gravity="left"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:paddingVertical="10dp"
+            android:layout_gravity="left"
+            android:textColor="@color/black"
+            android:gravity="left"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="일반 녹화 설정"
+            />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:gravity="center"
+                android:inputType="number"
+                android:id="@+id/video_time"
+                android:textSize="18dp"
+                android:hint="시간"
+                android:maxLines="1"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="초 녹화"/>
+
+
+            <TextView
+                android:id="@+id/save_video"
+                android:layout_margin="3dp"
+                android:textColor="@color/white"
+                android:background="#5F9EA0"
+                android:gravity="center"
+                android:text="저장"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="@color/black"/>
+
+    <LinearLayout
+        android:paddingLeft="5dp"
         android:gravity="left"
         android:layout_gravity="left"
         android:layout_width="match_parent"
@@ -108,6 +170,88 @@
 
             <TextView
                 android:id="@+id/save_auto"
+                android:layout_margin="3dp"
+                android:textColor="@color/white"
+                android:background="#5F9EA0"
+                android:gravity="center"
+                android:text="저장"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="@color/black"/>
+
+
+    <LinearLayout
+        android:paddingLeft="5dp"
+        android:gravity="left"
+        android:layout_gravity="left"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:paddingVertical="10dp"
+            android:layout_gravity="left"
+            android:textColor="@color/black"
+            android:gravity="left"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="동작 감지 녹화 설정"
+            />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:paddingVertical="10dp"
+                android:layout_gravity="left"
+                android:gravity="left"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="동작 감지 시"
+                />
+
+
+            <EditText
+                android:gravity="center"
+                android:inputType="number"
+                android:id="@+id/motion_time"
+                android:textSize="18dp"
+                android:hint="시간"
+                android:maxLines="1"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="초씩"/>
+
+            <EditText
+                android:gravity="center"
+                android:inputType="number"
+                android:id="@+id/motion_count"
+                android:textSize="18dp"
+                android:hint="횟수"
+                android:maxLines="1"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="번 녹화"/>
+
+            <TextView
+                android:id="@+id/save_motion"
                 android:layout_margin="3dp"
                 android:textColor="@color/white"
                 android:background="#5F9EA0"

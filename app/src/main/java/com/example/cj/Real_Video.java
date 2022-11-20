@@ -2,6 +2,9 @@ package com.example.cj;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -23,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Real_Video extends AppCompatActivity {
@@ -50,6 +54,11 @@ public class Real_Video extends AppCompatActivity {
     TextView power;
 
     TextView photo,video,option;
+
+    RecyclerView recyclerview ;
+    RecyclerView.Adapter adapter;
+    DatabaseReference databaseReference_log;
+    ArrayList<Ob_Log> arrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,17 +115,18 @@ public class Real_Video extends AppCompatActivity {
         Random random = new Random();
         check_power = String.valueOf(random.nextInt(99999));
 
-        databaseReference1 =database.getReference("system").child("stop").child("power");
-        databaseReference2 =database.getReference("system").child("stop").child("raspi");
+
         databaseReference_v = database.getReference("video").child("write").child("power");
         databaseReference_p = database.getReference("photo").child("write").child("power");
         databaseReference_auto = database.getReference("system").child("video_auto").child("video_auto").child("power");
         databaseReference_motion = database.getReference("system").child("motion").child("power");
-
         databaseReference_p.setValue("OFF");
         databaseReference_v.setValue("OFF");
         databaseReference_auto.setValue("OFF");
         databaseReference_motion.setValue("OFF");
+
+        databaseReference1 =database.getReference("system").child("stop").child("power");
+        databaseReference2 =database.getReference("system").child("stop").child("raspi");
         databaseReference1.setValue(check_power); //블랙박스에 신호를 보냄
         databaseReference2.addValueEventListener(new ValueEventListener() {
             @Override
@@ -267,6 +277,39 @@ public class Real_Video extends AppCompatActivity {
             }
         });
 
+        recyclerview = (RecyclerView)findViewById(R.id.recyclerview);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(Real_Video.this);
+        layoutManager.setReverseLayout(true); //리사이클러뷰 역순으로 보여짐
+        layoutManager.setStackFromEnd(true);
+        recyclerview.setLayoutManager(layoutManager);
+        arrayList = new ArrayList<>();
+        databaseReference_log = database.getReference("motion").child("log");
+        databaseReference_log.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                try {
+                    arrayList.clear();
+
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren())
+                    {
+                        arrayList.add(dataSnapshot.getValue(Ob_Log.class));
+                    }
+
+                    adapter.notifyDataSetChanged();
+                }
+                catch (NullPointerException nullPointerException){
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        adapter = new CustomAdapter_Log(arrayList,Real_Video.this);
+        recyclerview.setAdapter(adapter);
 
 
     }
