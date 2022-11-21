@@ -153,7 +153,7 @@ public class Video extends AppCompatActivity {
 
 
 
-                                            databaseReference_motion = database.getReference("system").child("motion").child("power");
+                                            databaseReference_motion = database.getReference("motion").child("motion").child("power");
                                             databaseReference_motion.addValueEventListener(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -119,7 +119,7 @@ public class Real_Video extends AppCompatActivity {
         databaseReference_v = database.getReference("video").child("write").child("power");
         databaseReference_p = database.getReference("photo").child("write").child("power");
         databaseReference_auto = database.getReference("system").child("video_auto").child("video_auto").child("power");
-        databaseReference_motion = database.getReference("system").child("motion").child("power");
+        databaseReference_motion = database.getReference("motion").child("motion").child("power");
         databaseReference_p.setValue("OFF");
         databaseReference_v.setValue("OFF");
         databaseReference_auto.setValue("OFF");
