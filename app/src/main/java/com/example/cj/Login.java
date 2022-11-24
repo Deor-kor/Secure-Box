@@ -79,54 +79,28 @@ public class Login extends AppCompatActivity {
 
 
 
-//        login.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                requestPermissions(PERMISSIONS, PERMISSION_ALL);
-//
-//                ArrayList<Ob_User> checkList = new ArrayList<>();
-//                for(Ob_User ob_user : arrayList){
-//                    if(!(ob_user.getNumber().equals(number.getText().toString()))){
-//                        checkList.add(ob_user);
-//                        Toast.makeText(Login.this, "등록된 전회번호가 아닙니다.", Toast.LENGTH_SHORT).show();
-//                    //    return;
-//                    }
-//
-//
-//                }
-//
-//                Intent intent = new Intent(Login.this,Real_Video.class);
-//                startActivity(intent);
-//
-//            }
-//        });
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-             ArrayList<Ob_User> checkList = new ArrayList<>();
+                requestPermissions(PERMISSIONS, PERMISSION_ALL);
                 for(Ob_User ob_user : arrayList){
 
-                    login.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if(!(ob_user.getNumber().equals(number.getText().toString()))){
-                                checkList.add(ob_user);
-                                Toast.makeText(Login.this, "등록된 전회번호가 아닙니다.", Toast.LENGTH_SHORT).show();
+                    if(number.getText().toString().equals(ob_user.getNumber())){
 
-
-                            }
-                            else{
-                                Intent intent = new Intent(Login.this,Real_Video.class);
-//                startActivity(intent);
-
-                            }
-
-                        }
-                    });
-
-
-
+                        Intent intent = new Intent(Login.this,Real_Video.class);
+                        startActivity(intent);
+                        break;
+                    }
+                    else{
+                        Toast.makeText(Login.this, "등록된 전호번호가 아닙니다", Toast.LENGTH_SHORT).show();
+                    }
 
                 }
+
+
+            }
+        });
 
 
     }
