@@ -6,17 +6,20 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +38,7 @@ public class Real_Video extends AppCompatActivity {
     DatabaseReference databaseReference_ip;
     String url;
     WebSettings webSettings;
-    TextView refresh;
+    LinearLayout refresh;
     FirebaseDatabase database;
     DatabaseReference databaseReference_p;
     DatabaseReference databaseReference_v;
@@ -60,6 +63,8 @@ public class Real_Video extends AppCompatActivity {
     DatabaseReference databaseReference_log;
     ArrayList<Ob_Log> arrayList;
 
+    TextView log_delete;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,8 +79,8 @@ public class Real_Video extends AppCompatActivity {
         power = dialog.findViewById(R.id.power);
 
 
-        refresh = (TextView)findViewById(R.id.refresh);
-        refresh.setVisibility(View.GONE);
+        refresh = (LinearLayout) findViewById(R.id.refresh);
+      //  refresh.setVisibility(View.GONE);
         database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
 
         webview = (WebView)findViewById(R.id.webview);
@@ -98,6 +103,9 @@ public class Real_Video extends AppCompatActivity {
                     url= value+"/stream";
                     webview.loadUrl(url);
 
+
+
+
                 }
                 catch (NullPointerException nullPointerException){
 
@@ -108,6 +116,7 @@ public class Real_Video extends AppCompatActivity {
 
             }
         });
+
 
 
 
@@ -172,10 +181,10 @@ public class Real_Video extends AppCompatActivity {
 
 
 
-                    refresh.setOnClickListener(new View.OnClickListener() {
+                    webview.setOnTouchListener(new View.OnTouchListener() {
+                        @SuppressLint("ClickableViewAccessibility")
                         @Override
-                        public void onClick(View v) {
-
+                        public boolean onTouch(View v, MotionEvent event) {
 
                             if (check_power.equals(value)){//앱에서 보낸신호가 블랙박스랑 일치하면 블랙박스 연결
                                 webview.loadUrl(url);
@@ -187,8 +196,11 @@ public class Real_Video extends AppCompatActivity {
 
                             }
 
+                            return false;
                         }
                     });
+
+
 
 
                 }
@@ -221,11 +233,11 @@ public class Real_Video extends AppCompatActivity {
 
                                 if(value_v.equals("OFF")&&value_p.equals("OFF"))
                                 {
-                                    refresh.setVisibility(View.VISIBLE);
+                                 //   refresh.setVisibility(View.VISIBLE);
 
                                 }
                                 else {
-                                    refresh.setVisibility(View.GONE);
+                                 //   refresh.setVisibility(View.GONE);
                                 }
                             }
                             catch (NullPointerException nullPointerException){
@@ -310,6 +322,13 @@ public class Real_Video extends AppCompatActivity {
         });
         adapter = new CustomAdapter_Log(arrayList,Real_Video.this);
         recyclerview.setAdapter(adapter);
+        log_delete = (TextView)findViewById(R.id.log_delete);
+        log_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                databaseReference_log.removeValue();
+            }
+        });
 
 
     }

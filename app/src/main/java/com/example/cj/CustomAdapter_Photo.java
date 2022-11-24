@@ -6,20 +6,21 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public  class CustomAdapter_List extends RecyclerView.Adapter<CustomAdapter_List.CustomViewHolder>{
+public  class CustomAdapter_Photo extends RecyclerView.Adapter<CustomAdapter_Photo.CustomViewHolder>{
 
     ArrayList<Ob_List> arrayList;
     Context context;
@@ -27,7 +28,7 @@ public  class CustomAdapter_List extends RecyclerView.Adapter<CustomAdapter_List
     DatabaseReference databaseReference;
     long backKeyPressedTime = 0; //뒤로가기 버튼을 누른 시간
 
-    public CustomAdapter_List(ArrayList<Ob_List> arrayList, Context context) {
+    public CustomAdapter_Photo(ArrayList<Ob_List> arrayList, Context context) {
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -35,19 +36,20 @@ public  class CustomAdapter_List extends RecyclerView.Adapter<CustomAdapter_List
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_url,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_info,parent,false);
         CustomViewHolder holder = new CustomViewHolder(view);
         return holder;
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull CustomAdapter_List.CustomViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CustomAdapter_Photo.CustomViewHolder holder, int position) {
 
         try {
             holder.name.setText(arrayList.get(position).getName());
             holder.position.setText(String.valueOf(position+1)+".");
             holder.date.setText(arrayList.get(position).getDate());
+            Glide.with(holder.itemView).load(arrayList.get(position).getUrl()).into(holder.photo);
         }
         catch (NullPointerException nullPointerException){
 
@@ -68,6 +70,7 @@ public  class CustomAdapter_List extends RecyclerView.Adapter<CustomAdapter_List
         View view;
         LinearLayout look;
         TextView delete;
+        ImageView photo;
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,6 +79,7 @@ public  class CustomAdapter_List extends RecyclerView.Adapter<CustomAdapter_List
             this.position = itemView.findViewById(R.id.position);
             this.look = itemView.findViewById(R.id.look);
             this.delete =itemView.findViewById(R.id.delete);
+            this.photo = itemView.findViewById(R.id.photo);
 
             view = itemView;
 

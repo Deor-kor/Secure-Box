@@ -30,8 +30,7 @@ public class Video extends AppCompatActivity {
 
     FirebaseDatabase database;
     DatabaseReference databaseReference;
-    TextView text1,text2;
-    Button button1,button2;
+    TextView text1,text2,text3;
     RecyclerView list;
     ArrayList<Ob_List> arraylist;
     DatabaseReference databaseReference_video;
@@ -52,9 +51,12 @@ public class Video extends AppCompatActivity {
 
     TextView option;
 
-    TextView motion;
     String mt;
     DatabaseReference databaseReference_motion;
+    TextView stop;
+    TextView all_delete;
+    long backKeyPressedTime = 0; //뒤로가기 버튼을 누른 시간
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,14 +70,14 @@ public class Video extends AppCompatActivity {
         //    dialog.setCancelable(false); //뒤로가기 비활성화
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); //투명
         power = dialog.findViewById(R.id.power);
-
+        all_delete = (TextView)findViewById(R.id.all_delete);
+        stop = (TextView)findViewById(R.id.stop);
+        stop.setVisibility(View.GONE);
         check = (TextView)findViewById(R.id.check);
         check.setVisibility(View.INVISIBLE);
-        button1 = (Button)findViewById(R.id.button1);
         text1 = (TextView)findViewById(R.id.text1);
-        button2 = (Button)findViewById(R.id.button2);
         text2 = (TextView)findViewById(R.id.text2);
-        motion = (TextView)findViewById(R.id.motion);
+        text3  = (TextView)findViewById(R.id.text3);
         option = (TextView)findViewById(R.id.option);
         option.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +126,39 @@ public class Video extends AppCompatActivity {
             }
         });
 
+        list = (RecyclerView)findViewById(R.id.list1);
+        list.setLayoutManager(new GridLayoutManager(this,3));
+        list.setHasFixedSize(true);
+        arraylist = new ArrayList<>();
+        databaseReference_video = database.getReference("video").child("list");
+        databaseReference_video.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                try {
+                    arraylist.clear();
+                    for(DataSnapshot dataSnapshot : snapshot.getChildren())
+                    {
+                        arraylist.add(dataSnapshot.getValue(Ob_List.class));
+                    }
+
+                    adapter.notifyDataSetChanged();
+
+                }
+                catch (NullPointerException nullPointerException){
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        adapter = new CustomAdapter_Video(arraylist,Video.this);
+        list.setAdapter(adapter);
+
 
 
         databaseReference_p = database.getReference("photo").child("photo").child("power");
@@ -159,15 +194,48 @@ public class Video extends AppCompatActivity {
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                     try {
                                                         mt = snapshot.getValue().toString();
-                                                        if (mt.equals("OFF")){
+                                                        text3.setText(mt);
 
-                                                            motion.setText("동작 감지 모드 OFF");
+                                                        if (value3.equals("ON")||value4.equals("ON")||mt.equals("ON")){
+                                                            stop.setVisibility(View.VISIBLE);
+                                                            text1.setVisibility(View.GONE);
+                                                            text2.setVisibility(View.GONE);
+                                                            text3.setVisibility(View.GONE);
                                                         }
-                                                        else if(mt.equals("ON")){
-                                                            motion.setText("동작 감지 모드 ON");
-
+                                                        else if(value3.equals("OFF")&&value4.equals("OFF")&&mt.equals("OFF")){
+                                                            stop.setVisibility(View.GONE);
+                                                            text1.setVisibility(View.VISIBLE);
+                                                            text2.setVisibility(View.VISIBLE);
+                                                            text3.setVisibility(View.VISIBLE);
                                                         }
 
+                                                        stop.setOnClickListener(new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View v) {
+
+                                                                databaseReference.setValue("OFF");
+                                                                databaseReference_auto.setValue("OFF");
+                                                                databaseReference_motion.setValue("OFF");
+                                                            }
+                                                        });
+
+                                                        all_delete.setOnClickListener(new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View v) {
+                                                                if(System.currentTimeMillis() > backKeyPressedTime + 2000){
+                                                                    backKeyPressedTime = System.currentTimeMillis();
+                                                                    Toast.makeText(Video.this, "한 번 더 누르면 모두 삭제됩니다.", Toast.LENGTH_SHORT).show();
+                                                                    return;
+                                                                }
+                                                                //한 번의 뒤로가기 버튼이 눌린 후 0~2초 사이에 한 번더 눌리게 되면 현재 엑티비티를 호출
+                                                                if(System.currentTimeMillis() <= backKeyPressedTime + 2000){
+
+                                                                    databaseReference_video.removeValue();
+                                                                    Toast.makeText(Video.this, "모두 삭제 완료", Toast.LENGTH_SHORT).show();
+                                                                }
+
+                                                            }
+                                                        });
 
                                                         //영상 촬영 중 바
                                                         if(value4.equals("ON")||value3.equals("ON")||mt.equals("ON"))
@@ -179,7 +247,7 @@ public class Video extends AppCompatActivity {
                                                         }
 
                                                         //동작 감지 모드
-                                                        motion.setOnClickListener(new View.OnClickListener() {
+                                                        text3.setOnClickListener(new View.OnClickListener() {
                                                             @Override
                                                             public void onClick(View v) {
 
@@ -238,7 +306,7 @@ public class Video extends AppCompatActivity {
 
 
                                                         //일반 동영상
-                                                        button1.setOnClickListener(new View.OnClickListener() {
+                                                        text1.setOnClickListener(new View.OnClickListener() {
                                                             @Override
                                                             public void onClick(View v) {
                                                                 //블랙박스 연결확인
@@ -296,7 +364,7 @@ public class Video extends AppCompatActivity {
 
 
                                                         //자동 동영상
-                                                        button2.setOnClickListener(new View.OnClickListener() {
+                                                        text2.setOnClickListener(new View.OnClickListener() {
                                                             @Override
                                                             public void onClick(View v) {
                                                                 //블랙박스 연결확인
@@ -420,43 +488,6 @@ public class Video extends AppCompatActivity {
             }
         });
 
-
-
-
-        list = (RecyclerView)findViewById(R.id.list1);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(Video.this);
-        layoutManager.setReverseLayout(true); //리사이클러뷰 역순으로 보여짐
-        layoutManager.setStackFromEnd(true);
-        list.setLayoutManager(layoutManager);
-        arraylist = new ArrayList<>();
-        databaseReference_video = database.getReference("video").child("list");
-        databaseReference_video.addValueEventListener(new ValueEventListener() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                try {
-                    arraylist.clear();
-                    for(DataSnapshot dataSnapshot : snapshot.getChildren())
-                    {
-                        arraylist.add(dataSnapshot.getValue(Ob_List.class));
-                    }
-
-                    adapter.notifyDataSetChanged();
-
-                }
-                catch (NullPointerException nullPointerException){
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        adapter = new CustomAdapter_List2(arraylist,Video.this);
-        list.setAdapter(adapter);
 
 
 

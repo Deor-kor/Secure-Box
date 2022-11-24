@@ -17,9 +17,7 @@ import android.widget.VideoView;
 
 public class Video_Dialog extends AppCompatActivity {
 
-
     VideoView video;
-
 
     @SuppressLint("MissingInflatedId")
     @Override

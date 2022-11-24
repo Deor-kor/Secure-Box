@@ -30,7 +30,6 @@ public class Photo extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference databaseReference;
     TextView text;
-    Button button;
     RecyclerView list;
     ArrayList<Ob_List> arraylist;
     DatabaseReference databaseReference_photo;
@@ -50,6 +49,8 @@ public class Photo extends AppCompatActivity {
 
     String mt;
     DatabaseReference databaseReference_motion;
+    TextView all_delete;
+    long backKeyPressedTime = 0; //뒤로가기 버튼을 누른 시간
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +68,8 @@ public class Photo extends AppCompatActivity {
 
         check = (TextView)findViewById(R.id.check);
         check.setVisibility(View.INVISIBLE);
-        button = (Button)findViewById(R.id.button);
         text = (TextView)findViewById(R.id.text);
+        all_delete = (TextView)findViewById(R.id.all_delete);
 
         database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
         databaseReference1 =database.getReference("system").child("stop").child("power");
@@ -108,6 +109,40 @@ public class Photo extends AppCompatActivity {
 
             }
         });
+
+
+        list = (RecyclerView)findViewById(R.id.list);
+        list.setLayoutManager(new GridLayoutManager(this,3));
+        list.setHasFixedSize(true);
+        arraylist = new ArrayList<>();
+        databaseReference_photo = database.getReference("photo").child("list");
+        databaseReference_photo.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                try {
+                    arraylist.clear();
+                    for(DataSnapshot dataSnapshot : snapshot.getChildren())
+                    {
+                        arraylist.add(dataSnapshot.getValue(Ob_List.class));
+                    }
+
+                    adapter.notifyDataSetChanged();
+
+                }
+                catch (NullPointerException nullPointerException){
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        adapter = new CustomAdapter_Photo(arraylist,Photo.this);
+        list.setAdapter(adapter);
 
 
         databaseReference_v = database.getReference("video").child("video").child("power");
@@ -151,9 +186,25 @@ public class Photo extends AppCompatActivity {
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                     try {
                                                         mt = snapshot.getValue().toString();
-                                           
 
-                                                        button.setOnClickListener(new View.OnClickListener() {
+                                                        all_delete.setOnClickListener(new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View v) {
+                                                                if(System.currentTimeMillis() > backKeyPressedTime + 2000){
+                                                                    backKeyPressedTime = System.currentTimeMillis();
+                                                                    Toast.makeText(Photo.this, "한 번 더 누르면 모두 삭제됩니다.", Toast.LENGTH_SHORT).show();
+                                                                    return;
+                                                                }
+                                                                //한 번의 뒤로가기 버튼이 눌린 후 0~2초 사이에 한 번더 눌리게 되면 현재 엑티비티를 호출
+                                                                if(System.currentTimeMillis() <= backKeyPressedTime + 2000){
+
+                                                                    databaseReference_photo.removeValue();
+                                                                    Toast.makeText(Photo.this, "모두 삭제 완료", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            }
+                                                        });
+
+                                                        text.setOnClickListener(new View.OnClickListener() {
                                                             @Override
                                                             public void onClick(View v) {
 
@@ -265,44 +316,6 @@ public class Photo extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-
-
-        list = (RecyclerView)findViewById(R.id.list);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(Photo.this);
-        layoutManager.setReverseLayout(true); //리사이클러뷰 역순으로 보여짐
-        layoutManager.setStackFromEnd(true);
-        list.setLayoutManager(layoutManager);
-        arraylist = new ArrayList<>();
-        databaseReference_photo = database.getReference("photo").child("list");
-        databaseReference_photo.addValueEventListener(new ValueEventListener() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                try {
-                    arraylist.clear();
-                    for(DataSnapshot dataSnapshot : snapshot.getChildren())
-                    {
-                        arraylist.add(dataSnapshot.getValue(Ob_List.class));
-                    }
-
-                    adapter.notifyDataSetChanged();
-
-                }
-                catch (NullPointerException nullPointerException){
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        adapter = new CustomAdapter_List(arraylist,Photo.this);
-        list.setAdapter(adapter);
-
-
 
 
     }

@@ -1,0 +1,180 @@
+import pyrebase
+import time
+from picamera import PiCamera
+from time import sleep
+import os
+from gpiozero import LED
+import RPi.GPIO as GPIO
+
+
+GPIO.setmode(GPIO.BCM)
+
+pirPin = 14
+GPIO.setup(pirPin, GPIO.IN, GPIO.PUD_UP)
+
+red_led = LED(2)
+green_led = LED(3)
+yellow_led = LED(4)
+blue_led = LED(17)
+
+config = {
+    "apiKey": "",
+    "authDomain": "",
+    "databaseURL": "https://cj-2team-default-rtdb.firebaseio.com",
+    "projectId": "cj-2team",
+    "storageBucket": "cj-2team.appspot.com",
+    "messagingSenderId": "",
+    "appId": "1:433677858676:android:bc50d8b694f9ee758c1e21"
+}
+
+firebase = pyrebase.initialize_app(config)
+db = firebase.database()
+storage = firebase.storage()
+
+red_led.on()
+green_led.on()
+yellow_led.on()
+blue_led.on()
+
+os.system('sudo service uv4l_raspicam restart')
+
+sleep(1.5)
+while(True):   	
+  value = db.child("system").child("stop").child("power").get()  
+  db.child("system").child("stop").update({"raspi":value.val()})
+  
+  now = time.gmtime(time.time())
+  year = str(now.tm_year)
+  month = str(now.tm_mon)
+  day = str(now.tm_mday)
+  hour = str(now.tm_hour-3)
+  minute = str(now.tm_min)
+  second = str(now.tm_sec)
+
+  time1= year+month+day+hour+minute+second
+  photoname = time1+'.jpg'
+  videoname = time1+'.h264'
+ 
+  photodata = db.child("photo").child("photo").child("power").get()
+  videodata = db.child("video").child("video").child("power").get()
+  videodata_time = db.child("video").child("video").child("time").get()
+  auto_video_power = db.child("video_auto").child("video_auto").child("power").get()
+  auto_video_time = db.child("video_auto").child("video_auto").child("time").get()
+  auto_video_count = db.child("video_auto").child("video_auto").child("count").get()
+  motion_video_power = db.child("motion").child("motion").child("power").get()
+  motion_video_time = db.child("motion").child("motion").child("time").get()
+  motion_video_count = db.child("motion").child("motion").child("count").get()
+  
+  if(photodata.val()=="ON"):         
+     os.system('sudo pkill uv4l')
+     print("photo ON")       
+     sleep(1.5)
+     camera = PiCamera()
+     camera.resolution = (640,480)
+     camera.start_preview()
+     camera.capture('/home/cj/cj_project/photo/' + photoname)
+     camera.stop_preview()
+     camera.close()
+     db.child("photo").child("photo").update({"power":"OFF"})
+
+     uploadPhoto = '/home/cj/cj_project/photo/' + photoname
+     storage.child("photo/"+photoname).put(uploadPhoto)
+     photoUrl = storage.child("photo/"+time1+".jpg").get_url(1)
+     db.child("photo").child("list").child(time1).update({"url": photoUrl,"name": time1+".jpg","date":year+"/"+month+"/"+day+"/"+hour+":"+minute,"key":time1})
+     os.system('sudo service uv4l_raspicam restart')
+  elif(photodata.val()=="OFF"):         
+     print("photo OFF")        
+     
+  if(videodata.val()=="ON"):     
+     os.system('sudo pkill uv4l')
+     print("video ON")  
+     sleep(1.5)
+     camera = PiCamera()
+     camera.resolution = (640,480)
+     camera.start_preview()
+     camera.start_recording('/home/cj/cj_project/video/'+videoname)
+     camera.wait_recording(videodata_time.val())
+     camera.stop_recording()
+     camera.close()
+     db.child("video").child("video").update({"power":"OFF"})
+      
+     os.system('MP4Box -add /home/cj/cj_project/video/'+time1+".h264 /home/cj/cj_project/video/"+time1+".mp4")
+     uploadVideo = '/home/cj/cj_project/video/' + time1+".mp4"
+     storage.child("video/"+time1+".mp4").put(uploadVideo)
+     os.system('rm /home/cj/cj_project/video/'+time1+'.h264')    
+     videoUrl = storage.child("video/"+time1+".mp4").get_url(1)
+     db.child("video").child("list").child(time1).update({"url": videoUrl,"name": time1+".mp4","date":year+"/"+month+"/"+day+"/"+hour+":"+minute,"key":time1})
+     os.system('sudo service uv4l_raspicam restart')       
+  elif(videodata.val()=="OFF"):     
+     print("video OFF") 
+     
+          
+  if(auto_video_power.val()=="ON"): #auto_video
+     os.system('sudo pkill uv4l')
+     print("auto video ON")   
+     sleep(1.5)
+     camera = PiCamera()
+     camera.resolution = (640,480)   
+     for i in range(auto_video_count.val()):
+       i+=1
+       autovideo = time1+"_"+str(i)+'.h264'
+       camera.start_preview()
+       camera.start_recording('/home/cj/cj_project/video/'+autovideo)
+       camera.wait_recording(auto_video_time.val())
+       camera.stop_recording()
+       os.system('MP4Box -add /home/cj/cj_project/video/'+time1+"_"+str(i)+".h264 /home/cj/cj_project/video/"+time1+"_"+str(i)+".mp4")
+       uploadVideo = '/home/cj/cj_project/video/' + time1+"_"+str(i)+".mp4"
+       storage.child("video/"+time1+"_"+str(i)+".mp4").put(uploadVideo)
+       os.system('rm /home/cj/cj_project/video/'+time1+"_"+str(i)+'.h264')    
+       videoUrl = storage.child("video/"+time1+"_"+str(i)+".mp4").get_url(1)
+       db.child("video").child("list").child(time1+"_"+str(i)).update({"url": videoUrl,"name": time1+"_"+str(i)+".mp4","date":year+"/"+month+"/"+day+"/"+hour+":"+minute,"key":time1+"_"+str(i)})
+     db.child("video_auto").child("video_auto").update({"power":"OFF"})
+     camera.close()         
+     os.system('sudo service uv4l_raspicam restart')
+  elif(auto_video_power.val()=="OFF"): #auto_video     
+     print("auto video OFF")   
+           
+  if(motion_video_power.val()=="ON"):  #motion
+     os.system('sudo pkill uv4l')
+     print("motion ON")
+     sleep(2)      
+     while True:
+        if(GPIO.input(pirPin)==GPIO.LOW):
+         print("motion ON")
+         db.child("motion").child("log").push({"time":year+"/"+month+"/"+day+"/"+hour+":"+minute,"log":"동작 감지 발생!!"})
+         for i in range(motion_video_count.val()):
+           i+=1
+           autovideo = time1+"_"+str(i)+'.h264'
+           camera = PiCamera()
+           camera.resolution = (640,480) 
+           camera.start_preview()
+           camera.start_recording('/home/cj/cj_project/video/'+autovideo)
+           camera.wait_recording(motion_video_time.val())
+           camera.stop_recording()
+           os.system('MP4Box -add /home/cj/cj_project/video/'+time1+"_"+str(i)+".h264 /home/cj/cj_project/video/"+time1+"_"+str(i)+".mp4")
+           uploadVideo = '/home/cj/cj_project/video/' + time1+"_"+str(i)+".mp4"
+           storage.child("video/"+time1+"_"+str(i)+".mp4").put(uploadVideo)
+           os.system('rm /home/cj/cj_project/video/'+time1+"_"+str(i)+'.h264')    
+           videoUrl = storage.child("video/"+time1+"_"+str(i)+".mp4").get_url(1)
+           db.child("video").child("list").child(time1+"_"+str(i)).update({"url": videoUrl,"name": time1+"_"+str(i)+".mp4","date":year+"/"+month+"/"+day+"/"+hour+":"+minute,"key":time1+"_"+str(i)})
+           camera.close()
+         os.system('sudo service uv4l_raspicam restart')
+         break           
+        else:
+         print("Motion OFF")
+         os.system('sudo service uv4l_raspicam restart')
+         break
+        time.sleep(3)
+
+  elif(motion_video_power.val()=="OFF"):  #motion         
+     #db.child("system").child("motion").update({"power":"OFF"})
+     print("motion OFF")       
+    # os.system('sudo service uv4l_raspicam restart')
+      
+      
+      
+      
+      
+      
+      
+      
