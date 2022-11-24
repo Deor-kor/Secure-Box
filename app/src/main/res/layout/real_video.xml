@@ -24,15 +24,18 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#cccccc"/>
         <TextView
-            android:textColor="@color/black"
-
+            android:textColor="#999999"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="새로고침을 하려면 화면을 클릭해 주세요."
+            android:textStyle="bold"
             android:paddingVertical="3dp" />
 
     </LinearLayout>
@@ -100,11 +103,13 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:elevation="5dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#cccccc"
+
                 android:padding="3dp">
                 <ImageView
                     android:layout_width="175dp"
@@ -113,43 +118,57 @@
                     android:layout_gravity="left" />
 
             </LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#cccccc"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="24dp"
                 android:orientation="horizontal">
-
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingLeft="10dp"
-                    android:text="번호"
-                    android:textColor="@color/black"
-                    android:textSize="13dp" />
-
+                    android:layout_gravity="center"
+                    android:text="Num"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="#666666"
+                    android:textSize="12dp" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="날짜"
-                    android:textColor="@color/black"
-                    android:textSize="13dp" />
-
+                    android:layout_gravity="center"
+                    android:text="Date"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="#666666"
+                    android:textSize="12dp" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:text="로그 내용"
-                    android:textColor="@color/black"
-                    android:textSize="13dp" />
-
+                    android:layout_gravity="center"
+                    android:text="Log"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="#666666"
+                    android:textSize="12dp" />
             </LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#cccccc"
+                android:elevation="5dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:layout_marginTop="5dp"/>
 
             <TextView
                 android:background="@color/black"

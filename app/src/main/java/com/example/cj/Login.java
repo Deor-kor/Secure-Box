@@ -51,15 +51,19 @@ public class Login extends AppCompatActivity {
         arrayList = new ArrayList<>();
         database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
         databaseReference = database.getReference("user");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
                     arrayList.clear();
+
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+
                         arrayList.add(dataSnapshot.getValue(Ob_User.class));
 
                     }
+
+
                 }
                 catch (NullPointerException nullPointerException){
 
@@ -74,27 +78,55 @@ public class Login extends AppCompatActivity {
 
 
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                requestPermissions(PERMISSIONS, PERMISSION_ALL);
+//        login.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                requestPermissions(PERMISSIONS, PERMISSION_ALL);
+//
+//                ArrayList<Ob_User> checkList = new ArrayList<>();
+//                for(Ob_User ob_user : arrayList){
+//                    if(!(ob_user.getNumber().equals(number.getText().toString()))){
+//                        checkList.add(ob_user);
+//                        Toast.makeText(Login.this, "등록된 전회번호가 아닙니다.", Toast.LENGTH_SHORT).show();
+//                    //    return;
+//                    }
+//
+//
+//                }
+//
+//                Intent intent = new Intent(Login.this,Real_Video.class);
+//                startActivity(intent);
+//
+//            }
+//        });
 
-                ArrayList<Ob_User> checkList = new ArrayList<>();
+             ArrayList<Ob_User> checkList = new ArrayList<>();
                 for(Ob_User ob_user : arrayList){
-                    if(!(ob_user.getNumber().equals(number.getText().toString()))){
-                        checkList.add(ob_user);
-                        Toast.makeText(Login.this, "등록된 전회번호가 아닙니다.", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+
+                    login.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(!(ob_user.getNumber().equals(number.getText().toString()))){
+                                checkList.add(ob_user);
+                                Toast.makeText(Login.this, "등록된 전회번호가 아닙니다.", Toast.LENGTH_SHORT).show();
+
+
+                            }
+                            else{
+                                Intent intent = new Intent(Login.this,Real_Video.class);
+//                startActivity(intent);
+
+                            }
+
+                        }
+                    });
+
+
+
+
                 }
-
-                Intent intent = new Intent(Login.this,Real_Video.class);
-                startActivity(intent);
-
-            }
-        });
-
 
 
     }
