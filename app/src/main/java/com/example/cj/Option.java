@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,11 +29,103 @@ public class Option extends AppCompatActivity {
     DatabaseReference databaseReference_motionCount;
     DatabaseReference databaseReference_videoTime;
     String AUTO_TIME,AUTO_COUNT,MOTION_TIME,MOTION_COUNT,VIDEO_TIME;
+    LinearLayout option_visible1,option_visible2,option_visible3
+            ,option_click1,option_click2,option_click3;
 
+    int count1, count2, count3 = 0;
+
+    TextView ar_up1,ar_down1,ar_up2,ar_down2,ar_up3,ar_down3;
+    TextView option_back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.option);
+        option_visible1 = findViewById(R.id.option_visible1);
+        option_visible2 = findViewById(R.id.option_visible2);
+        option_visible3 = findViewById(R.id.option_visible3);
+        option_visible1.setVisibility(View.GONE);
+        option_visible2.setVisibility(View.GONE);
+        option_visible3.setVisibility(View.GONE);
+
+        option_click1 = findViewById(R.id.option_click1);
+        option_click2 = findViewById(R.id.option_click2);
+        option_click3 = findViewById(R.id.option_click3);
+        option_back = findViewById(R.id.option_back);
+
+
+
+        ar_up1 = findViewById(R.id.ar_up1);
+        ar_down1 = findViewById(R.id.ar_down1);
+        ar_down1.setVisibility(View.GONE);
+        ar_up2 = findViewById(R.id.ar_up2);
+        ar_down2 = findViewById(R.id.ar_down2);
+        ar_down2.setVisibility(View.GONE);
+        ar_up3 = findViewById(R.id.ar_up3);
+        ar_down3 = findViewById(R.id.ar_down3);
+        ar_down3.setVisibility(View.GONE);
+
+        option_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        option_click1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (count1%2==0){
+                    option_visible1.setVisibility(View.VISIBLE);
+                    ar_up1.setVisibility(View.GONE);
+                    ar_down1.setVisibility(View.VISIBLE);
+                    count1++;
+                }
+                else if(count1%2==1){
+                    option_visible1.setVisibility(View.GONE);
+                    ar_up1.setVisibility(View.VISIBLE);
+                    ar_down1.setVisibility(View.GONE);
+                    count1++;
+                }
+            }
+        });
+        option_click2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (count2%2==0){
+                    option_visible2.setVisibility(View.VISIBLE);
+                    ar_up2.setVisibility(View.GONE);
+                    ar_down2.setVisibility(View.VISIBLE);
+                    count2++;
+                }
+                else if(count2%2==1){
+                    option_visible2.setVisibility(View.GONE);
+                    ar_up2.setVisibility(View.VISIBLE);
+                    ar_down2.setVisibility(View.GONE);
+                    count2++;
+                }
+            }
+        });
+        option_click3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (count3%2==0){
+                    option_visible3.setVisibility(View.VISIBLE);
+                    ar_up3.setVisibility(View.GONE);
+                    ar_down3.setVisibility(View.VISIBLE);
+                    count3++;
+                }
+                else if(count3%2==1){
+                    option_visible3.setVisibility(View.GONE);
+                    ar_up3.setVisibility(View.VISIBLE);
+                    ar_down3.setVisibility(View.GONE);
+                    count3++;
+                }
+            }
+        });
+
 
         ip = (EditText)findViewById(R.id.ip);
         save_ip = (TextView)findViewById(R.id.save_ip);

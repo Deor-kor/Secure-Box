@@ -15,7 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:id="@+id/webview"
-            tools:ignore="WebViewLayout" />
+            tools:ignore="WebViewLayout"
+            />
 
     </LinearLayout>
 
@@ -100,19 +101,18 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="175dp"
-                android:layout_height="25dp"
-                android:background="@drawable/log"
-                android:layout_gravity="left"
-                />
-
-            <ImageView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:src="@color/black" />
+                android:layout_height="wrap_content"
+                android:background="#cccccc"
+                android:padding="3dp">
+                <ImageView
+                    android:layout_width="175dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/log"
+                    android:layout_gravity="left" />
 
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
