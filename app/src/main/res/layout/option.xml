@@ -30,11 +30,10 @@
             android:gravity="center"
             android:layout_gravity="center" />
     </LinearLayout>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#cccccc"
-            android:elevation="20dp"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@drawable/shadow_bottom"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -60,6 +59,8 @@
             android:layout_marginLeft="10dp"
             android:layout_gravity="center"
             android:textSize="18dp"
+            android:textStyle="bold"
+            android:textColor="#666666"
             android:hint="192.168.123.112:8080"
             android:maxLines="1"
             android:layout_weight="2"
@@ -80,9 +81,8 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:src="#cccccc"
-        android:elevation="20dp"/>
+        android:layout_height="10dp"
+        android:background="@drawable/shadow_bottom"/>
 
     <LinearLayout
         android:gravity="left"
@@ -145,13 +145,17 @@
                     android:inputType="number"
                     android:id="@+id/video_time"
                     android:textSize="18dp"
-                    android:hint="시간"
+                    android:textStyle="bold"
+                    android:textColor="#666666"
+                    android:hint="sec"
                     android:maxLines="1"
-                    android:layout_width="70dp"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:text="초 녹화"/>
 
             </LinearLayout>
@@ -168,9 +172,8 @@
         </LinearLayout>
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#cccccc"
-            android:elevation="20dp"/>
+            android:layout_height="10dp"
+            android:background="@drawable/shadow_bottom"/>
     </LinearLayout>
     <LinearLayout
         android:gravity="center"
@@ -227,13 +230,17 @@
                     android:inputType="number"
                     android:id="@+id/auto_time"
                     android:textSize="18dp"
-                    android:hint="시간"
+                    android:textStyle="bold"
+                    android:textColor="#666666"
+                    android:hint="sec"
                     android:maxLines="1"
-                    android:layout_width="70dp"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:text="초씩"/>
 
                 <EditText
@@ -241,13 +248,17 @@
                     android:inputType="number"
                     android:id="@+id/auto_count"
                     android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:textColor="#666666"
                     android:hint="횟수"
                     android:maxLines="1"
-                    android:layout_width="70dp"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:text="번 녹화"/>
 
         </LinearLayout>
@@ -264,8 +275,8 @@
         </LinearLayout>
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#cccccc"/>
+            android:layout_height="10dp"
+            android:background="@drawable/shadow_bottom"/>
     </LinearLayout>
     <LinearLayout
         android:gravity="left"
@@ -323,26 +334,34 @@
                     android:inputType="number"
                     android:id="@+id/motion_time"
                     android:textSize="18dp"
-                    android:hint="시간"
+                    android:textStyle="bold"
+                    android:textColor="#666666"
+                    android:hint="sec"
                     android:maxLines="1"
-                    android:layout_width="70dp"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:text="초씩"/>
                 <EditText
                     android:gravity="center"
                     android:inputType="number"
                     android:id="@+id/motion_count"
                     android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:textColor="#666666"
                     android:hint="횟수"
                     android:maxLines="1"
-                    android:layout_width="70dp"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:text="번 녹화"/>
             </LinearLayout>
 
@@ -357,9 +376,8 @@
         </LinearLayout>
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#cccccc"
-            android:elevation="20dp"/>
+            android:layout_height="10dp"
+            android:background="@drawable/shadow_bottom"/>
     </LinearLayout>
 
 

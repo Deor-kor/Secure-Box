@@ -56,6 +56,7 @@ public class Video extends AppCompatActivity {
     TextView stop;
     TextView all_delete;
     long backKeyPressedTime = 0; //뒤로가기 버튼을 누른 시간
+    TextView log_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,14 +79,6 @@ public class Video extends AppCompatActivity {
         text1 = (TextView)findViewById(R.id.text1);
         text2 = (TextView)findViewById(R.id.text2);
         text3  = (TextView)findViewById(R.id.text3);
-        option = (TextView)findViewById(R.id.option);
-        option.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Video.this,Option.class);
-                startActivity(intent);
-            }
-        });
 
         database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
         databaseReference1 =database.getReference("system").child("stop").child("power");
@@ -487,7 +480,13 @@ public class Video extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-
+        log_back = (TextView)findViewById(R.id.log_back);
+        log_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
 

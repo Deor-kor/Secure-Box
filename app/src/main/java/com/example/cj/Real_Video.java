@@ -329,7 +329,5 @@ public class Real_Video extends AppCompatActivity {
                 databaseReference_log.removeValue();
             }
         });
-
-
     }
 }

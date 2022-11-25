@@ -3,96 +3,85 @@
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-
-
-
-    <LinearLayout
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="5dp"
-        android:paddingVertical="3dp"
-        android:layout_weight="7"
-        android:orientation="horizontal"
-        android:layout_width="125dp"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="번호"
-            android:textSize="12dp"
-            android:textColor="@color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/position"/>
-
-        <TextView
-            android:paddingLeft="3dp"
-            android:text="날짜"
-            android:textSize="12dp"
-            android:textColor="@color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/date"/>
-
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/look"
-        android:layout_marginHorizontal="5dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_width="125dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:id="@+id/photo"/>
-
-
-        <TextView
-            android:maxLines="1"
-            android:layout_weight="4"
-            android:id="@+id/name"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shadow_all">
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="5dp"
             android:paddingVertical="3dp"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:text="파일 이름"
-            android:textSize="10dp"
-            android:textColor="@color/black"/>
-
-
-
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginHorizontal="5dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_width="125dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:paddingVertical="2dp"
-            android:id="@+id/delete"
-            android:layout_marginVertical="3dp"
+            android:layout_weight="7"
+            android:orientation="horizontal"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:gravity="center">
+                <TextView
+                    android:text="번호"
+                    android:textAlignment="center"
+                    android:textSize="8dp"
+                    android:textColor="#666666"
+                    android:textStyle="bold"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/position"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:text="날짜"
+                    android:textAlignment="center"
+                    android:textSize="8dp"
+                    android:textColor="#666666"
+                    android:textStyle="bold"
+                    android:layout_marginRight="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/date"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/look"
+            android:layout_marginHorizontal="5dp"
+            android:layout_gravity="center"
             android:gravity="center"
-            android:layout_weight="1"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:id="@+id/photo"/>
+            <TextView
+                android:maxLines="1"
+                android:layout_weight="4"
+                android:id="@+id/name"
+                android:paddingVertical="3dp"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="파일 이름"
+                android:textAlignment="center"
+                android:textSize="10dp"
+                android:textColor="#666666"
+                android:textStyle="bold"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginHorizontal="5dp"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="삭제"
-            android:textSize="12dp"
-            android:textColor="@color/white"
-            android:background="@color/black"/>
-
-
-    </LinearLayout>
-
-
-
-
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:paddingVertical="2dp"
+                android:id="@+id/delete"
+                android:layout_marginVertical="3dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/delete"/>
+        </LinearLayout>
 </LinearLayout>

@@ -51,7 +51,12 @@ public class Photo extends AppCompatActivity {
     DatabaseReference databaseReference_motion;
     TextView all_delete;
     long backKeyPressedTime = 0; //뒤로가기 버튼을 누른 시간
+    TextView log_back;
 
+
+
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -317,6 +322,13 @@ public class Photo extends AppCompatActivity {
             }
         });
 
+        log_back = (TextView)findViewById(R.id.log_back);
+        log_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 }
