@@ -14,31 +14,35 @@
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="5dp">
+
             <TextView
+                android:id="@+id/log_back"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/arrow_back"
                 android:backgroundTint="#333333"
-                android:id="@+id/log_back"
-                android:layout_margin="10dp"
-                android:gravity="center"
-                android:layout_width="30dp"
-                android:layout_height="30dp" />
+                android:gravity="center" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Secure box 녹화"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:textColor="#333333"
-                android:gravity="center"
+                android:layout_gravity="center"
                 android:layout_marginRight="50dp"
-                android:layout_gravity="center" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Secure box 녹화"
+                android:textColor="#333333"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
         </LinearLayout>
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="10dp"
