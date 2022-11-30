@@ -149,7 +149,7 @@ public class Photo extends AppCompatActivity {
         adapter = new CustomAdapter_Photo(arraylist,Photo.this);
         list.setAdapter(adapter);
 
-
+        text.setBackground(getResources().getDrawable(R.drawable.photo_recording_on));
         databaseReference_v = database.getReference("video").child("video").child("power");
         databaseReference_v.addValueEventListener(new ValueEventListener() {
             @Override
@@ -165,15 +165,18 @@ public class Photo extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             try {
                                 String value = snapshot.getValue().toString();
-                                text.setText(value);
+                              //  text.setText(value);
 
                                 if(value.equals("ON"))
                                 {
+                                    text.setBackground(getResources().getDrawable(R.drawable.photo_recording_on));
                                     check.setVisibility(View.VISIBLE);
                                 }
                                 else if(value.equals("OFF")){
+                                    text.setBackground(getResources().getDrawable(R.drawable.photo_recording_off));
                                     check.setVisibility(View.INVISIBLE);
                                 }
+
 
 
                                 databaseReference_auto =database.getReference("video_auto").child("video_auto").child("power");
@@ -224,14 +227,15 @@ public class Photo extends AppCompatActivity {
                                                                     else{
                                                                         if(value.equals("OFF"))
                                                                         {
-                                                                            Toast.makeText(Photo.this, "촬영 시작", Toast.LENGTH_SHORT).show();
                                                                             databaseReference.setValue("ON");
+                                                                            Toast.makeText(Photo.this, "촬영 시작", Toast.LENGTH_SHORT).show();
                                                                         }
 
                                                                     }
 
                                                                     if (value.equals("ON"))
                                                                     {
+
                                                                         Toast.makeText(Photo.this, "잠시만 기다려 주세요.", Toast.LENGTH_SHORT).show();
                                                                     }
 

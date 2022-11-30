@@ -2,7 +2,6 @@ package com.example.cj;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,7 +55,7 @@ public class Real_Video extends AppCompatActivity {
     Dialog dialog;
     TextView power;
 
-    TextView photo,video,option;
+    TextView photo,video,option,gallery;
 
     RecyclerView recyclerview ;
     RecyclerView.Adapter adapter;
@@ -80,7 +79,6 @@ public class Real_Video extends AppCompatActivity {
 
 
         refresh = (LinearLayout) findViewById(R.id.refresh);
-      //  refresh.setVisibility(View.GONE);
         database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
 
         webview = (WebView)findViewById(R.id.webview);
@@ -138,6 +136,7 @@ public class Real_Video extends AppCompatActivity {
         databaseReference2 =database.getReference("system").child("stop").child("raspi");
         databaseReference1.setValue(check_power); //블랙박스에 신호를 보냄
         databaseReference2.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("ClickableViewAccessibility")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
@@ -327,6 +326,16 @@ public class Real_Video extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 databaseReference_log.removeValue();
+            }
+        });
+
+
+        gallery = (TextView)findViewById(R.id.gallery);
+        gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Real_Video.this, Gallery.class);
+                startActivity(intent);
             }
         });
     }

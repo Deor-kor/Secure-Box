@@ -17,9 +17,16 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:label=""
+            android:name=".Gallery"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Permission"
-            android:exported="false"
+            android:exported="true"
+            android:label=""
             android:theme="@style/Theme.AppCompat.Dialog">
             <meta-data
                 android:name="android.app.lib_name"
@@ -61,18 +68,18 @@
                 android:value="" />
         </activity>
         <activity
-            android:label=""
             android:name=".Video_Dialog"
             android:exported="false"
+            android:label=""
             android:theme="@style/Theme.AppCompat.Dialog">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:label=""
             android:name=".Photo_Dialog"
             android:exported="false"
+            android:label=""
             android:theme="@style/Theme.AppCompat.Dialog">
             <meta-data
                 android:name="android.app.lib_name"
