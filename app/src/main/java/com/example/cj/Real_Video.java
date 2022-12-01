@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -165,7 +166,13 @@ public class Real_Video extends AppCompatActivity {
                             }
                             else{
 
-                                dialog.show();
+                                try {
+                                    dialog.show();
+                                }
+                                catch (WindowManager.BadTokenException e){
+
+                                }
+
                                 power.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -190,7 +197,12 @@ public class Real_Video extends AppCompatActivity {
                                 Toast.makeText(Real_Video.this, "새로고침", Toast.LENGTH_SHORT).show();
                             }
                             else{
-                                dialog.show();
+                                try {
+                                    dialog.show();
+                                }
+                                catch (WindowManager.BadTokenException e){
+
+                                }
                                 Toast.makeText(Real_Video.this, "블랙박스 전원이 꺼져있습니다.", Toast.LENGTH_SHORT).show();
 
                             }

@@ -14,7 +14,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +49,7 @@ public class Video extends AppCompatActivity {
     String value1,value2,value3,value4;
 
     Dialog dialog;
-    TextView power;
+    LinearLayout power;
 
     TextView option;
 
@@ -271,7 +273,12 @@ public class Video extends AppCompatActivity {
                                                                 }
 
                                                                 else{
-                                                                    dialog.show();
+                                                                    try {
+                                                                        dialog.show();
+                                                                    }
+                                                                    catch (WindowManager.BadTokenException e){
+
+                                                                    }
                                                                     power.setOnClickListener(new View.OnClickListener() {
                                                                         @Override
                                                                         public void onClick(View v) {
@@ -332,7 +339,12 @@ public class Video extends AppCompatActivity {
                                                                 }
 
                                                                 else{
-                                                                    dialog.show();
+                                                                    try {
+                                                                        dialog.show();
+                                                                    }
+                                                                    catch (WindowManager.BadTokenException e){
+
+                                                                    }
                                                                     power.setOnClickListener(new View.OnClickListener() {
                                                                         @Override
                                                                         public void onClick(View v) {
@@ -390,7 +402,12 @@ public class Video extends AppCompatActivity {
                                                                 }
 
                                                                 else{
-                                                                    dialog.show();
+                                                                    try {
+                                                                        dialog.show();
+                                                                    }
+                                                                    catch (WindowManager.BadTokenException e){
+
+                                                                    }
                                                                     power.setOnClickListener(new View.OnClickListener() {
                                                                         @Override
                                                                         public void onClick(View v) {
