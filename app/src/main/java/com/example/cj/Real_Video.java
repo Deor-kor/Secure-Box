@@ -53,7 +53,7 @@ public class Real_Video extends AppCompatActivity {
 
 
     Dialog dialog;
-    TextView power;
+    LinearLayout power;
 
     TextView photo,video,option,gallery;
 

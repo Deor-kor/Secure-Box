@@ -2,14 +2,20 @@ package com.example.cj;
 
 import static android.view.View.GONE;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,9 +33,9 @@ public class Gallery extends AppCompatActivity {
     DatabaseReference databaseReference_photo,databaseReference_video;
     ArrayList<Ob_List> arrayList_photo,arrayList_video;
     RecyclerView.Adapter adapter1,adapter2;
-    TextView log_back, gallery_capture, galley_recording, all_delete_photo, all_delete_video;
+    TextView log_back, photo_color ,video_color;
     long backKeyPressedTime = 0; //뒤로가기 버튼을 누른 시간
-
+    LinearLayout gallery_capture, galley_recording, all_delete_photo, all_delete_video;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,27 +121,40 @@ public class Gallery extends AppCompatActivity {
                 finish();
             }
         });
-        gallery_capture = (TextView)findViewById(R.id.galley_capture);
-        galley_recording = (TextView)findViewById(R.id.galley_recording);
-        gallery_capture.setBackground(View.);
+
+        gallery_capture = (LinearLayout)findViewById(R.id.galley_capture);
+        galley_recording = (LinearLayout)findViewById(R.id.galley_recording);
+        photo_color = (TextView)findViewById(R.id.photo_color);
+        video_color = (TextView)findViewById(R.id.video_color);
+        all_delete_photo = (LinearLayout)findViewById(R.id.all_delete_photo);
+        all_delete_video = (LinearLayout)findViewById(R.id.all_delete_video);
+        all_delete_video.setVisibility(View.GONE);
+
         gallery_capture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 all_delete_photo.setVisibility(View.GONE);
+                all_delete_video.setVisibility(View.VISIBLE);
+                photo_color.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#555555")));
+                video_color.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#999999")));
                 recyclerView1.setVisibility(View.VISIBLE);
                 recyclerView2.setVisibility(View.GONE);
             }
         });
+
         galley_recording.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 all_delete_video.setVisibility(View.VISIBLE);
+                all_delete_photo.setVisibility(View.GONE);
+                photo_color.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#999999")));
+                video_color.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#555555")));
                 recyclerView1.setVisibility(View.GONE);
                 recyclerView2.setVisibility(View.VISIBLE);
             }
         });
 
-        all_delete_photo = (TextView)findViewById(R.id.all_delete_photo);
+
         all_delete_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,8 +170,7 @@ public class Gallery extends AppCompatActivity {
                 }
             }
         });
-        all_delete_video = (TextView)findViewById(R.id.all_delete_video);
-        all_delete_video.setVisibility(View.GONE);
+
         all_delete_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

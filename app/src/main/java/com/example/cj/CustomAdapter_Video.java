@@ -69,7 +69,7 @@ public  class CustomAdapter_Video extends RecyclerView.Adapter<CustomAdapter_Vid
         TextView date;
         View view;
         LinearLayout look;
-        TextView delete;
+        LinearLayout delete;
         ImageView photo;
 
         public CustomViewHolder(@NonNull View itemView) {

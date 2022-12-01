@@ -7,47 +7,52 @@
     android:orientation="vertical"
     android:layout_gravity="center"
     android:gravity="center">
-
-
     <LinearLayout
-        android:orientation="vertical"
-        android:background="@drawable/dialog_power"
-        android:layout_width="250dp"
-        android:layout_height="180dp">
-
-        <TextView
-            android:layout_marginTop="30dp"
-            android:layout_gravity="top"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:textSize="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="블랙박스와 연결이 끊어졌습니다.\n연결해 주세요."/>
-
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <LinearLayout
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+            android:orientation="vertical"
+            android:background="@drawable/shadow_all"
+            android:layout_width="250dp"
+            android:layout_height="180dp">
+            <ImageView
+                android:layout_marginVertical="10dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/power_error"
+                android:backgroundTint="#555555"
+                android:layout_gravity="center"/>
             <TextView
+                android:layout_gravity="top"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:textColor="#666666"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="블랙박스와 연결이 끊어졌습니다.\n다시 연결해 주세요."/>
+            <LinearLayout
                 android:id="@+id/power"
-                android:padding="10dp"
-                android:background="@drawable/dialog_power_button"
+                android:layout_marginVertical="10dp"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="연결 하기"
-                android:textColor="@color/white"
-                android:textSize="25dp"/>
-
+                android:orientation="vertical">
+                <TextView
+                    android:padding="10dp"
+                    android:text="확인"
+                    android:textSize="16dp"
+                    android:textColor="#666666"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
         </LinearLayout>
-
-
     </LinearLayout>
-
-
 </LinearLayout>

@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,8 +29,8 @@ import java.util.ArrayList;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class Login extends AppCompatActivity {
-
-    TextView number, login;
+    TextView number;
+    LinearLayout login;
 
     int PERMISSION_ALL = 100;
     String[] PERMISSIONS = {Manifest.permission.READ_PHONE_NUMBERS};
@@ -43,7 +44,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        login = (TextView) findViewById(R.id.login);
+        login = (LinearLayout) findViewById(R.id.login);
         number = (TextView) findViewById(R.id.number);
 
         requestPermissions(PERMISSIONS, PERMISSION_ALL);

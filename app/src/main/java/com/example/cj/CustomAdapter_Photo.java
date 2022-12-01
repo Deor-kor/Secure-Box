@@ -69,7 +69,7 @@ public  class CustomAdapter_Photo extends RecyclerView.Adapter<CustomAdapter_Pho
         TextView date;
         View view;
         LinearLayout look;
-        TextView delete;
+        LinearLayout delete;
         ImageView photo;
 
         public CustomViewHolder(@NonNull View itemView) {

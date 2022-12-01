@@ -22,7 +22,6 @@ public class Permission extends AppCompatActivity {
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setContentView(R.layout.permission);
 
-
         //다이얼로그 끄기
         close =(TextView)findViewById(R.id.close);
         close.setOnClickListener(new View.OnClickListener() {
