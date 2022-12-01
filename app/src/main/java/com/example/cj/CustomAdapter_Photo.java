@@ -80,7 +80,6 @@ public  class CustomAdapter_Photo extends RecyclerView.Adapter<CustomAdapter_Pho
             this.look = itemView.findViewById(R.id.look);
             this.delete =itemView.findViewById(R.id.delete);
             this.photo = itemView.findViewById(R.id.photo);
-
             view = itemView;
 
             database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
@@ -95,7 +94,6 @@ public  class CustomAdapter_Photo extends RecyclerView.Adapter<CustomAdapter_Pho
                     Intent intent = new Intent(context,Photo_Dialog.class);
                     intent.putExtra("url",arrayList.get(position).getUrl());
                     context.startActivity(intent);
-
 
                 }
             });
@@ -117,15 +115,8 @@ public  class CustomAdapter_Photo extends RecyclerView.Adapter<CustomAdapter_Pho
                         Toast.makeText(context, "삭제 완료", Toast.LENGTH_SHORT).show();
                     }
 
-
-
                 }
             });
-
         }
-
     }
-
-
-
 }

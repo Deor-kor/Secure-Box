@@ -181,8 +181,6 @@ public class Video extends AppCompatActivity {
                                             value4 = snapshot.getValue().toString();
                                             text2.setText(value4);
 
-
-
                                             databaseReference_motion = database.getReference("motion").child("motion").child("power");
                                             databaseReference_motion.addValueEventListener(new ValueEventListener() {
                                                 @Override
@@ -296,8 +294,6 @@ public class Video extends AppCompatActivity {
                                                                     });
                                                                     Toast.makeText(Video.this, "블랙박스를 연결해 주세요.", Toast.LENGTH_SHORT).show();
                                                                 }
-
-
 
                                                             }
                                                         });
@@ -428,13 +424,6 @@ public class Video extends AppCompatActivity {
                                                             }
                                                         });
 
-
-
-
-
-
-
-
                                                     }
                                                     catch (NullPointerException nullPointerException){
 
@@ -448,11 +437,6 @@ public class Video extends AppCompatActivity {
                                                 }
                                             });
 
-
-
-
-
-
                                         }
                                         catch (NullPointerException nullPointerException){
                                             databaseReference_auto.setValue("OFF");
@@ -465,10 +449,6 @@ public class Video extends AppCompatActivity {
                                     }
                                 });
 
-
-
-
-
                             }
                             catch (NullPointerException nullPointerException){
                                 databaseReference.setValue("OFF");
@@ -480,11 +460,6 @@ public class Video extends AppCompatActivity {
                         public void onCancelled(@NonNull DatabaseError error) {
                         }
                     });
-
-
-
-
-
 
                 }
                 catch (NullPointerException nullPointerException){
@@ -504,8 +479,6 @@ public class Video extends AppCompatActivity {
                 finish();
             }
         });
-
-
 
     }
 }

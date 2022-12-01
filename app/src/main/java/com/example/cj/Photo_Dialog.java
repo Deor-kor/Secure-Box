@@ -25,7 +25,5 @@ public class Photo_Dialog extends AppCompatActivity {
         photo=(ImageView)findViewById(R.id.photo);
         Glide.with(Photo_Dialog.this).load(getIntent().getStringExtra("url")).into(photo);
 
-
-
     }
 }

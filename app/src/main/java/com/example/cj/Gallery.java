@@ -79,8 +79,6 @@ public class Gallery extends AppCompatActivity {
         adapter1 = new CustomAdapter_Photo(arrayList_photo, Gallery.this);
         recyclerView1.setAdapter(adapter1);
 
-
-
         recyclerView2.setLayoutManager(new GridLayoutManager(this,3));
         recyclerView2.setHasFixedSize(true);
         arrayList_video= new ArrayList<>();

@@ -34,11 +34,9 @@ public class CustomAdapter_Log extends RecyclerView.Adapter<CustomAdapter_Log.Cu
     public void onBindViewHolder(@NonNull CustomAdapter_Log.CustomViewHolder holder, int position) {
 
         try {
-
             holder.log.setText(arrayList.get(position).getLog());
             holder.position.setText(String.valueOf(position+1));
             holder.time.setText(arrayList.get(position).getTime());
-
         }catch (NullPointerException nullPointerException){
 
         }
@@ -54,7 +52,6 @@ public class CustomAdapter_Log extends RecyclerView.Adapter<CustomAdapter_Log.Cu
         TextView position;
         TextView time;
         TextView log;
-
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);

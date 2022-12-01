@@ -13,20 +13,14 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start);
 
-
-
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-
-
                 Intent intent = new Intent(StartActivity.this,Login.class);
                 startActivity(intent);
                 finish();
             }
         }, 1000);
-
-
     }
 }

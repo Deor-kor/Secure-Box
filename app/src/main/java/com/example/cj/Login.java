@@ -64,7 +64,6 @@ public class Login extends AppCompatActivity {
 
                     }
 
-
                 }
                 catch (NullPointerException nullPointerException){
 
@@ -76,8 +75,6 @@ public class Login extends AppCompatActivity {
 
             }
         });
-
-
 
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -96,12 +93,9 @@ public class Login extends AppCompatActivity {
                     }
 
                 }
-
                 Toast.makeText(Login.this, "등록된 전호번호가 아닙니다", Toast.LENGTH_SHORT).show();
-
             }
         });
-
 
     }
 
@@ -118,8 +112,6 @@ public class Login extends AppCompatActivity {
                 }
                 String user = telephonyManager.getLine1Number().replace("+82","0");
                 number.setText(user);
-
-
 
             }
             //요청한 권한이 거부되었을때 팝업창 띄어줌

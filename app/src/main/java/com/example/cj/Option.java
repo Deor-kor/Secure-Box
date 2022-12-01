@@ -29,11 +29,8 @@ public class Option extends AppCompatActivity {
     DatabaseReference databaseReference_motionCount;
     DatabaseReference databaseReference_videoTime;
     String AUTO_TIME,AUTO_COUNT,MOTION_TIME,MOTION_COUNT,VIDEO_TIME;
-    LinearLayout option_visible1,option_visible2,option_visible3
-            ,option_click1,option_click2,option_click3;
-
+    LinearLayout option_visible1,option_visible2,option_visible3,option_click1,option_click2,option_click3;
     int count1, count2, count3 = 0;
-
     TextView ar_up1,ar_down1,ar_up2,ar_down2,ar_up3,ar_down3;
     TextView option_back;
     @Override
@@ -51,8 +48,6 @@ public class Option extends AppCompatActivity {
         option_click2 = findViewById(R.id.option_click2);
         option_click3 = findViewById(R.id.option_click3);
         option_back = findViewById(R.id.option_back);
-
-
 
         ar_up1 = findViewById(R.id.ar_up1);
         ar_down1 = findViewById(R.id.ar_down1);

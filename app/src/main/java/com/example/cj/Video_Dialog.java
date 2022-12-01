@@ -27,7 +27,6 @@ public class Video_Dialog extends AppCompatActivity {
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setContentView(R.layout.video_dialog);
 
-
         video = (VideoView) findViewById(R.id.video);
         Uri uri = Uri.parse(getIntent().getStringExtra("url"));
         video.setVideoURI(uri);

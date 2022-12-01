@@ -55,7 +55,6 @@ public  class CustomAdapter_Video extends RecyclerView.Adapter<CustomAdapter_Vid
 
         }
 
-
     }
 
     @Override
@@ -80,7 +79,6 @@ public  class CustomAdapter_Video extends RecyclerView.Adapter<CustomAdapter_Vid
             this.look = itemView.findViewById(R.id.look);
             this.delete =itemView.findViewById(R.id.delete);
             this.photo = itemView.findViewById(R.id.photo);
-
             view = itemView;
 
             database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
@@ -117,16 +115,11 @@ public  class CustomAdapter_Video extends RecyclerView.Adapter<CustomAdapter_Vid
                         Toast.makeText(context, "삭제 완료", Toast.LENGTH_SHORT).show();
                     }
 
-
-
                 }
-
         });
 
         }
 
     }
-
-
 
 }

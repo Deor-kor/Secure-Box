@@ -33,7 +33,6 @@ public class CustomAdapter_User extends RecyclerView.Adapter<CustomAdapter_User.
 
     public class CustomViewHolder extends RecyclerView.ViewHolder{
 
-
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
         }

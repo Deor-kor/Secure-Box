@@ -27,9 +27,6 @@ public class Permission extends AppCompatActivity {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //앱종료
-                // ActivityCompat.finishAffinity(Setting_Dialog2.this);
-                //다이얼로그 종료
                 finish();
             }
         });

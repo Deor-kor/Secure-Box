@@ -46,12 +46,10 @@ public class Real_Video extends AppCompatActivity {
     DatabaseReference databaseReference_motion;
     String value_p,value_v;
 
-
     DatabaseReference databaseReference1;
     DatabaseReference databaseReference2;
     String check_power;
     String value;
-
 
     Dialog dialog;
     LinearLayout power;
@@ -74,7 +72,6 @@ public class Real_Video extends AppCompatActivity {
 
         backPressClose = new BackPressClose(this);
 
-
         dialog = new Dialog(this);  //다이어로그 초기화
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //타이틀 제거
         dialog.setContentView(R.layout.power_dialog);
@@ -82,7 +79,6 @@ public class Real_Video extends AppCompatActivity {
         //    dialog.setCancelable(false); //뒤로가기 비활성화
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); //투명
         power = dialog.findViewById(R.id.power);
-
 
         refresh = (LinearLayout) findViewById(R.id.refresh);
         database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
@@ -106,10 +102,6 @@ public class Real_Video extends AppCompatActivity {
                     String value = snapshot.getValue().toString();
                     url= value+"/stream";
                     webview.loadUrl(url);
-
-
-
-
                 }
                 catch (NullPointerException nullPointerException){
 
@@ -121,13 +113,8 @@ public class Real_Video extends AppCompatActivity {
             }
         });
 
-
-
-
-
         Random random = new Random();
         check_power = String.valueOf(random.nextInt(99999));
-
 
         databaseReference_v = database.getReference("video").child("video").child("power");
         databaseReference_p = database.getReference("photo").child("photo").child("power");

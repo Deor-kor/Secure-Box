@@ -55,9 +55,6 @@ public class Photo extends AppCompatActivity {
     long backKeyPressedTime = 0; //뒤로가기 버튼을 누른 시간
     TextView log_back;
 
-
-
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -270,13 +267,6 @@ public class Photo extends AppCompatActivity {
                                                             }
                                                         });
 
-
-
-
-
-
-
-
                                                     }
                                                     catch (NullPointerException nullPointerException){
 
@@ -290,10 +280,6 @@ public class Photo extends AppCompatActivity {
                                                 }
                                             });
 
-
-
-
-
                                         }
                                         catch (NullPointerException nullPointerException){
 
@@ -305,8 +291,6 @@ public class Photo extends AppCompatActivity {
 
                                     }
                                 });
-
-
 
                             }
                             catch (NullPointerException nullPointerException){
