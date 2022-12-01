@@ -88,17 +88,16 @@ public class Login extends AppCompatActivity {
                 for(Ob_User ob_user : arrayList){
 
                     if(number.getText().toString().equals(ob_user.getNumber())){
-
                         Intent intent = new Intent(Login.this,Real_Video.class);
                         startActivity(intent);
-                        break;
-                    }
-                    else{
-                        Toast.makeText(Login.this, "등록된 전호번호가 아닙니다", Toast.LENGTH_SHORT).show();
+                        finish();
+                        return;
+
                     }
 
                 }
 
+                Toast.makeText(Login.this, "등록된 전호번호가 아닙니다", Toast.LENGTH_SHORT).show();
 
             }
         });

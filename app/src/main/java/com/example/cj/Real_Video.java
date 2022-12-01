@@ -65,10 +65,15 @@ public class Real_Video extends AppCompatActivity {
 
     TextView log_delete;
 
+    BackPressClose  backPressClose;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.real_video);
+
+        backPressClose = new BackPressClose(this);
+
 
         dialog = new Dialog(this);  //다이어로그 초기화
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //타이틀 제거
@@ -350,5 +355,10 @@ public class Real_Video extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        backPressClose.onBackPressed();
     }
 }
