@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,7 +55,7 @@ public class Real_Video extends AppCompatActivity {
     Dialog dialog;
     LinearLayout power;
 
-    TextView photo,video,option,gallery;
+    LinearLayout photo,video,option,gallery;
 
     RecyclerView recyclerview ;
     RecyclerView.Adapter adapter;
@@ -266,21 +267,28 @@ public class Real_Video extends AppCompatActivity {
             }
         });
 
-        photo = (TextView)findViewById(R.id.photo);
-        video = (TextView)findViewById(R.id.video);
-        option =(TextView)findViewById(R.id.option);
+        photo = (LinearLayout)findViewById(R.id.photo);
+        video = (LinearLayout)findViewById(R.id.video);
+        option =(LinearLayout)findViewById(R.id.option);
 
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Real_Video.this,Photo.class);
-                startActivity(intent);
+
+                databaseReference_p.setValue("ON");
+                Toast.makeText(Real_Video.this, "사진을 캡쳐했습니다.", Toast.LENGTH_SHORT).show();
+             //   Intent intent = new Intent(Real_Video.this,Photo.class);
+             //   startActivity(intent);
+
+
             }
         });
         video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Real_Video.this,Video.class);
+//                Intent intent = new Intent(Real_Video.this,Video.class);
+//                startActivity(intent);
+                Intent intent = new Intent(Real_Video.this,Rec_pop.class);
                 startActivity(intent);
             }
         });
@@ -334,7 +342,7 @@ public class Real_Video extends AppCompatActivity {
         });
 
 
-        gallery = (TextView)findViewById(R.id.gallery);
+        gallery = (LinearLayout)findViewById(R.id.gallery);
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

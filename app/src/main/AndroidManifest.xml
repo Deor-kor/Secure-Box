@@ -17,6 +17,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Rec_pop"
+            android:exported="true"
+            android:label=""
+            android:theme="@style/Theme.AppCompat.Dialog">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Gallery"
             android:exported="false">
             <meta-data

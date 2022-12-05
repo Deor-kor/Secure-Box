@@ -110,7 +110,7 @@ public class Gallery extends AppCompatActivity {
 
         });
 
-        adapter2 = new CustomAdapter_Photo(arrayList_video, Gallery.this);
+        adapter2 = new CustomAdapter_Video(arrayList_video, Gallery.this);
         recyclerView2.setAdapter(adapter2);
         log_back = (TextView)findViewById(R.id.log_back);
         log_back.setOnClickListener(new View.OnClickListener() {

@@ -21,7 +21,8 @@
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:layout_gravity="center"
-            android:background="@drawable/login_logo"/>
+            android:background="@drawable/login_logo"
+            android:backgroundTint="#666666"/>
     </LinearLayout>
     <LinearLayout
         android:layout_gravity="center"
@@ -38,6 +39,7 @@
             <TextView
                 android:id="@+id/number"
                 android:textColor="#666666"
+                android:background="#40ffffff"
                 android:gravity="center"
                 android:textSize="16dp"
                 android:hint="phone number"

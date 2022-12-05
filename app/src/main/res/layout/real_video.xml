@@ -4,173 +4,202 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="10">
 
     <LinearLayout
         android:id="@+id/refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:orientation="vertical"
         tools:ignore="WebViewLayout">
         <WebView
+            android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="280dp"
+            android:layout_height="match_parent"
             android:id="@+id/webview"/>
     </LinearLayout>
-
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="@drawable/shadow_bottom"/>
-        <TextView
-            android:textColor="#999999"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="새로고침을 하려면 화면을 클릭해 주세요."
-            android:textStyle="bold"
-            android:paddingVertical="3dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="@drawable/shadow_top"/>
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
         <LinearLayout
-            android:gravity="top"
-            android:layout_gravity="top"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/photo"
-                android:layout_margin="10dp"
-                android:background="@drawable/capture"
-                android:textColor="@color/white"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:id="@+id/video"
-                android:layout_margin="10dp"
-                android:background="@drawable/recording"
-                android:textColor="@color/black"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:id="@+id/gallery"
-                android:layout_margin="10dp"
-                android:background="@drawable/gallery"
-                android:textColor="@color/white"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:id="@+id/option"
-                android:layout_margin="10dp"
-                android:background="@drawable/setting"
-                android:textColor="@color/black"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"/>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
             android:orientation="vertical"
-            android:elevation="5dp">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:paddingVertical="5dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:text="Num"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textColor="#666666"
-
-                    android:textSize="12dp" />
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:text="Date"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textColor="#666666"
-                    android:textSize="12dp" />
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:layout_gravity="center"
-                    android:text="Log"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textColor="#666666"
-                    android:textSize="12dp" />
-            </LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
+                android:layout_height="3dp"
                 android:background="@drawable/shadow_bottom"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="@drawable/shadow_top"/>
             <TextView
-                android:textColor="#666666"
-                android:textStyle="bold"
-                android:layout_gravity="center"
-                android:gravity="center"
+                android:textColor="#999999"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="5dp"
-                android:textSize="12dp"
-                android:text="Delete Log"
-                android:id="@+id/log_delete"/>
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="새로고침을 하려면 화면을 클릭해 주세요."
+                android:textStyle="bold"
+                android:paddingVertical="3dp" />
+
         </LinearLayout>
 
-    </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@drawable/shadow_top"/>
+            <LinearLayout
+                android:gravity="top"
+                android:layout_gravity="top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="10">
+                <LinearLayout
+                    android:id="@+id/photo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_weight="2.5">
+                    <ImageView
+                        android:layout_margin="10dp"
+                        android:background="@drawable/capture"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/video"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_weight="2.5">
+                    <ImageView
+                        android:layout_margin="10dp"
+                        android:background="@drawable/recording"
+                        android:textColor="@color/black"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/gallery"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_weight="2.5">
+                    <ImageView
+                        android:layout_margin="10dp"
+                        android:background="@drawable/gallery"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/option"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_weight="2.5">
+                    <ImageView
+                        android:layout_margin="10dp"
+                        android:background="@drawable/setting"
+                        android:textColor="@color/black"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"/>
+                </LinearLayout>
+            </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:elevation="5dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:paddingVertical="5dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:text="Num"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="#666666"
+
+                        android:textSize="12dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:text="Date"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="#666666"
+                        android:textSize="12dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:layout_gravity="center"
+                        android:text="Log"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="#666666"
+                        android:textSize="12dp" />
+                </LinearLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@drawable/shadow_bottom"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@drawable/shadow_top"/>
+                <TextView
+                    android:textColor="#666666"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="5dp"
+                    android:textSize="12dp"
+                    android:text="Delete Log"
+                    android:id="@+id/log_delete"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
