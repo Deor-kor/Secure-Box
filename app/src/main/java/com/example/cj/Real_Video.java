@@ -286,9 +286,7 @@ public class Real_Video extends AppCompatActivity {
         video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(Real_Video.this,Video.class);
-//                startActivity(intent);
-                Intent intent = new Intent(Real_Video.this,Rec_pop.class);
+                Intent intent = new Intent(Real_Video.this,Video.class);
                 startActivity(intent);
             }
         });
