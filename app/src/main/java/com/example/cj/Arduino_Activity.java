@@ -267,12 +267,12 @@ public class Arduino_Activity extends AppCompatActivity {
                 int action = event.getAction();
 
                 if (action == MotionEvent.ACTION_DOWN) {
-                    Toast.makeText(Arduino_Activity.this, "전진", Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(Arduino_Activity.this, "전진", Toast.LENGTH_SHORT).show();
                     android_date = "g";
                     sendbtData(android_date);
                 } else if (action == MotionEvent.ACTION_UP) {
                     android_date = "s";
-                    Toast.makeText(Arduino_Activity.this, "멈춤", Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(Arduino_Activity.this, "멈춤", Toast.LENGTH_SHORT).show();
                     sendbtData(android_date);
                 }
                 return false;
@@ -285,12 +285,12 @@ public class Arduino_Activity extends AppCompatActivity {
                 int action = event.getAction();
 
                 if (action == MotionEvent.ACTION_DOWN) {
-                    Toast.makeText(Arduino_Activity.this, "후진", Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(Arduino_Activity.this, "후진", Toast.LENGTH_SHORT).show();
                     android_date = "b";
                     sendbtData(android_date);
                 } else if (action == MotionEvent.ACTION_UP) {
                     android_date = "s";
-                    Toast.makeText(Arduino_Activity.this, "멈춤", Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(Arduino_Activity.this, "멈춤", Toast.LENGTH_SHORT).show();
                     sendbtData(android_date);
                 }
                 return false;
@@ -303,12 +303,12 @@ public class Arduino_Activity extends AppCompatActivity {
                 int action = event.getAction();
 
                 if (action == MotionEvent.ACTION_DOWN) {
-                    Toast.makeText(Arduino_Activity.this, "좌회전", Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(Arduino_Activity.this, "좌회전", Toast.LENGTH_SHORT).show();
                     android_date = "l";
                     sendbtData(android_date);
                 } else if (action == MotionEvent.ACTION_UP) {
                     android_date = "s";
-                    Toast.makeText(Arduino_Activity.this, "멈춤", Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(Arduino_Activity.this, "멈춤", Toast.LENGTH_SHORT).show();
                     sendbtData(android_date);
                 }
                 return false;
@@ -321,12 +321,12 @@ public class Arduino_Activity extends AppCompatActivity {
                 int action = event.getAction();
 
                 if (action == MotionEvent.ACTION_DOWN) {
-                    Toast.makeText(Arduino_Activity.this, "우회전", Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(Arduino_Activity.this, "우회전", Toast.LENGTH_SHORT).show();
                     android_date = "r";
                     sendbtData(android_date);
                 } else if (action == MotionEvent.ACTION_UP) {
                     android_date = "s";
-                    Toast.makeText(Arduino_Activity.this, "멈춤", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(Arduino_Activity.this, "멈춤", Toast.LENGTH_SHORT).show();
                     sendbtData(android_date);
                 }
                 return false;
