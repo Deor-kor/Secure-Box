@@ -507,7 +507,7 @@ public class Arduino_Activity extends AppCompatActivity {
 
     //fixme : 데이터 전송
     public void sendbtData(String btLightPercent){
-        
+
         sendByte = btLightPercent;
         BTSend.run();
     }
