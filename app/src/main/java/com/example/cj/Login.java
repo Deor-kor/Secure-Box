@@ -33,7 +33,10 @@ public class Login extends AppCompatActivity {
     LinearLayout login;
 
     int PERMISSION_ALL = 100;
-    String[] PERMISSIONS = {Manifest.permission.READ_PHONE_NUMBERS};
+    String[] PERMISSIONS = {Manifest.permission.READ_PHONE_NUMBERS,
+            Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN};
 
     FirebaseDatabase database;
     DatabaseReference databaseReference;

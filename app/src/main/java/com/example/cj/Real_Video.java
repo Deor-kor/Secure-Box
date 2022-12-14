@@ -109,7 +109,7 @@ public class Real_Video extends AppCompatActivity {
                     drive.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(Real_Video.this,Aduino_Activity.class);
+                            Intent intent = new Intent(Real_Video.this, Arduino_Activity.class);
                             intent.putExtra("url",url);
                             startActivity(intent);
                         }

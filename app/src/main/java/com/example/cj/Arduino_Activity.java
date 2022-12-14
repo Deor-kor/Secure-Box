@@ -22,7 +22,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +31,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -40,7 +38,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public class Aduino_Activity extends AppCompatActivity {
+public class Arduino_Activity extends AppCompatActivity {
 
     Button front, back, left, right;
 
@@ -62,26 +60,30 @@ public class Aduino_Activity extends AppCompatActivity {
     DatabaseReference databaseReference;
     DatabaseReference databaseReference_auto;
     DatabaseReference databaseReference_manual;
-    String AUTO,MANUAL;
+    String AUTO, MANUAL;
     WebView webview;
     WebSettings webSettings;
     TextView log_back;
-
+    int count1 = 0;
+    int count2 = 0;
+    LinearLayout manual_button,auto_button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.aduino_activity);
 
 
-        BTButton = (TextView)findViewById(R.id.btnBTCon);
-        front = (Button)findViewById(R.id.front);
-        back = (Button)findViewById(R.id.back);
-        left = (Button)findViewById(R.id.left);
-        right = (Button)findViewById(R.id.right);
-        auto = (LinearLayout)findViewById(R.id.auto);
-        manual = (LinearLayout)findViewById(R.id.manual);
+        BTButton = (TextView) findViewById(R.id.btnBTCon);
+        front = (Button) findViewById(R.id.front);
+        back = (Button) findViewById(R.id.back);
+        left = (Button) findViewById(R.id.left);
+        right = (Button) findViewById(R.id.right);
+        auto = (LinearLayout) findViewById(R.id.auto);
+        manual = (LinearLayout) findViewById(R.id.manual);
+        manual_button = (LinearLayout)findViewById(R.id.manual_button);
+        auto_button = (LinearLayout)findViewById(R.id.auto_button);
 
-        webview = (WebView)findViewById(R.id.webview);
+        webview = (WebView) findViewById(R.id.webview);
         webview.setWebViewClient(new WebViewClient());
         webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true); // 웹페이지 자바스크립트 허용 여부
@@ -99,23 +101,9 @@ public class Aduino_Activity extends AppCompatActivity {
         databaseReference.child("자율주행").child("auto").child("mode").setValue("OFF");
         databaseReference.child("수동주행").child("manual").child("mode").setValue("OFF");
 
-        auto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                databaseReference.child("자율주행").child("auto").child("mode").setValue("ON");
-                databaseReference.child("수동주행").child("manual").child("mode").setValue("OFF");
-            }
-        });
 
-        manual.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                databaseReference.child("자율주행").child("auto").child("mode").setValue("OFF");
-                databaseReference.child("수동주행").child("manual").child("mode").setValue("ON");
-            }
-        });
-        stop1 = (LinearLayout)findViewById(R.id.stop1);
-        stop2 = (LinearLayout)findViewById(R.id.stop2);
+        stop1 = (LinearLayout) findViewById(R.id.stop1);
+        stop2 = (LinearLayout) findViewById(R.id.stop2);
 
         databaseReference_auto = database.getReference("주행모드").child("자율주행").child("auto").child("mode");
         databaseReference_auto.addValueEventListener(new ValueEventListener() {
@@ -124,16 +112,14 @@ public class Aduino_Activity extends AppCompatActivity {
                 try {
                     AUTO = snapshot.getValue().toString();
                     //auto.setText(AUTO);
-                    if(AUTO.equals("ON")){
+                    if (AUTO.equals("ON")) {
                         auto.setVisibility(View.GONE);
                         stop2.setVisibility(View.VISIBLE);
-                    }
-                    else if(AUTO.equals("OFF")){
+                    } else if (AUTO.equals("OFF")) {
                         auto.setVisibility(View.VISIBLE);
                         stop2.setVisibility(View.GONE);
                     }
-                }
-                catch (NullPointerException nullPointerException){
+                } catch (NullPointerException nullPointerException) {
 
                 }
             }
@@ -150,16 +136,14 @@ public class Aduino_Activity extends AppCompatActivity {
                 try {
                     MANUAL = snapshot.getValue().toString();
                     //manual.setText(MANUAL);
-                    if(MANUAL.equals("ON")){
+                    if (MANUAL.equals("ON")) {
                         manual.setVisibility(View.GONE);
                         stop1.setVisibility(View.VISIBLE);
-                    }
-                    else if(MANUAL.equals("OFF")) {
+                    } else if (MANUAL.equals("OFF")) {
                         manual.setVisibility(View.VISIBLE);
                         stop1.setVisibility(View.GONE);
                     }
-                }
-                catch (NullPointerException nullPointerException){
+                } catch (NullPointerException nullPointerException) {
 
                 }
             }
@@ -170,7 +154,7 @@ public class Aduino_Activity extends AppCompatActivity {
             }
         });
 
-        log_back = (TextView)findViewById(R.id.log_back);
+        log_back = (TextView) findViewById(R.id.log_back);
         log_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,7 +183,7 @@ public class Aduino_Activity extends AppCompatActivity {
 
                             // 블루투스를 지원하며 활성 상태인 경우
                             // 페어링된 기기 목록을 보여주고 연결할 장치를 선택.
-                            if (ActivityCompat.checkSelfPermission(Aduino_Activity.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                            if (ActivityCompat.checkSelfPermission(Arduino_Activity.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                                 // TODO: Consider calling
                                 //    ActivityCompat#requestPermissions
                                 // here to request the missing permissions, and then overriding
@@ -238,18 +222,57 @@ public class Aduino_Activity extends AppCompatActivity {
             }
         });
 
+        auto_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if(count1%2==0){
+                    databaseReference.child("자율주행").child("auto").child("mode").setValue("ON");
+                    databaseReference.child("수동주행").child("manual").child("mode").setValue("OFF");
+                    count1++;
+                }
+                else if(count1%2==1){
+                    databaseReference.child("자율주행").child("auto").child("mode").setValue("OFF");
+                    databaseReference.child("수동주행").child("manual").child("mode").setValue("OFF");
+                    count1++;
+                }
+
+            }
+        });
+
+        manual_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(count2%2==0){
+                    databaseReference.child("자율주행").child("auto").child("mode").setValue("OFF");
+                    databaseReference.child("수동주행").child("manual").child("mode").setValue("ON");
+                    count2++;
+                }
+                else if(count2%2==1){
+                    databaseReference.child("자율주행").child("auto").child("mode").setValue("OFF");
+                    databaseReference.child("수동주행").child("manual").child("mode").setValue("OFF");
+                    count2++;
+                }
+
+
+            }
+        });
+
+
         front.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 int action = event.getAction();
 
-                if(action==MotionEvent.ACTION_DOWN){
-                    Toast.makeText(Aduino_Activity.this, "전진", Toast.LENGTH_SHORT).show();
+                if (action == MotionEvent.ACTION_DOWN) {
+                    Toast.makeText(Arduino_Activity.this, "전진", Toast.LENGTH_SHORT).show();
                     android_date = "g";
                     sendbtData(android_date);
-                }else if(action==MotionEvent.ACTION_UP){
+                } else if (action == MotionEvent.ACTION_UP) {
                     android_date = "s";
-                    Toast.makeText(Aduino_Activity.this, "멈춤", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Arduino_Activity.this, "멈춤", Toast.LENGTH_SHORT).show();
                     sendbtData(android_date);
                 }
                 return false;
@@ -261,13 +284,13 @@ public class Aduino_Activity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 int action = event.getAction();
 
-                if(action==MotionEvent.ACTION_DOWN){
-                    Toast.makeText(Aduino_Activity.this, "후진", Toast.LENGTH_SHORT).show();
+                if (action == MotionEvent.ACTION_DOWN) {
+                    Toast.makeText(Arduino_Activity.this, "후진", Toast.LENGTH_SHORT).show();
                     android_date = "b";
                     sendbtData(android_date);
-                }else if(action==MotionEvent.ACTION_UP){
+                } else if (action == MotionEvent.ACTION_UP) {
                     android_date = "s";
-                    Toast.makeText(Aduino_Activity.this, "멈춤", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Arduino_Activity.this, "멈춤", Toast.LENGTH_SHORT).show();
                     sendbtData(android_date);
                 }
                 return false;
@@ -279,13 +302,13 @@ public class Aduino_Activity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 int action = event.getAction();
 
-                if(action==MotionEvent.ACTION_DOWN){
-                    Toast.makeText(Aduino_Activity.this, "좌회전", Toast.LENGTH_SHORT).show();
+                if (action == MotionEvent.ACTION_DOWN) {
+                    Toast.makeText(Arduino_Activity.this, "좌회전", Toast.LENGTH_SHORT).show();
                     android_date = "l";
                     sendbtData(android_date);
-                }else if(action==MotionEvent.ACTION_UP){
+                } else if (action == MotionEvent.ACTION_UP) {
                     android_date = "s";
-                    Toast.makeText(Aduino_Activity.this, "멈춤", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Arduino_Activity.this, "멈춤", Toast.LENGTH_SHORT).show();
                     sendbtData(android_date);
                 }
                 return false;
@@ -297,13 +320,13 @@ public class Aduino_Activity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 int action = event.getAction();
 
-                if(action==MotionEvent.ACTION_DOWN){
-                    Toast.makeText(Aduino_Activity.this, "우회전", Toast.LENGTH_SHORT).show();
+                if (action == MotionEvent.ACTION_DOWN) {
+                    Toast.makeText(Arduino_Activity.this, "우회전", Toast.LENGTH_SHORT).show();
                     android_date = "r";
                     sendbtData(android_date);
-                }else if(action==MotionEvent.ACTION_UP){
+                } else if (action == MotionEvent.ACTION_UP) {
                     android_date = "s";
-                    Toast.makeText(Aduino_Activity.this, "멈춤", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Arduino_Activity.this, "멈춤", Toast.LENGTH_SHORT).show();
                     sendbtData(android_date);
                 }
                 return false;
@@ -381,7 +404,7 @@ public class Aduino_Activity extends AppCompatActivity {
         mRemoteDevice = getDeviceFromBondedList(selectedDeviceName);
 
         //Progress Dialog
-        asyncDialog = new ProgressDialog(Aduino_Activity.this);
+        asyncDialog = new ProgressDialog(Arduino_Activity.this);
         asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         asyncDialog.setMessage("블루투스 연결중..");
         asyncDialog.show();
@@ -393,7 +416,7 @@ public class Aduino_Activity extends AppCompatActivity {
                 try {
                     UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb"); //HC-06 UUID
                     // 소켓 생성
-                    if (ActivityCompat.checkSelfPermission(Aduino_Activity.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(Arduino_Activity.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                         // TODO: Consider calling
                         //    ActivityCompat#requestPermissions
                         // here to request the missing permissions, and then overriding
@@ -419,7 +442,7 @@ public class Aduino_Activity extends AppCompatActivity {
                         @Override
                         public void run() {
                             Toast.makeText(getApplicationContext(), selectedDeviceName + " 연결 완료", Toast.LENGTH_LONG).show();
-                          //  tvBT.setText(selectedDeviceName + " Connected");
+                            //  tvBT.setText(selectedDeviceName + " Connected");
                             BTButton.setText("disconnect");
                             asyncDialog.dismiss();
                         }
@@ -434,7 +457,7 @@ public class Aduino_Activity extends AppCompatActivity {
                         @SuppressLint({"ShowToast", "SetTextI18n"})
                         @Override
                         public void run() {
-                          //  tvBT.setText("연결 오류 -- BT 상태 확인해주세요.");
+                            //  tvBT.setText("연결 오류 -- BT 상태 확인해주세요.");
                             asyncDialog.dismiss();
                             Toast.makeText(getApplicationContext(), "블루투스 연결 오류", Toast.LENGTH_SHORT).show();
                         }
@@ -454,6 +477,10 @@ public class Aduino_Activity extends AppCompatActivity {
         BluetoothDevice selectedDevice = null;
 
         for (BluetoothDevice device : mDevices) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+
+
+            }
             if (name.equals(device.getName())) { // 버젼문제
                 selectedDevice = device;
                 break;
@@ -480,8 +507,7 @@ public class Aduino_Activity extends AppCompatActivity {
 
     //fixme : 데이터 전송
     public void sendbtData(String btLightPercent){
-
-
+        
         sendByte = btLightPercent;
         BTSend.run();
     }

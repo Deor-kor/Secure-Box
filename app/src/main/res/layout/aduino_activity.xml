@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Aduino_Activity"
+    tools:context=".Arduino_Activity"
     android:weightSum="10">
     <LinearLayout
         android:layout_width="match_parent"
@@ -73,6 +73,7 @@
             android:layout_height="0dp"
             android:layout_weight="1">
             <LinearLayout
+                android:id="@+id/manual_button"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:layout_width="0dp"
@@ -125,6 +126,7 @@
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/auto_button"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:layout_width="0dp"

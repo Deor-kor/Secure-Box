@@ -23,7 +23,7 @@
                 android:id="@+id/log_back"
                 android:layout_margin="10dp"
                 android:gravity="center"
-                android:layout_width="30dp"
+                 android:layout_width="30dp"
                 android:layout_height="30dp" />
             <TextView
                 android:layout_width="wrap_content"
