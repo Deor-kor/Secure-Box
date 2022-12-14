@@ -1,23 +1,26 @@
 package com.example.cj;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,31 +32,34 @@ import java.util.ArrayList;
 
 public class Photo extends AppCompatActivity {
 
+    WebView webview;
     FirebaseDatabase database;
     DatabaseReference databaseReference;
-    TextView text;
+    LinearLayout text;
     RecyclerView list;
     ArrayList<Ob_List> arraylist;
     DatabaseReference databaseReference_photo;
     RecyclerView.Adapter adapter;
 
     DatabaseReference databaseReference_v;
-    String value_v;
     TextView check;
-
+    TextView photo_on_off;
     DatabaseReference databaseReference1;
     DatabaseReference databaseReference2;
     DatabaseReference databaseReference_auto;
-    String value1,value2,value_auto;
+    String raspi_power1,raspi_power2,value_1,value_2,value_3,photo_power;
 
     Dialog dialog;
     LinearLayout power;
 
-    String mt;
     DatabaseReference databaseReference_motion;
     TextView all_delete;
     long backKeyPressedTime = 0; //뒤로가기 버튼을 누른 시간
     TextView log_back;
+    TextView link_gallery;
+    WebSettings webSettings;
+    String check_power;
+    TextView photo_on_off_text;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -72,8 +78,46 @@ public class Photo extends AppCompatActivity {
 
         check = (TextView)findViewById(R.id.check);
         check.setVisibility(View.INVISIBLE);
-        text = (TextView)findViewById(R.id.text);
+        text = (LinearLayout)findViewById(R.id.text);
         all_delete = (TextView)findViewById(R.id.all_delete);
+        webview = (WebView)findViewById(R.id.webview);
+        webSettings = webview.getSettings();
+        webSettings.setJavaScriptEnabled(true); // 웹페이지 자바스크립트 허용 여부
+        webSettings.setSupportMultipleWindows(false); // 새창 띄우기 허용 여부
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(false); // 자바스크립트 새창 띄우기(멀티뷰) 허용 여부
+        webSettings.setLoadWithOverviewMode(true); // 메타태그 허용 여부
+        webSettings.setUseWideViewPort(true); // 화면 사이즈 맞추기 허용 여부
+        webSettings.setSupportZoom(false); // 화면 줌 허용 여부
+        webSettings.setBuiltInZoomControls(false); // 화면 확대 축소 허용 여부
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE); // 브라우저 캐시 허용 여부
+        webview.loadUrl(getIntent().getStringExtra("url"));
+
+//        Random random = new Random();
+//        check_power = String.valueOf(random.nextInt(99999));
+//
+//        webview.setOnTouchListener(new View.OnTouchListener() {
+//            @SuppressLint("ClickableViewAccessibility")
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//
+//                if (check_power.equals(value)){//앱에서 보낸신호가 블랙박스랑 일치하면 블랙박스 연결
+//                    webview.loadUrl(getIntent().getStringExtra("url"));
+//                    Toast.makeText(Photo.this, "새로고침", Toast.LENGTH_SHORT).show();
+//                }
+//                else{
+//                    try {
+//                        dialog.show();
+//                    }
+//                    catch (WindowManager.BadTokenException e){
+//
+//                    }
+//                    Toast.makeText(Photo.this, "블랙박스 전원이 꺼져있습니다.", Toast.LENGTH_SHORT).show();
+//
+//                }
+//
+//                return false;
+//            }
+//        });
 
         database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
         databaseReference1 =database.getReference("system").child("stop").child("power");
@@ -82,7 +126,7 @@ public class Photo extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
-                    value1 = snapshot.getValue().toString();
+                    raspi_power1 = snapshot.getValue().toString();
                 }
                 catch (NullPointerException nullPointerException){
 
@@ -100,7 +144,7 @@ public class Photo extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
-                    value2 = snapshot.getValue().toString();
+                    raspi_power2 = snapshot.getValue().toString();
 
                 }
                 catch (NullPointerException nullPointerException){
@@ -147,32 +191,37 @@ public class Photo extends AppCompatActivity {
 
         adapter = new CustomAdapter_Photo(arraylist,Photo.this);
         list.setAdapter(adapter);
-
-        text.setBackground(getResources().getDrawable(R.drawable.photo_recording_on));
+        photo_on_off = (TextView)findViewById(R.id.photo_on_off);
+        // text.setBackground(getResources().getDrawable(R.drawable.photo_recording_on));
         databaseReference_v = database.getReference("video").child("video").child("power");
         databaseReference_v.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
-                    value_v = snapshot.getValue().toString();
+                    value_1 = snapshot.getValue().toString();
 
                     //사진
+                    photo_on_off_text = (TextView)findViewById(R.id.photo_on_off_text);
                     database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
                     databaseReference = database.getReference("photo").child("photo").child("power");
                     databaseReference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             try {
-                                String value = snapshot.getValue().toString();
+                                photo_power = snapshot.getValue().toString();
                               //  text.setText(value);
 
-                                if(value.equals("ON"))
+                                if(photo_power.equals("ON"))
                                 {
-                                    text.setBackground(getResources().getDrawable(R.drawable.photo_recording_on));
+                                    photo_on_off.setBackground(getResources().getDrawable(R.drawable.photo_recording_off));
+                                    photo_on_off.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#810000")));
+                                    photo_on_off_text.setTextColor(Color.parseColor("#810000"));
                                     check.setVisibility(View.VISIBLE);
                                 }
-                                else if(value.equals("OFF")){
-                                    text.setBackground(getResources().getDrawable(R.drawable.photo_recording_off));
+                                else if(photo_power.equals("OFF")){
+                                    photo_on_off.setBackground(getResources().getDrawable(R.drawable.photo_recording_on));
+                                    photo_on_off.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#666666")));
+                                    photo_on_off_text.setTextColor(Color.parseColor("#666666"));
                                     check.setVisibility(View.INVISIBLE);
                                 }
 
@@ -183,7 +232,7 @@ public class Photo extends AppCompatActivity {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         try {
-                                            value_auto = snapshot.getValue().toString();
+                                            value_2 = snapshot.getValue().toString();
 
 
 
@@ -192,7 +241,7 @@ public class Photo extends AppCompatActivity {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                     try {
-                                                        mt = snapshot.getValue().toString();
+                                                        value_3 = snapshot.getValue().toString();
 
                                                         all_delete.setOnClickListener(new View.OnClickListener() {
                                                             @Override
@@ -215,16 +264,26 @@ public class Photo extends AppCompatActivity {
                                                             @Override
                                                             public void onClick(View v) {
 
-                                                                if (value1.equals(value2))
+                                                                if (raspi_power1.equals(raspi_power2))
                                                                 {
 
-                                                                    if(value_v.equals("ON")||value_auto.equals("ON")||mt.equals("ON"))
+                                                                    if(value_1.equals("ON")||value_2.equals("ON")||value_3.equals("ON"))
                                                                     {
-                                                                        Toast.makeText(Photo.this, "영상 녹화 중에는 사진 촬영 불가", Toast.LENGTH_SHORT).show();
+                                                                        check.setVisibility(View.VISIBLE);
+                                                                        check.setText("녹화를 종료하고 시도해주세요.");
+                                                                        check.setTextColor(Color.parseColor("#810000"));
+                                                                        new Handler().postDelayed(new Runnable() {
+                                                                            @Override
+                                                                            public void run() {
+                                                                                check.setText("촬영중입니다.");
+                                                                                check.setTextColor(Color.parseColor("#cccccc"));
+                                                                            }
+                                                                        },2000);
+                                                                        // Toast.makeText(Photo.this, "영상 녹화 중에는 사진 촬영 불가", Toast.LENGTH_SHORT).show();
                                                                     }
 
                                                                     else{
-                                                                        if(value.equals("OFF"))
+                                                                        if(photo_power.equals("OFF"))
                                                                         {
                                                                             databaseReference.setValue("ON");
                                                                             Toast.makeText(Photo.this, "촬영 시작", Toast.LENGTH_SHORT).show();
@@ -232,7 +291,7 @@ public class Photo extends AppCompatActivity {
 
                                                                     }
 
-                                                                    if (value.equals("ON"))
+                                                                    if (photo_power.equals("ON"))
                                                                     {
 
                                                                         Toast.makeText(Photo.this, "잠시만 기다려 주세요.", Toast.LENGTH_SHORT).show();
@@ -249,7 +308,7 @@ public class Photo extends AppCompatActivity {
                                                                     power.setOnClickListener(new View.OnClickListener() {
                                                                         @Override
                                                                         public void onClick(View v) {
-                                                                            if (value1.equals(value2)){
+                                                                            if (raspi_power1.equals(raspi_power2)){
                                                                                 dialog.dismiss();
                                                                                 Toast.makeText(Photo.this, "연결 성공", Toast.LENGTH_SHORT).show();
 
@@ -322,6 +381,14 @@ public class Photo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        link_gallery = (TextView)findViewById(R.id.link_gallery);
+        link_gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Photo.this,Gallery.class);
+                startActivity(intent);
             }
         });
 

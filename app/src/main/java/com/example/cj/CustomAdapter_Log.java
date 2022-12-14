@@ -1,5 +1,6 @@
 package com.example.cj;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,9 +35,41 @@ public class CustomAdapter_Log extends RecyclerView.Adapter<CustomAdapter_Log.Cu
     public void onBindViewHolder(@NonNull CustomAdapter_Log.CustomViewHolder holder, int position) {
 
         try {
-            holder.log.setText(arrayList.get(position).getLog());
-            holder.position.setText(String.valueOf(position+1));
-            holder.time.setText(arrayList.get(position).getTime());
+
+
+            if (position==arrayList.size()-1||position==arrayList.size()-2||position==arrayList.size()-3){
+
+                holder.position.setText("new");
+                holder.log.setText(arrayList.get(position).getLog());
+                holder.time.setText(arrayList.get(position).getTime());
+                if (position==arrayList.size()-1) {
+                    holder.log.setTextColor(Color.parseColor("#810000"));
+                    holder.position.setTextColor(Color.parseColor("#810000"));
+                    holder.time.setTextColor(Color.parseColor("#810000"));
+                }
+                else if (position==arrayList.size()-2) {
+                    holder.log.setTextColor(Color.parseColor("#810000"));
+                    holder.position.setTextColor(Color.parseColor("#810000"));
+                    holder.time.setTextColor(Color.parseColor("#810000"));
+                }
+                else if (position==arrayList.size()-3) {
+                    holder.log.setTextColor(Color.parseColor("#810000"));
+                    holder.position.setTextColor(Color.parseColor("#810000"));
+                    holder.time.setTextColor(Color.parseColor("#810000"));
+                }
+            }
+            else {
+
+                holder.log.setText(arrayList.get(position).getLog());
+                holder.position.setText(String.valueOf(position+1));
+                holder.time.setText(arrayList.get(position).getTime());
+
+                holder.log.setTextColor(Color.parseColor("#cccccc"));
+                holder.position.setTextColor(Color.parseColor("#cccccc"));
+                holder.time.setTextColor(Color.parseColor("#cccccc"));
+
+            }
+
         }catch (NullPointerException nullPointerException){
 
         }

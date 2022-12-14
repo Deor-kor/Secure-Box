@@ -3,11 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:gravity="top"
-    android:orientation="vertical"
+    android:layout_gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center">
-
+    android:weightSum="10"
+    android:orientation="vertical">
     <LinearLayout
         android:orientation="vertical"
         android:layout_gravity="center"
@@ -19,7 +19,7 @@
             android:paddingVertical="5dp">
             <TextView
                 android:background="@drawable/arrow_back"
-                android:backgroundTint="#333333"
+                android:backgroundTint="#555555"
                 android:id="@+id/log_back"
                 android:layout_margin="10dp"
                 android:gravity="center"
@@ -29,13 +29,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Secure box 캡쳐"
-                android:textSize="20dp"
+                android:text="Secure box 캡처"
+                android:textSize="18dp"
                 android:textStyle="bold"
-                android:textColor="#333333"
+                android:textColor="#555555"
                 android:gravity="center"
-                android:layout_marginRight="50dp"
                 android:layout_gravity="center" />
+            <TextView
+                android:id="@+id/link_gallery"
+                android:background="@drawable/image_search"
+                android:backgroundTint="#555555"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"/>
         </LinearLayout>
         <ImageView
             android:layout_width="match_parent"
@@ -43,29 +51,31 @@
             android:background="@drawable/shadow_bottom"/>
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="@drawable/shadow_top"/>
-        <LinearLayout
-            android:gravity="center"
+        tools:ignore="WebViewLayout">
+        <WebView
+            android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:id="@+id/text"
-                android:textColor="@color/white"
-                android:layout_width="50dp"
-                android:layout_height="50dp" />
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:id="@+id/webview"/>
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.6"
+        android:orientation="vertical">
         <LinearLayout
+            android:id="@+id/text"
             android:gravity="center"
+            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -74,46 +84,81 @@
                 android:layout_height="10dp"
                 android:background="@drawable/shadow_top"/>
             <TextView
-                android:textColor="#ffffff"
-                android:textStyle="bold"
-                android:layout_gravity="center"
+                android:id="@+id/photo_on_off"
+                android:background="@drawable/photo_recording_on"
+                android:backgroundTint="#666666"
                 android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"/>
+            <TextView
+                android:id="@+id/photo_on_off_text"
+                android:layout_marginBottom="5dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#666666"
+                android:textSize="10dp"
+                android:textStyle="bold"
+                android:text="사진 촬영" />
+            <TextView
+                android:id="@+id/check"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingVertical="5dp"
-                android:textSize="12dp"
-                android:text="Recoding"
-                android:background="#ff0000"
-                android:id="@+id/check"/>
+                android:text="촬영중입니다."
+                android:textSize="10dp"
+                android:textStyle="bold"
+                android:textColor="#cccccc"/>
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
                 android:background="@drawable/shadow_bottom"/>
         </LinearLayout>
-
-        </LinearLayout>
-
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4.4"
+        android:orientation="vertical">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-        <LinearLayout
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@drawable/shadow_bottom"/>
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0"
+        android:orientation="vertical">
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="@drawable/shadow_top"/>
-            <TextView
-                android:background="@drawable/delete"
-                android:backgroundTint="#333333"
-                android:id="@+id/all_delete"
-                android:layout_margin="10dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_width="30dp"
-                android:layout_height="30dp"/>
-        </LinearLayout>
+            android:layout_height="10dp"
+            android:background="@drawable/shadow_top"/>
+        <TextView
+            android:id="@+id/all_delete"
+            android:background="@drawable/delete"
+            android:backgroundTint="#666666"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/shadow_bottom"/>
+    </LinearLayout>
 </LinearLayout>

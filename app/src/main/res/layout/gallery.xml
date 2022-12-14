@@ -20,11 +20,11 @@
             android:paddingVertical="5dp">
             <TextView
                 android:id="@+id/log_back"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/arrow_back"
-                android:backgroundTint="#333333"
+                android:backgroundTint="#555555"
                 android:gravity="center"
                 android:layout_gravity="center"/>
             <TextView
@@ -34,8 +34,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Secure box 갤러리"
-                android:textColor="#444444"
-                android:textSize="20dp"
+                android:textColor="#555555"
+                android:textSize="18dp"
                 android:textStyle="bold" />
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
                         android:backgroundTint="#555555"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:layout_margin="15dp"
+                        android:layout_margin="10dp"
                         android:layout_width="30dp"
                         android:layout_height="30dp"/>
                 </LinearLayout>
@@ -67,7 +67,7 @@
                         android:backgroundTint="#555555"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:layout_margin="15dp"
+                        android:layout_margin="10dp"
                         android:layout_width="30dp"
                         android:layout_height="30dp"/>
                 </LinearLayout>

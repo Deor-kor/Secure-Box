@@ -12,78 +12,141 @@
         android:paddingVertical="5dp">
         <TextView
             android:background="@drawable/arrow_back"
-            android:backgroundTint="#333333"
+            android:backgroundTint="#555555"
             android:id="@+id/option_back"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginRight="50dp"
-            android:text="Secure box 앱 설정"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:textColor="#444444"
-            android:gravity="center"
-            android:layout_gravity="center" />
-    </LinearLayout>
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@drawable/shadow_bottom"/>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="10dp">
-        <TextView
-            android:textColor="@color/black"
-            android:gravity="left"
-            android:paddingVertical="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:text="IP   : "
-            android:textStyle="bold"
-            />
-
-        <EditText
-            android:id="@+id/ip"
-            android:gravity="center"
-            android:paddingVertical="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            android:textColor="#666666"
-            android:hint="192.168.123.112:8080"
-            android:maxLines="1"
-            android:layout_weight="2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:background="@drawable/save_24"
-            android:backgroundTint="#494949"
-            android:id="@+id/save_ip"
             android:layout_margin="10dp"
             android:gravity="center"
             android:layout_width="30dp"
             android:layout_height="30dp" />
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Secure box 앱 설정"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:textColor="#555555"
+            android:gravity="center"
+            android:layout_gravity="center" />
+        <TextView
+            android:background="@drawable/option_ref"
+            android:backgroundTint="#555555"
+            android:id="@+id/option_ref"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
     </LinearLayout>
-
-
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:background="@drawable/shadow_bottom"/>
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@drawable/shadow_top"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp">
+            <TextView
+                android:textColor="#666666"
+                android:gravity="left"
+                android:paddingVertical="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="IP   : "
+                android:textStyle="bold" />
+            <EditText
+                android:id="@+id/ip"
+                android:gravity="center"
+                android:paddingVertical="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="#666666"
+                android:hint="192.168.123.112:8080"
+                android:maxLines="1"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:background="@drawable/save_24"
+                android:backgroundTint="#666666"
+                android:id="@+id/save_ip"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/save_ip_check"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="5dp"
+                android:text=""
+                android:textSize="10dp"
+                android:textStyle="bold"
+                android:textColor="#cccccc"/>
+        </LinearLayout>
+<!--        <LinearLayout-->
+<!--            android:id="@+id/version_check"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical">-->
+<!--            <ImageView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="10dp"-->
+<!--                android:background="@drawable/shadow_bottom"/>-->
+<!--            <TextView-->
+<!--                android:gravity="center"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:paddingVertical="5dp"-->
+<!--                android:text="current version 0.5.1"-->
+<!--                android:textSize="14dp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textColor="#cccccc"/>-->
+<!--            <TextView-->
+<!--                android:id="@+id/version_check_text"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:paddingVertical="5dp"-->
+<!--                android:text="버젼 업데이트시 클릭"-->
+<!--                android:textSize="10dp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textColor="#cccccc"/>-->
+<!--            <ImageView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="10dp"-->
+<!--                android:background="@drawable/shadow_top"/>-->
+<!--        </LinearLayout>-->
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@drawable/shadow_bottom"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@drawable/shadow_top"/>
     <LinearLayout
         android:gravity="left"
         android:layout_gravity="left"
@@ -96,7 +159,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -107,68 +169,83 @@
                 android:layout_marginLeft="10dp"
                 android:text="일반 녹화 설정"
                 android:textStyle="bold"
-                android:textColor="#333333" />
+                android:textColor="#666666" />
             <TextView
                 android:id="@+id/ar_up1"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/arrow_up"
+                android:backgroundTint="#666666"
                 android:gravity="center"
                 android:layout_gravity="center" />
-
             <TextView
                 android:id="@+id/ar_down1"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/arrow_down"
+                android:backgroundTint="#666666"
                 android:gravity="center"
                 android:layout_gravity="center" />
         </LinearLayout>
-
-
         <LinearLayout
-            android:id="@+id/option_visible1"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
             <LinearLayout
-                android:layout_marginLeft="10dp"
-                android:layout_width="wrap_content"
+                android:id="@+id/option_visible1"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <EditText
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:id="@+id/video_time"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    android:textColor="#666666"
-                    android:hint="sec"
-                    android:maxLines="1"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"/>
-                <TextView
+                android:layout_gravity="center"
+                android:gravity="center">
+                <LinearLayout
+                    android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:text="초 녹화"/>
-
+                    android:layout_weight="1">
+                    <EditText
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:id="@+id/video_time"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:textColor="#666666"
+                        android:hint="sec"
+                        android:maxLines="1"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:text="초 녹화"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        android:textColor="#888888"/>
+                </LinearLayout>
+                <TextView
+                    android:background="@drawable/save_24"
+                    android:id="@+id/save_video"
+                    android:layout_margin="10dp"
+                    android:backgroundTint="#666666"
+                    android:gravity="center"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
             </LinearLayout>
-
             <TextView
-                android:background="@drawable/save_24"
-                android:id="@+id/save_video"
-                android:layout_margin="10dp"
-                android:backgroundTint="#888888"
+                android:id="@+id/save_video_check"
                 android:gravity="center"
-                android:layout_width="30dp"
-                android:layout_height="30dp" />
-
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="5dp"
+                android:text="기본 설정값입니다."
+                android:textSize="10dp"
+                android:textStyle="bold"
+                android:textColor="#cccccc"/>
         </LinearLayout>
         <ImageView
             android:layout_width="match_parent"
@@ -181,6 +258,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@drawable/shadow_top"/>
         <LinearLayout
             android:id="@+id/option_click2"
             android:layout_width="match_parent"
@@ -196,13 +277,14 @@
                 android:layout_weight="1"
                 android:text="자동 녹화 설정"
                 android:textStyle="bold"
-                android:textColor="#333333"/>
+                android:textColor="#666666"/>
             <TextView
                 android:id="@+id/ar_up2"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/arrow_up"
+                android:backgroundTint="#666666"
                 android:gravity="center"/>
             <TextView
                 android:id="@+id/ar_down2"
@@ -210,68 +292,88 @@
                 android:layout_height="30dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/arrow_down"
+                android:backgroundTint="#666666"
                 android:gravity="center"
                 android:layout_gravity="center" />
         </LinearLayout>
-
         <LinearLayout
-            android:id="@+id/option_visible2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
             <LinearLayout
-                android:layout_marginLeft="10dp"
+                android:id="@+id/option_visible2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:id="@+id/auto_time"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    android:textColor="#666666"
-                    android:hint="sec"
-                    android:maxLines="1"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"/>
+                android:layout_gravity="center"
+                android:gravity="center">
+                <LinearLayout
+                    android:layout_marginLeft="10dp"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:id="@+id/auto_time"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:textColor="#666666"
+                        android:hint="sec"
+                        android:maxLines="1"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:text="초씩"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        android:textColor="#888888"/>
+                    <EditText
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:id="@+id/auto_count"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:textColor="#666666"
+                        android:hint="횟수"
+                        android:maxLines="1"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:text="번 녹화"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        android:textColor="#888888"/>
+                </LinearLayout>
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:text="초씩"/>
-
-                <EditText
+                    android:background="@drawable/save_24"
+                    android:id="@+id/save_auto"
+                    android:layout_margin="10dp"
+                    android:backgroundTint="#666666"
                     android:gravity="center"
-                    android:inputType="number"
-                    android:id="@+id/auto_count"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    android:textColor="#666666"
-                    android:hint="횟수"
-                    android:maxLines="1"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:text="번 녹화"/>
-
-        </LinearLayout>
-
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"/>
+            </LinearLayout>
             <TextView
-                android:background="@drawable/save_24"
-                android:id="@+id/save_auto"
-                android:layout_margin="10dp"
-                android:backgroundTint="#888888"
+                android:id="@+id/save_auto_check"
                 android:gravity="center"
-                android:layout_width="30dp"
-                android:layout_height="30dp"/>
-
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="5dp"
+                android:text="기본 설정값입니다."
+                android:textSize="10dp"
+                android:textStyle="bold"
+                android:textColor="#cccccc"/>
         </LinearLayout>
         <ImageView
             android:layout_width="match_parent"
@@ -284,6 +386,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@drawable/shadow_top"/>
         <LinearLayout
             android:id="@+id/option_click3"
             android:layout_width="match_parent"
@@ -299,7 +405,7 @@
                 android:layout_weight="1"
                 android:text="동작 감지 녹화 설정"
                 android:textStyle="bold"
-                android:textColor="#333333"
+                android:textColor="#666666"
                 />
             <TextView
                 android:id="@+id/ar_up3"
@@ -307,23 +413,30 @@
                 android:layout_height="30dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/arrow_up"
+                android:backgroundTint="#666666"
                 android:gravity="center"
-                android:textColor="@color/white" />
+                android:textColor="#666666" />
             <TextView
                 android:id="@+id/ar_down3"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/arrow_down"
+                android:backgroundTint="#666666"
                 android:gravity="center"
                 android:layout_gravity="center" />
         </LinearLayout>
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
         <LinearLayout
             android:id="@+id/option_visible3"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center">
             <LinearLayout
                 android:layout_marginLeft="10dp"
                 android:layout_width="0dp"
@@ -333,7 +446,7 @@
                     android:gravity="center"
                     android:inputType="number"
                     android:id="@+id/motion_time"
-                    android:textSize="18dp"
+                    android:textSize="14dp"
                     android:textStyle="bold"
                     android:textColor="#666666"
                     android:hint="sec"
@@ -345,12 +458,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:text="초씩"/>
+                    android:text="초씩"
+                    android:textSize="12dp"
+                    android:textStyle="bold"
+                    android:textColor="#888888"/>
                 <EditText
                     android:gravity="center"
                     android:inputType="number"
                     android:id="@+id/motion_count"
-                    android:textSize="18dp"
+                    android:textSize="14dp"
                     android:textStyle="bold"
                     android:textColor="#666666"
                     android:hint="횟수"
@@ -362,25 +478,35 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:text="번 녹화"/>
+                    android:text="번 녹화"
+                    android:textSize="12dp"
+                    android:textStyle="bold"
+                    android:textColor="#888888"/>
             </LinearLayout>
-
             <TextView
                 android:background="@drawable/save_24"
                 android:id="@+id/save_motion"
                 android:layout_margin="10dp"
-                android:backgroundTint="#888888"
+                android:backgroundTint="#666666"
                 android:gravity="center"
                 android:layout_width="30dp"
                 android:layout_height="30dp"/>
+        </LinearLayout>
+            <TextView
+                android:id="@+id/save_motion_check"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="5dp"
+                android:text="기본 설정값입니다."
+                android:textSize="10dp"
+                android:textStyle="bold"
+                android:textColor="#cccccc"/>
         </LinearLayout>
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="10dp"
             android:background="@drawable/shadow_bottom"/>
     </LinearLayout>
-
-
-
-
 </LinearLayout>

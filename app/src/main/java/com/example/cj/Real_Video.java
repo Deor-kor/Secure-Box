@@ -1,10 +1,5 @@
 package com.example.cj;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
@@ -19,10 +14,14 @@ import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -63,8 +62,10 @@ public class Real_Video extends AppCompatActivity {
     ArrayList<Ob_Log> arrayList;
 
     TextView log_delete;
+    TextView real_video_text;
 
     BackPressClose  backPressClose;
+    LinearLayout drive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +104,16 @@ public class Real_Video extends AppCompatActivity {
                     String value = snapshot.getValue().toString();
                     url= value+"/stream";
                     webview.loadUrl(url);
+
+                    drive = (LinearLayout)findViewById(R.id.drive);
+                    drive.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(Real_Video.this,Aduino_Activity.class);
+                            intent.putExtra("url",url);
+                            startActivity(intent);
+                        }
+                    });
                 }
                 catch (NullPointerException nullPointerException){
 
@@ -113,6 +124,8 @@ public class Real_Video extends AppCompatActivity {
 
             }
         });
+
+
 
         Random random = new Random();
         check_power = String.valueOf(random.nextInt(99999));
@@ -179,7 +192,7 @@ public class Real_Video extends AppCompatActivity {
                     }, 3000);
 
 
-
+                    real_video_text = (TextView)findViewById(R.id.real_video_text);
                     webview.setOnTouchListener(new View.OnTouchListener() {
                         @SuppressLint("ClickableViewAccessibility")
                         @Override
@@ -187,7 +200,15 @@ public class Real_Video extends AppCompatActivity {
 
                             if (check_power.equals(value)){//앱에서 보낸신호가 블랙박스랑 일치하면 블랙박스 연결
                                 webview.loadUrl(url);
-                                Toast.makeText(Real_Video.this, "새로고침", Toast.LENGTH_SHORT).show();
+                                real_video_text.setText("Load image..");
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        real_video_text.setText("새로고침을 하려면 화면을 클릭해 주세요.");
+                                    }
+                                },2000);
+
+                                // Toast.makeText(Real_Video.this, "새로고침", Toast.LENGTH_SHORT).show();
                             }
                             else{
                                 try {
@@ -275,10 +296,11 @@ public class Real_Video extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                databaseReference_p.setValue("ON");
-                Toast.makeText(Real_Video.this, "사진을 캡쳐했습니다.", Toast.LENGTH_SHORT).show();
-             //   Intent intent = new Intent(Real_Video.this,Photo.class);
-             //   startActivity(intent);
+             //   databaseReference_p.setValue("ON");
+             //   Toast.makeText(Real_Video.this, "사진을 캡쳐했습니다.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Real_Video.this,Photo.class);
+                intent.putExtra("url",url);
+                startActivity(intent);
 
 
             }
@@ -287,6 +309,7 @@ public class Real_Video extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Real_Video.this,Video.class);
+                intent.putExtra("url",url);
                 startActivity(intent);
             }
         });

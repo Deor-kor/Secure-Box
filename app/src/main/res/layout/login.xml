@@ -38,10 +38,10 @@
             android:background="@drawable/shadow_all">
             <TextView
                 android:id="@+id/number"
-                android:textColor="#666666"
+                android:textColor="#cccccc"
                 android:background="#40ffffff"
                 android:gravity="center"
-                android:textSize="16dp"
+                android:textSize="14dp"
                 android:hint="phone number"
                 android:textStyle="bold"
                 android:maxLines="1"

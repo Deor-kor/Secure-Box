@@ -1,15 +1,16 @@
 package com.example.cj;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextClock;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,7 +21,8 @@ import com.google.firebase.database.ValueEventListener;
 public class Option extends AppCompatActivity {
 
     EditText ip,auto_time,auto_count,motion_time,motion_count,video_time;
-    TextView save_ip,save_auto,save_motion,save_video;
+    TextView save_ip,save_auto,save_motion,save_video, option_ref;
+    TextView save_video_check, save_auto_check, save_motion_check, save_ip_check; // 변경사항 확인
     FirebaseDatabase database;
     DatabaseReference databaseReference;
     DatabaseReference databaseReference_autoTime;
@@ -33,6 +35,9 @@ public class Option extends AppCompatActivity {
     int count1, count2, count3 = 0;
     TextView ar_up1,ar_down1,ar_up2,ar_down2,ar_up3,ar_down3;
     TextView option_back;
+//    LinearLayout version_check;
+//    TextView version_check_text;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,6 +129,7 @@ public class Option extends AppCompatActivity {
 
         ip = (EditText)findViewById(R.id.ip);
         save_ip = (TextView)findViewById(R.id.save_ip);
+        save_ip_check = (TextView)findViewById(R.id.save_ip_check);
         database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
         databaseReference = database.getReference("system").child("option").child("ip");
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -137,7 +143,20 @@ public class Option extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             databaseReference.setValue(ip.getText().toString());
-                            Toast.makeText(Option.this, "IP 변경 완료", Toast.LENGTH_SHORT).show();
+                            save_ip_check.setText("IP 설정값을 변경했습니다.");
+                            save_ip_check.setTextColor(Color.parseColor("#cccccc"));
+                            save_ip.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#669966")));
+                            ip.setTextColor(Color.parseColor("#669966"));
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    save_ip_check.setText("");
+                                    save_ip_check.setTextColor(Color.parseColor("#666666"));
+                                    ip.setTextColor(Color.parseColor("#666666"));
+                                    save_ip.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#666666")));
+                                }
+                            },2000);
+                            // Toast.makeText(Option.this, "IP 변경 완료", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -151,6 +170,22 @@ public class Option extends AppCompatActivity {
 
             }
         });
+
+//        version_check = (LinearLayout)findViewById(R.id.version_check);
+//        version_check_text = (TextView) findViewById(R.id.version_check_text);
+//        version_check.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                version_check_text.setText("업데이트가 필요하지 않습니다.");
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        version_check_text.setText("버젼 업데이트시 클릭");
+//                    }
+//                },2000);
+//            }
+//        });
+
 
         auto_time = (EditText)findViewById(R.id.auto_time);
         auto_count = (EditText)findViewById(R.id.auto_count);
@@ -197,7 +232,22 @@ public class Option extends AppCompatActivity {
             public void onClick(View v) {
                 databaseReference_autoTime.setValue(Integer.parseInt(auto_time.getText().toString()));
                 databaseReference_autoCount.setValue(Integer.parseInt(auto_count.getText().toString()));
-                Toast.makeText(Option.this, "자동 녹화 옵션 설정 완료", Toast.LENGTH_SHORT).show();
+                save_auto_check.setText("녹화 옵션이 변경되었습니다.");
+                save_auto_check.setTextColor(Color.parseColor("#cccccc"));
+                auto_time.setTextColor(Color.parseColor("#669966"));
+                auto_count.setTextColor(Color.parseColor("#669966"));
+                save_auto.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#669966")));
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        save_auto_check.setText("");
+                        save_auto_check.setTextColor(Color.parseColor("#cccccc"));
+                        auto_time.setTextColor(Color.parseColor("#666666"));
+                        auto_count.setTextColor(Color.parseColor("#666666"));
+                        save_auto.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#666666")));
+                    }
+                },2000);
+                // Toast.makeText(Option.this, "자동 녹화 옵션 설정 완료", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -250,7 +300,22 @@ public class Option extends AppCompatActivity {
             public void onClick(View v) {
                 databaseReference_motionTime.setValue(Integer.parseInt(motion_time.getText().toString()));
                 databaseReference_motionCount.setValue(Integer.parseInt(motion_count.getText().toString()));
-                Toast.makeText(Option.this, "모션 감지 녹화 옵션 설정 완료", Toast.LENGTH_SHORT).show();
+                save_motion_check.setText("녹화 옵션이 변경되었습니다.");
+                save_motion_check.setTextColor(Color.parseColor("#cccccc"));
+                motion_time.setTextColor(Color.parseColor("#669966"));
+                motion_count.setTextColor(Color.parseColor("#669966"));
+                save_motion.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#669966")));
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        save_motion_check.setText("");
+                        save_motion_check.setTextColor(Color.parseColor("#cccccc"));
+                        motion_time.setTextColor(Color.parseColor("#666666"));
+                        motion_count.setTextColor(Color.parseColor("#666666"));
+                        save_motion.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#666666")));
+                    }
+                },2000);
+                // Toast.makeText(Option.this, "모션 감지 녹화 옵션 설정 완료", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -281,7 +346,77 @@ public class Option extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 databaseReference_videoTime.setValue(Integer.parseInt(video_time.getText().toString()));
-                Toast.makeText(Option.this, "일반 녹화 옵션 설정 완료", Toast.LENGTH_SHORT).show();
+                save_video_check.setText("녹화 옵션이 변경되었습니다.");
+                save_video_check.setTextColor(Color.parseColor("#cccccc"));
+                video_time.setTextColor(Color.parseColor("#669966"));
+                save_video.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#669966")));
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        save_video_check.setText("");
+                        save_video_check.setTextColor(Color.parseColor("#cccccc"));
+                        video_time.setTextColor(Color.parseColor("#666666"));
+                        save_video.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#666666")));
+                    }
+                },2000);
+                // Toast.makeText(Option.this, "일반 녹화 옵션 설정 완료", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        save_video_check = (TextView)findViewById(R.id.save_video_check);
+        save_auto_check = (TextView)findViewById(R.id.save_auto_check);
+        save_motion_check = (TextView)findViewById(R.id.save_motion_check);
+
+        save_video_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        save_auto_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        save_motion_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
+        option_ref = (TextView)findViewById(R.id.option_ref);
+        option_ref.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                video_time.setText("60"); // 일반 녹화 초 설정 초기화
+                auto_time.setText("60"); auto_count.setText("10"); // 자동 녹화 초, 횟수 설정 초기화
+                motion_time.setText("60"); motion_count.setText("10"); // 모션 녹화 초, 횟수 설정 초기화
+                video_time.setTextColor(Color.parseColor("#669966"));
+                auto_time.setTextColor(Color.parseColor("#669966"));
+                auto_count.setTextColor(Color.parseColor("#669966"));
+                motion_time.setTextColor(Color.parseColor("#669966"));
+                motion_count.setTextColor(Color.parseColor("#669966"));
+                save_video_check.setText("기본 설정값입니다.");
+                save_auto_check.setText("기본 설정값입니다.");
+                save_motion_check.setText("기본 설정값입니다.");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        video_time.setTextColor(Color.parseColor("#666666"));
+                        auto_time.setTextColor(Color.parseColor("#666666"));
+                        auto_count.setTextColor(Color.parseColor("#666666"));
+                        motion_time.setTextColor(Color.parseColor("#666666"));
+                        motion_count.setTextColor(Color.parseColor("#666666"));
+                    }
+                },2000);
+                databaseReference_videoTime.setValue(Integer.parseInt(video_time.getText().toString())); // 일반 녹화 설정
+                databaseReference_autoTime.setValue(Integer.parseInt(auto_time.getText().toString())); // 자동 녹화 설정
+                databaseReference_autoCount.setValue(Integer.parseInt(auto_count.getText().toString())); // 자동 녹화 설정
+                databaseReference_motionTime.setValue(Integer.parseInt(motion_time.getText().toString())); // 모션 감지 녹화 설정
+                databaseReference_motionCount.setValue(Integer.parseInt(motion_count.getText().toString())); // 모션 감지 녹화 설정
             }
         });
 
