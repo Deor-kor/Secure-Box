@@ -162,6 +162,16 @@ public class Arduino_Activity extends AppCompatActivity {
             }
         });
 
+        try {
+            BTSend.interrupt();   // 데이터 송신 쓰레드 종료
+            mInputStream.close();
+            mOutputStream.close();
+            bSocket.close();
+            onBT = false;
+            BTButton.setText("connect");
+        } catch (Exception ignored) {
+        }
+
         BTButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -244,28 +254,28 @@ public class Arduino_Activity extends AppCompatActivity {
             }
         });
 
-        manual_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(count2%2==0){
-                    databaseReference.child("자율주행").child("auto").child("mode").setValue("OFF");
-                    databaseReference.child("수동주행").child("manual").child("mode").setValue("ON");
-                    android_date = "m";
-                    sendbtData(android_date);
-                    count2++;
-                }
-                else if(count2%2==1){
-                    databaseReference.child("자율주행").child("auto").child("mode").setValue("OFF");
-                    databaseReference.child("수동주행").child("manual").child("mode").setValue("OFF");
-                    android_date = "y";
-                    sendbtData(android_date);
-                    count2++;
-                }
-
-
-            }
-        });
+//        manual_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if(count2%2==0){
+//                    databaseReference.child("자율주행").child("auto").child("mode").setValue("OFF");
+//                    databaseReference.child("수동주행").child("manual").child("mode").setValue("ON");
+//                    android_date = "m";
+//                    sendbtData(android_date);
+//                    count2++;
+//                }
+//                else if(count2%2==1){
+//                    databaseReference.child("자율주행").child("auto").child("mode").setValue("OFF");
+//                    databaseReference.child("수동주행").child("manual").child("mode").setValue("OFF");
+//                    android_date = "z";
+//                    sendbtData(android_date);
+//                    count2++;
+//                }
+//
+//
+//            }
+//        });
 
 
 
