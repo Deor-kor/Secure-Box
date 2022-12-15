@@ -226,15 +226,18 @@ public class Arduino_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
                 if(count1%2==0){
                     databaseReference.child("자율주행").child("auto").child("mode").setValue("ON");
                     databaseReference.child("수동주행").child("manual").child("mode").setValue("OFF");
+                    android_date = "a";
+                    sendbtData(android_date);
                     count1++;
                 }
                 else if(count1%2==1){
                     databaseReference.child("자율주행").child("auto").child("mode").setValue("OFF");
                     databaseReference.child("수동주행").child("manual").child("mode").setValue("OFF");
+                    android_date = "y";
+                    sendbtData(android_date);
                     count1++;
                 }
 
@@ -248,11 +251,15 @@ public class Arduino_Activity extends AppCompatActivity {
                 if(count2%2==0){
                     databaseReference.child("자율주행").child("auto").child("mode").setValue("OFF");
                     databaseReference.child("수동주행").child("manual").child("mode").setValue("ON");
+                    android_date = "m";
+                    sendbtData(android_date);
                     count2++;
                 }
                 else if(count2%2==1){
                     databaseReference.child("자율주행").child("auto").child("mode").setValue("OFF");
                     databaseReference.child("수동주행").child("manual").child("mode").setValue("OFF");
+                    android_date = "y";
+                    sendbtData(android_date);
                     count2++;
                 }
 
@@ -261,18 +268,19 @@ public class Arduino_Activity extends AppCompatActivity {
         });
 
 
+
         front.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 int action = event.getAction();
 
                 if (action == MotionEvent.ACTION_DOWN) {
-                 //   Toast.makeText(Arduino_Activity.this, "전진", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Arduino_Activity.this, "전진", Toast.LENGTH_SHORT).show();
                     android_date = "g";
                     sendbtData(android_date);
                 } else if (action == MotionEvent.ACTION_UP) {
                     android_date = "s";
-                 //   Toast.makeText(Arduino_Activity.this, "멈춤", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Arduino_Activity.this, "멈춤", Toast.LENGTH_SHORT).show();
                     sendbtData(android_date);
                 }
                 return false;
