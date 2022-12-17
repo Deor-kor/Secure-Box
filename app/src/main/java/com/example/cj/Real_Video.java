@@ -34,57 +34,51 @@ import java.util.Random;
 
 public class Real_Video extends AppCompatActivity {
 
-    WebView webview;
-    DatabaseReference databaseReference_ip;
     String url;
+    WebView webview;
     WebSettings webSettings;
-    LinearLayout refresh;
     FirebaseDatabase database;
     DatabaseReference databaseReference_p;
     DatabaseReference databaseReference_v;
     DatabaseReference databaseReference_auto;
     DatabaseReference databaseReference_motion;
-    String value_p,value_v;
-
     DatabaseReference databaseReference1;
     DatabaseReference databaseReference2;
-    String check_power;
-    String value;
-
-    Dialog dialog;
-    LinearLayout power;
-
-    LinearLayout photo,video,option,gallery;
+    DatabaseReference databaseReference_ip;
 
     RecyclerView recyclerview ;
     RecyclerView.Adapter adapter;
     DatabaseReference databaseReference_log;
     ArrayList<Ob_Log> arrayList;
 
-    TextView log_delete;
-    TextView real_video_text;
+    String check_power;
+    String value;
+
+    Dialog dialog;
+    LinearLayout power;
+
+    LinearLayout photo,video,option,gallery,drive;
+    TextView log_delete,real_video_text;
 
     BackPressClose  backPressClose;
-    LinearLayout drive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.real_video);
-
+        //뒤로가기 두번 눌렀을 때 앱 종료 메소드
         backPressClose = new BackPressClose(this);
 
+        //블랙박스와 연결 확인용 다이얼로그
         dialog = new Dialog(this);  //다이어로그 초기화
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //타이틀 제거
         dialog.setContentView(R.layout.power_dialog);
         dialog.setCanceledOnTouchOutside(false); //다이얼로그 바깥화면 터치 비활성화 코드
-        //    dialog.setCancelable(false); //뒤로가기 비활성화
+      //dialog.setCancelable(false); //뒤로가기 비활성화
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); //투명
         power = dialog.findViewById(R.id.power);
 
-        refresh = (LinearLayout) findViewById(R.id.refresh);
-        database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
-
+        //실시간 영상을 보여줄 웹뷰
         webview = (WebView)findViewById(R.id.webview);
         webview.setWebViewClient(new WebViewClient());
         webSettings = webview.getSettings();
@@ -96,6 +90,9 @@ public class Real_Video extends AppCompatActivity {
         webSettings.setSupportZoom(false); // 화면 줌 허용 여부
         webSettings.setBuiltInZoomControls(false); // 화면 확대 축소 허용 여부
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE); // 브라우저 캐시 허용 여부
+
+
+        database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
         databaseReference_ip = database.getReference("system").child("option").child("ip");
         databaseReference_ip.addValueEventListener(new ValueEventListener() {
             @Override
@@ -125,11 +122,7 @@ public class Real_Video extends AppCompatActivity {
             }
         });
 
-
-
-        Random random = new Random();
-        check_power = String.valueOf(random.nextInt(99999));
-
+        //모든 카메라의 초기값을 OFF로 세팅
         databaseReference_v = database.getReference("video").child("video").child("power");
         databaseReference_p = database.getReference("photo").child("photo").child("power");
         databaseReference_auto = database.getReference("video_auto").child("video_auto").child("power");
@@ -139,6 +132,9 @@ public class Real_Video extends AppCompatActivity {
         databaseReference_auto.setValue("OFF");
         databaseReference_motion.setValue("OFF");
 
+        //블랙박스와 앱이 서로 신호를 주고받아 일치하면 앱을 이용 가능하게 하는 코드
+        Random random = new Random();
+        check_power = String.valueOf(random.nextInt(99999));
         databaseReference1 =database.getReference("system").child("stop").child("power");
         databaseReference2 =database.getReference("system").child("stop").child("raspi");
         databaseReference1.setValue(check_power); //블랙박스에 신호를 보냄
@@ -193,6 +189,8 @@ public class Real_Video extends AppCompatActivity {
 
 
                     real_video_text = (TextView)findViewById(R.id.real_video_text);
+                    real_video_text.setText("Load image..");
+
                     webview.setOnTouchListener(new View.OnTouchListener() {
                         @SuppressLint("ClickableViewAccessibility")
                         @Override
@@ -200,7 +198,7 @@ public class Real_Video extends AppCompatActivity {
 
                             if (check_power.equals(value)){//앱에서 보낸신호가 블랙박스랑 일치하면 블랙박스 연결
                                 webview.loadUrl(url);
-                                real_video_text.setText("Load image..");
+
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
@@ -213,11 +211,12 @@ public class Real_Video extends AppCompatActivity {
                             else{
                                 try {
                                     dialog.show();
+                                    Toast.makeText(Real_Video.this, "블랙박스 전원이 꺼져있습니다.", Toast.LENGTH_SHORT).show();
                                 }
                                 catch (WindowManager.BadTokenException e){
 
                                 }
-                                Toast.makeText(Real_Video.this, "블랙박스 전원이 꺼져있습니다.", Toast.LENGTH_SHORT).show();
+
 
                             }
 
@@ -225,12 +224,8 @@ public class Real_Video extends AppCompatActivity {
                         }
                     });
 
-
-
-
                 }
                 catch (NullPointerException nullPointerException){
-
 
                 }
             }
@@ -241,70 +236,18 @@ public class Real_Video extends AppCompatActivity {
             }
         });
 
-
-        database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
-        databaseReference_p.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                try {
-                    value_p = snapshot.getValue().toString();
-
-                    database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
-                    databaseReference_v.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            try {
-                                value_v = snapshot.getValue().toString();
-
-                                if(value_v.equals("OFF")&&value_p.equals("OFF"))
-                                {
-                                 //   refresh.setVisibility(View.VISIBLE);
-
-                                }
-                                else {
-                                 //   refresh.setVisibility(View.GONE);
-                                }
-                            }
-                            catch (NullPointerException nullPointerException){
-
-                            }
-                            catch (RuntimeException runtimeException){
-                            }
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                        }
-                    });
-
-                }
-                catch (NullPointerException nullPointerException){
-
-                }
-                catch (RuntimeException runtimeException){
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
 
         photo = (LinearLayout)findViewById(R.id.photo);
-        video = (LinearLayout)findViewById(R.id.video);
-        option =(LinearLayout)findViewById(R.id.option);
-
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-             //   databaseReference_p.setValue("ON");
-             //   Toast.makeText(Real_Video.this, "사진을 캡쳐했습니다.", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Real_Video.this,Photo.class);
                 intent.putExtra("url",url);
                 startActivity(intent);
-
-
             }
         });
+
+        video = (LinearLayout)findViewById(R.id.video);
         video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -313,6 +256,8 @@ public class Real_Video extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        option =(LinearLayout)findViewById(R.id.option);
         option.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -343,7 +288,6 @@ public class Real_Video extends AppCompatActivity {
                 }
                 catch (NullPointerException nullPointerException){
 
-
                 }
             }
 
@@ -354,6 +298,8 @@ public class Real_Video extends AppCompatActivity {
         });
         adapter = new CustomAdapter_Log(arrayList,Real_Video.this);
         recyclerview.setAdapter(adapter);
+
+
         log_delete = (TextView)findViewById(R.id.log_delete);
         log_delete.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -116,7 +116,7 @@ public  class CustomAdapter_Video extends RecyclerView.Adapter<CustomAdapter_Vid
                     }
 
                 }
-        });
+            });
 
         }
 

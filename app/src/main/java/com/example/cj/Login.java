@@ -47,11 +47,10 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        login = (LinearLayout) findViewById(R.id.login);
-        number = (TextView) findViewById(R.id.number);
-
+        //필요한 권한 설정 여부 메소드
         requestPermissions(PERMISSIONS, PERMISSION_ALL);
 
+        //DB에 저장되어 있는 유저 목록 불러오기
         arrayList = new ArrayList<>();
         database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
         databaseReference = database.getReference("user");
@@ -61,10 +60,9 @@ public class Login extends AppCompatActivity {
                 try {
                     arrayList.clear();
 
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren())
+                    {
                         arrayList.add(dataSnapshot.getValue(Ob_User.class));
-
                     }
 
                 }
@@ -79,23 +77,25 @@ public class Login extends AppCompatActivity {
             }
         });
 
-
+        number = (TextView) findViewById(R.id.number);
+        login = (LinearLayout) findViewById(R.id.login);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                //필요한 권한 설정 여부 메소드
                 requestPermissions(PERMISSIONS, PERMISSION_ALL);
-                for(Ob_User ob_user : arrayList){
-
-                    if(number.getText().toString().equals(ob_user.getNumber())){
+                //DB에 등록되어 있는 유저와 일치하는지 확인
+                for(Ob_User ob_user : arrayList)
+                {   //일치하면 로그인
+                    if(number.getText().toString().equals(ob_user.getNumber()))
+                    {
                         Intent intent = new Intent(Login.this,Real_Video.class);
                         startActivity(intent);
                         finish();
                         return;
-
                     }
-
                 }
+                //일치하지 않았을 때
                 Toast.makeText(Login.this, "등록된 전호번호가 아닙니다", Toast.LENGTH_SHORT).show();
             }
         });
@@ -106,16 +106,16 @@ public class Login extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-            if (hasPermission(Login.this, PERMISSIONS)) {
-
+            //요청한 권한이 설정되었을 때
+            if (hasPermission(Login.this, PERMISSIONS))
+            {
                 TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
                 if (ActivityCompat.checkSelfPermission(Login.this, Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
+                //number EDITTEXT에 전화번호 띄워줌
                 String user = telephonyManager.getLine1Number().replace("+82","0");
                 number.setText(user);
-
             }
             //요청한 권한이 거부되었을때 팝업창 띄어줌
             else {

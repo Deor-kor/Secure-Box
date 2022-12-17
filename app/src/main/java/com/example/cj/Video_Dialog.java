@@ -36,6 +36,5 @@ public class Video_Dialog extends AppCompatActivity {
         video.setMediaController(mediaController);
         mediaController.setAnchorView(video);
         video.start();
-
     }
 }

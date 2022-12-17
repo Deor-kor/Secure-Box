@@ -32,44 +32,38 @@ import java.util.ArrayList;
 public class Video extends AppCompatActivity {
 
     WebView webview;
+    WebSettings webSettings;
+
     FirebaseDatabase database;
     DatabaseReference databaseReference;
     LinearLayout text1,text2,text3;
     RecyclerView list;
     ArrayList<Ob_List> arraylist;
-    DatabaseReference databaseReference_video;
     RecyclerView.Adapter adapter;
-
-    DatabaseReference databaseReference_p;
-
-    String photo_power;
-    TextView check;
 
     DatabaseReference databaseReference1;
     DatabaseReference databaseReference2;
     DatabaseReference databaseReference_auto;
+    DatabaseReference databaseReference_motion;
+    DatabaseReference databaseReference_p;
+    DatabaseReference databaseReference_video;
     String raspi_power1,raspi_power2,value_1,value_2,value_3;
 
     Dialog dialog;
     LinearLayout power;
 
-    TextView option;
-    DatabaseReference databaseReference_motion;
+    String photo_power;
+
     LinearLayout stop1, stop2, stop3;
-    TextView all_delete;
+    TextView all_delete,check,log_back,link_gallery;
     long backKeyPressedTime = 0; //뒤로가기 버튼을 누른 시간
-    TextView log_back;
-    TextView link_gallery;
-    WebSettings webSettings;
-    String check_power;
-    String value;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.video);
 
-
+        //블랙박스와 연결 확인용 다이얼로그
         dialog = new Dialog(Video.this);  //다이어로그 초기화
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //타이틀 제거
         dialog.setContentView(R.layout.power_dialog);
@@ -77,6 +71,7 @@ public class Video extends AppCompatActivity {
         //    dialog.setCancelable(false); //뒤로가기 비활성화
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); //투명
         power = dialog.findViewById(R.id.power);
+
         all_delete = (TextView)findViewById(R.id.all_delete);
         stop1 = (LinearLayout)findViewById(R.id.stop1);
         stop1.setVisibility(View.GONE);
@@ -89,11 +84,8 @@ public class Video extends AppCompatActivity {
         text1 = (LinearLayout)findViewById(R.id.text1);
         text2 = (LinearLayout)findViewById(R.id.text2);
         text3  = (LinearLayout)findViewById(R.id.text3);
-        webview = (WebView)findViewById(R.id.webview);
 
-        check = (TextView)findViewById(R.id.check);
-        check.setVisibility(View.INVISIBLE);
-        all_delete = (TextView)findViewById(R.id.all_delete);
+        //실시간 영상을 보여줄 웹뷰
         webview = (WebView)findViewById(R.id.webview);
         webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true); // 웹페이지 자바스크립트 허용 여부
@@ -106,36 +98,9 @@ public class Video extends AppCompatActivity {
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE); // 브라우저 캐시 허용 여부
         webview.loadUrl(getIntent().getStringExtra("url"));
 
-//        Random random = new Random();
-//        check_power = String.valueOf(random.nextInt(99999));
-//
-//        webview.setOnTouchListener(new View.OnTouchListener() {
-//            @SuppressLint("ClickableViewAccessibility")
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//
-//                if (check_power.equals(value)){//앱에서 보낸신호가 블랙박스랑 일치하면 블랙박스 연결
-//                    webview.loadUrl(getIntent().getStringExtra("url"));
-//                    Toast.makeText(Video.this, "새로고침", Toast.LENGTH_SHORT).show();
-//                }
-//                else{
-//                    try {
-//                        dialog.show();
-//                    }
-//                    catch (WindowManager.BadTokenException e){
-//
-//                    }
-//                    Toast.makeText(Video.this, "블랙박스 전원이 꺼져있습니다.", Toast.LENGTH_SHORT).show();
-//
-//                }
-//
-//                return false;
-//            }
-//        });
-
+        //블랙박스와 앱의 연결 확인
         database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
         databaseReference1 =database.getReference("system").child("stop").child("power");
-        databaseReference2 =database.getReference("system").child("stop").child("raspi");
         databaseReference1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -143,7 +108,6 @@ public class Video extends AppCompatActivity {
                     raspi_power1 = snapshot.getValue().toString();
                 }
                 catch (NullPointerException nullPointerException){
-
 
                 }
             }
@@ -154,6 +118,7 @@ public class Video extends AppCompatActivity {
             }
         });
 
+        databaseReference2 =database.getReference("system").child("stop").child("raspi");
         databaseReference2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -172,6 +137,7 @@ public class Video extends AppCompatActivity {
             }
         });
 
+        //저장되어있는 녹화파일 목록
         list = (RecyclerView)findViewById(R.id.list1);
         list.setLayoutManager(new GridLayoutManager(this,3));
         list.setHasFixedSize(true);
@@ -205,8 +171,6 @@ public class Video extends AppCompatActivity {
         adapter = new CustomAdapter_Video(arraylist,Video.this);
         list.setAdapter(adapter);
 
-
-
         databaseReference_p = database.getReference("photo").child("photo").child("power");
         databaseReference_p.addValueEventListener(new ValueEventListener() {
             @Override
@@ -222,7 +186,6 @@ public class Video extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             try {
                                 value_1 = snapshot.getValue().toString();
-                              //  text1.setText(value_1);
 
                                 databaseReference_auto =database.getReference("video_auto").child("video_auto").child("power");
                                 databaseReference_auto.addValueEventListener(new ValueEventListener() {
@@ -230,7 +193,6 @@ public class Video extends AppCompatActivity {
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         try {
                                             value_2 = snapshot.getValue().toString();
-                                        //    text2.setText(value_2);
 
                                             databaseReference_motion = database.getReference("motion").child("motion").child("power");
                                             databaseReference_motion.addValueEventListener(new ValueEventListener() {
@@ -238,7 +200,7 @@ public class Video extends AppCompatActivity {
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                     try {
                                                         value_3 = snapshot.getValue().toString();
-//                                                        text3.setText(value_3);
+//                                                      //활성화 중인 녹화 기능을 제외하고는 비활성으로 표시
                                                         if (value_1.equals("ON")||value_2.equals("ON")||value_3.equals("ON")){
                                                             stop1.setVisibility(View.VISIBLE);
                                                             stop2.setVisibility(View.VISIBLE);
@@ -413,8 +375,6 @@ public class Video extends AppCompatActivity {
                                                         });
 
 
-
-
                                                         //일반 동영상
                                                         text1.setOnClickListener(new View.OnClickListener() {
                                                             @Override
@@ -501,8 +461,6 @@ public class Video extends AppCompatActivity {
                                                                 }
                                                             }
                                                         });
-
-
 
 
                                                         //자동 동영상
@@ -640,6 +598,7 @@ public class Video extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
         log_back = (TextView)findViewById(R.id.log_back);
         log_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -647,6 +606,7 @@ public class Video extends AppCompatActivity {
                 finish();
             }
         });
+
         link_gallery = (TextView)findViewById(R.id.link_gallery);
         link_gallery.setOnClickListener(new View.OnClickListener() {
             @Override

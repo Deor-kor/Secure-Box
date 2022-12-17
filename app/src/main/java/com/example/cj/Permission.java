@@ -15,6 +15,7 @@ import android.widget.TextView;
 public class Permission extends AppCompatActivity {
 
     TextView close, set;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +31,8 @@ public class Permission extends AppCompatActivity {
                 finish();
             }
         });
-        //알 수 없는 앱 설치하기 권한
+
+        //권한 설정화면으로 이동
         set = (TextView)findViewById(R.id.set);
         set.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -6,7 +6,6 @@ public class Ob_User {
     String number;
 
     public Ob_User() {
-        
     }
 
     public Ob_User(String name, String number) {
@@ -17,7 +16,6 @@ public class Ob_User {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -25,7 +23,6 @@ public class Ob_User {
     public String getNumber() {
         return number;
     }
-
     public void setNumber(String number) {
         this.number = number;
     }

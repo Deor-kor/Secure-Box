@@ -33,33 +33,29 @@ import java.util.ArrayList;
 public class Photo extends AppCompatActivity {
 
     WebView webview;
+    WebSettings webSettings;
+
     FirebaseDatabase database;
     DatabaseReference databaseReference;
     LinearLayout text;
     RecyclerView list;
     ArrayList<Ob_List> arraylist;
-    DatabaseReference databaseReference_photo;
     RecyclerView.Adapter adapter;
 
-    DatabaseReference databaseReference_v;
-    TextView check;
-    TextView photo_on_off;
     DatabaseReference databaseReference1;
     DatabaseReference databaseReference2;
     DatabaseReference databaseReference_auto;
+    DatabaseReference databaseReference_v;
+    DatabaseReference databaseReference_motion;
+    DatabaseReference databaseReference_photo;
     String raspi_power1,raspi_power2,value_1,value_2,value_3,photo_power;
 
     Dialog dialog;
     LinearLayout power;
 
-    DatabaseReference databaseReference_motion;
-    TextView all_delete;
+    TextView log_back,photo_on_off_text,photo_on_off,link_gallery,all_delete,check;
+
     long backKeyPressedTime = 0; //뒤로가기 버튼을 누른 시간
-    TextView log_back;
-    TextView link_gallery;
-    WebSettings webSettings;
-    String check_power;
-    TextView photo_on_off_text;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -67,7 +63,7 @@ public class Photo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photo);
 
-
+        //블랙박스와 연결 확인용 다이얼로그
         dialog = new Dialog(Photo.this);  //다이어로그 초기화
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //타이틀 제거
         dialog.setContentView(R.layout.power_dialog);
@@ -80,6 +76,8 @@ public class Photo extends AppCompatActivity {
         check.setVisibility(View.INVISIBLE);
         text = (LinearLayout)findViewById(R.id.text);
         all_delete = (TextView)findViewById(R.id.all_delete);
+
+        //실시간 영상을 보여줄 웹뷰
         webview = (WebView)findViewById(R.id.webview);
         webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true); // 웹페이지 자바스크립트 허용 여부
@@ -92,45 +90,18 @@ public class Photo extends AppCompatActivity {
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE); // 브라우저 캐시 허용 여부
         webview.loadUrl(getIntent().getStringExtra("url"));
 
-//        Random random = new Random();
-//        check_power = String.valueOf(random.nextInt(99999));
-//
-//        webview.setOnTouchListener(new View.OnTouchListener() {
-//            @SuppressLint("ClickableViewAccessibility")
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//
-//                if (check_power.equals(value)){//앱에서 보낸신호가 블랙박스랑 일치하면 블랙박스 연결
-//                    webview.loadUrl(getIntent().getStringExtra("url"));
-//                    Toast.makeText(Photo.this, "새로고침", Toast.LENGTH_SHORT).show();
-//                }
-//                else{
-//                    try {
-//                        dialog.show();
-//                    }
-//                    catch (WindowManager.BadTokenException e){
-//
-//                    }
-//                    Toast.makeText(Photo.this, "블랙박스 전원이 꺼져있습니다.", Toast.LENGTH_SHORT).show();
-//
-//                }
-//
-//                return false;
-//            }
-//        });
-
+        //블랙박스와 앱의 연결 확인
         database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
         databaseReference1 =database.getReference("system").child("stop").child("power");
-        databaseReference2 =database.getReference("system").child("stop").child("raspi");
         databaseReference1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                try {
+                try
+                {
                     raspi_power1 = snapshot.getValue().toString();
                 }
                 catch (NullPointerException nullPointerException){
 
-
                 }
             }
 
@@ -140,12 +111,13 @@ public class Photo extends AppCompatActivity {
             }
         });
 
+        databaseReference2 =database.getReference("system").child("stop").child("raspi");
         databaseReference2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                try {
+                try
+                {
                     raspi_power2 = snapshot.getValue().toString();
-
                 }
                 catch (NullPointerException nullPointerException){
 
@@ -158,7 +130,7 @@ public class Photo extends AppCompatActivity {
             }
         });
 
-
+        //저장되어있는 사진 목록 불러오기
         list = (RecyclerView)findViewById(R.id.list);
         list.setLayoutManager(new GridLayoutManager(this,3));
         list.setHasFixedSize(true);
@@ -188,11 +160,11 @@ public class Photo extends AppCompatActivity {
 
             }
         });
-
         adapter = new CustomAdapter_Photo(arraylist,Photo.this);
         list.setAdapter(adapter);
+
+
         photo_on_off = (TextView)findViewById(R.id.photo_on_off);
-        // text.setBackground(getResources().getDrawable(R.drawable.photo_recording_on));
         databaseReference_v = database.getReference("video").child("video").child("power");
         databaseReference_v.addValueEventListener(new ValueEventListener() {
             @Override
@@ -209,7 +181,6 @@ public class Photo extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             try {
                                 photo_power = snapshot.getValue().toString();
-                              //  text.setText(value);
 
                                 if(photo_power.equals("ON"))
                                 {
@@ -225,16 +196,12 @@ public class Photo extends AppCompatActivity {
                                     check.setVisibility(View.INVISIBLE);
                                 }
 
-
-
                                 databaseReference_auto =database.getReference("video_auto").child("video_auto").child("power");
                                 databaseReference_auto.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         try {
                                             value_2 = snapshot.getValue().toString();
-
-
 
                                             databaseReference_motion = database.getReference("motion").child("motion").child("power");
                                             databaseReference_motion.addValueEventListener(new ValueEventListener() {
@@ -266,7 +233,7 @@ public class Photo extends AppCompatActivity {
 
                                                                 if (raspi_power1.equals(raspi_power2))
                                                                 {
-
+                                                                    //녹화 기능과 출동여부 확인(녹화중에는 사진캡쳐기능 사용할 수 없음)
                                                                     if(value_1.equals("ON")||value_2.equals("ON")||value_3.equals("ON"))
                                                                     {
                                                                         check.setVisibility(View.VISIBLE);
@@ -279,7 +246,6 @@ public class Photo extends AppCompatActivity {
                                                                                 check.setTextColor(Color.parseColor("#cccccc"));
                                                                             }
                                                                         },2000);
-                                                                        // Toast.makeText(Photo.this, "영상 녹화 중에는 사진 촬영 불가", Toast.LENGTH_SHORT).show();
                                                                     }
 
                                                                     else{
@@ -293,7 +259,6 @@ public class Photo extends AppCompatActivity {
 
                                                                     if (photo_power.equals("ON"))
                                                                     {
-
                                                                         Toast.makeText(Photo.this, "잠시만 기다려 주세요.", Toast.LENGTH_SHORT).show();
                                                                     }
 
@@ -383,6 +348,7 @@ public class Photo extends AppCompatActivity {
                 finish();
             }
         });
+
         link_gallery = (TextView)findViewById(R.id.link_gallery);
         link_gallery.setOnClickListener(new View.OnClickListener() {
             @Override

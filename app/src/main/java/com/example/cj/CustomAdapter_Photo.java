@@ -117,6 +117,7 @@ public  class CustomAdapter_Photo extends RecyclerView.Adapter<CustomAdapter_Pho
 
                 }
             });
+
         }
     }
 }

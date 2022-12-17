@@ -92,5 +92,6 @@ public class CustomAdapter_Log extends RecyclerView.Adapter<CustomAdapter_Log.Cu
             this.time = itemView.findViewById(R.id.time);
             this.log = itemView.findViewById(R.id.log);
         }
+
     }
 }

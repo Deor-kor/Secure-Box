@@ -28,28 +28,30 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class Gallery extends AppCompatActivity {
-    RecyclerView recyclerView1,recyclerView2;
+
     FirebaseDatabase database;
     DatabaseReference databaseReference_photo,databaseReference_video;
     ArrayList<Ob_List> arrayList_photo,arrayList_video;
     RecyclerView.Adapter adapter1,adapter2;
+    RecyclerView recyclerView1,recyclerView2;
+
     TextView log_back, photo_color ,video_color;
-    long backKeyPressedTime = 0; //뒤로가기 버튼을 누른 시간
     LinearLayout gallery_capture, galley_recording, all_delete_photo, all_delete_video;
+
+    long backKeyPressedTime = 0; //뒤로가기 버튼을 누른 시간
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gallery);
 
-        recyclerView1 = (RecyclerView)findViewById(R.id.recyclerviewe1);
-        recyclerView2 = (RecyclerView)findViewById(R.id.recyclerviewe2);
-        recyclerView2.setVisibility(GONE);
-        database = FirebaseDatabase.getInstance();
 
+
+        recyclerView1 = (RecyclerView)findViewById(R.id.recyclerviewe1);
         recyclerView1.setLayoutManager(new GridLayoutManager(this,3));
         recyclerView1.setHasFixedSize(true);
         arrayList_photo = new ArrayList<>();
+        database = FirebaseDatabase.getInstance();
         databaseReference_photo = database.getReference("photo").child("list");
         databaseReference_photo.addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
@@ -79,6 +81,8 @@ public class Gallery extends AppCompatActivity {
         adapter1 = new CustomAdapter_Photo(arrayList_photo, Gallery.this);
         recyclerView1.setAdapter(adapter1);
 
+        recyclerView2 = (RecyclerView)findViewById(R.id.recyclerviewe2);
+        recyclerView2.setVisibility(GONE);
         recyclerView2.setLayoutManager(new GridLayoutManager(this,3));
         recyclerView2.setHasFixedSize(true);
         arrayList_video= new ArrayList<>();
@@ -112,6 +116,7 @@ public class Gallery extends AppCompatActivity {
 
         adapter2 = new CustomAdapter_Video(arrayList_video, Gallery.this);
         recyclerView2.setAdapter(adapter2);
+
         log_back = (TextView)findViewById(R.id.log_back);
         log_back.setOnClickListener(new View.OnClickListener() {
             @Override

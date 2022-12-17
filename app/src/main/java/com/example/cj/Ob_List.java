@@ -8,7 +8,6 @@ public class Ob_List {
     String key;
 
     public Ob_List() {
-
     }
 
     public Ob_List(String url,String name,String date,String key) {

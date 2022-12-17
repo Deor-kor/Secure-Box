@@ -65,13 +65,13 @@ public class Arduino_Activity extends AppCompatActivity {
     WebSettings webSettings;
     TextView log_back;
     int count1 = 0;
-    int count2 = 0;
     LinearLayout manual_button,auto_button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.aduino_activity);
-
+        //블랙박스 RC카 자율주행 및 수동주행 제어 화면
 
         BTButton = (TextView) findViewById(R.id.btnBTCon);
         front = (Button) findViewById(R.id.front);
@@ -101,7 +101,6 @@ public class Arduino_Activity extends AppCompatActivity {
         databaseReference.child("자율주행").child("auto").child("mode").setValue("OFF");
         databaseReference.child("수동주행").child("manual").child("mode").setValue("OFF");
 
-
         stop1 = (LinearLayout) findViewById(R.id.stop1);
         stop2 = (LinearLayout) findViewById(R.id.stop2);
 
@@ -111,7 +110,7 @@ public class Arduino_Activity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
                     AUTO = snapshot.getValue().toString();
-                    //auto.setText(AUTO);
+
                     if (AUTO.equals("ON")) {
                         auto.setVisibility(View.GONE);
                         stop2.setVisibility(View.VISIBLE);
@@ -129,13 +128,14 @@ public class Arduino_Activity extends AppCompatActivity {
 
             }
         });
+
         databaseReference_manual = database.getReference("주행모드").child("수동주행").child("manual").child("mode");
         databaseReference_manual.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
                     MANUAL = snapshot.getValue().toString();
-                    //manual.setText(MANUAL);
+
                     if (MANUAL.equals("ON")) {
                         manual.setVisibility(View.GONE);
                         stop1.setVisibility(View.VISIBLE);
@@ -177,7 +177,6 @@ public class Arduino_Activity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (!onBT) { //Connect
-
 
                     mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
                     if (mBluetoothAdapter == null) { //장치가 블루투스를 지원하지 않는 경우.
@@ -253,30 +252,6 @@ public class Arduino_Activity extends AppCompatActivity {
 
             }
         });
-
-//        manual_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                if(count2%2==0){
-//                    databaseReference.child("자율주행").child("auto").child("mode").setValue("OFF");
-//                    databaseReference.child("수동주행").child("manual").child("mode").setValue("ON");
-//                    android_date = "m";
-//                    sendbtData(android_date);
-//                    count2++;
-//                }
-//                else if(count2%2==1){
-//                    databaseReference.child("자율주행").child("auto").child("mode").setValue("OFF");
-//                    databaseReference.child("수동주행").child("manual").child("mode").setValue("OFF");
-//                    android_date = "z";
-//                    sendbtData(android_date);
-//                    count2++;
-//                }
-//
-//
-//            }
-//        });
-
 
 
         front.setOnTouchListener(new View.OnTouchListener() {

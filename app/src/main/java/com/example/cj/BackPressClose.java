@@ -6,7 +6,6 @@ import android.widget.Toast;
 public class BackPressClose {
 
     long backKeyPressedTime = 0; //뒤로가기 버튼을 누른 시간
-    Toast toast; //안내문을 띄어 주기 위한 토스트 변수
     Activity activity;  //엑티비티를 입력 받을 변수
 
     //현재 엑티비티를 입력 받기 위한 생성자

@@ -23,6 +23,7 @@ public class Option extends AppCompatActivity {
     EditText ip,auto_time,auto_count,motion_time,motion_count,video_time;
     TextView save_ip,save_auto,save_motion,save_video, option_ref;
     TextView save_video_check, save_auto_check, save_motion_check, save_ip_check; // 변경사항 확인
+
     FirebaseDatabase database;
     DatabaseReference databaseReference;
     DatabaseReference databaseReference_autoTime;
@@ -30,40 +31,21 @@ public class Option extends AppCompatActivity {
     DatabaseReference databaseReference_motionTime;
     DatabaseReference databaseReference_motionCount;
     DatabaseReference databaseReference_videoTime;
+
     String AUTO_TIME,AUTO_COUNT,MOTION_TIME,MOTION_COUNT,VIDEO_TIME;
     LinearLayout option_visible1,option_visible2,option_visible3,option_click1,option_click2,option_click3;
-    int count1, count2, count3 = 0;
+
     TextView ar_up1,ar_down1,ar_up2,ar_down2,ar_up3,ar_down3;
     TextView option_back;
-//    LinearLayout version_check;
-//    TextView version_check_text;
+
+    int count1, count2, count3 = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.option);
-        option_visible1 = findViewById(R.id.option_visible1);
-        option_visible2 = findViewById(R.id.option_visible2);
-        option_visible3 = findViewById(R.id.option_visible3);
-        option_visible1.setVisibility(View.GONE);
-        option_visible2.setVisibility(View.GONE);
-        option_visible3.setVisibility(View.GONE);
 
-        option_click1 = findViewById(R.id.option_click1);
-        option_click2 = findViewById(R.id.option_click2);
-        option_click3 = findViewById(R.id.option_click3);
         option_back = findViewById(R.id.option_back);
-
-        ar_up1 = findViewById(R.id.ar_up1);
-        ar_down1 = findViewById(R.id.ar_down1);
-        ar_down1.setVisibility(View.GONE);
-        ar_up2 = findViewById(R.id.ar_up2);
-        ar_down2 = findViewById(R.id.ar_down2);
-        ar_down2.setVisibility(View.GONE);
-        ar_up3 = findViewById(R.id.ar_up3);
-        ar_down3 = findViewById(R.id.ar_down3);
-        ar_down3.setVisibility(View.GONE);
-
         option_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +53,13 @@ public class Option extends AppCompatActivity {
             }
         });
 
+
+        ar_up1 = findViewById(R.id.ar_up1);
+        ar_down1 = findViewById(R.id.ar_down1);
+        ar_down1.setVisibility(View.GONE);
+        option_visible1 = findViewById(R.id.option_visible1);
+        option_visible1.setVisibility(View.GONE);
+        option_click1 = findViewById(R.id.option_click1);
         option_click1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +78,14 @@ public class Option extends AppCompatActivity {
                 }
             }
         });
+
+
+        ar_up2 = findViewById(R.id.ar_up2);
+        ar_down2 = findViewById(R.id.ar_down2);
+        ar_down2.setVisibility(View.GONE);
+        option_visible2 = findViewById(R.id.option_visible2);
+        option_visible2.setVisibility(View.GONE);
+        option_click2 = findViewById(R.id.option_click2);
         option_click2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,6 +104,13 @@ public class Option extends AppCompatActivity {
                 }
             }
         });
+
+        ar_up3 = findViewById(R.id.ar_up3);
+        ar_down3 = findViewById(R.id.ar_down3);
+        ar_down3.setVisibility(View.GONE);
+        option_visible3 = findViewById(R.id.option_visible3);
+        option_visible3.setVisibility(View.GONE);
+        option_click3 = findViewById(R.id.option_click3);
         option_click3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,7 +160,6 @@ public class Option extends AppCompatActivity {
                                     save_ip.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#666666")));
                                 }
                             },2000);
-                            // Toast.makeText(Option.this, "IP 변경 완료", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -170,22 +173,6 @@ public class Option extends AppCompatActivity {
 
             }
         });
-
-//        version_check = (LinearLayout)findViewById(R.id.version_check);
-//        version_check_text = (TextView) findViewById(R.id.version_check_text);
-//        version_check.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                version_check_text.setText("업데이트가 필요하지 않습니다.");
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        version_check_text.setText("버젼 업데이트시 클릭");
-//                    }
-//                },2000);
-//            }
-//        });
-
 
         auto_time = (EditText)findViewById(R.id.auto_time);
         auto_count = (EditText)findViewById(R.id.auto_count);
@@ -247,12 +234,8 @@ public class Option extends AppCompatActivity {
                         save_auto.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#666666")));
                     }
                 },2000);
-                // Toast.makeText(Option.this, "자동 녹화 옵션 설정 완료", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
 
 
         motion_time = (EditText)findViewById(R.id.motion_time);
@@ -315,7 +298,6 @@ public class Option extends AppCompatActivity {
                         save_motion.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#666666")));
                     }
                 },2000);
-                // Toast.makeText(Option.this, "모션 감지 녹화 옵션 설정 완료", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -359,7 +341,6 @@ public class Option extends AppCompatActivity {
                         save_video.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#666666")));
                     }
                 },2000);
-                // Toast.makeText(Option.this, "일반 녹화 옵션 설정 완료", Toast.LENGTH_SHORT).show();
             }
         });
 
