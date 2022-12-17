@@ -1,0 +1,176 @@
+import pyrebase //파이어베이스 모듈
+import time     //현재시간 
+from picamera import PiCamera  //카메라 모듈
+from time import sleep 
+import os  //파이썬에서 리눅스 명령어 사용 
+import RPi.GPIO as GPIO  //인체 감지센서 모듈
+
+//인체 감지센서 연결 설정
+GPIO.setmode(GPIO.BCM)
+pirPin = 14
+GPIO.setup(pirPin, GPIO.IN, GPIO.PUD_UP)
+
+//파이어베이스 연결 설정 (안드로이드 앱에서 파이어베이스로 보낸 신호를 받기 위함)
+config = {
+    "apiKey": "",
+    "authDomain": "",
+    "databaseURL": "https://cj-2team-default-rtdb.firebaseio.com",
+    "projectId": "cj-2team",
+    "storageBucket": "cj-2team.appspot.com",
+    "messagingSenderId": "",
+    "appId": "1:433677858676:android:bc50d8b694f9ee758c1e21"
+}
+firebase = pyrebase.initialize_app(config)
+db = firebase.database()
+storage = firebase.storage()
+
+//블랙박스가 켜지는 순간 uv4l 실시간 영상 모드 ON
+os.system('sudo service uv4l_raspicam restart')
+
+//안드로이드 앱에서 파이어베이스로 보낸 신호를 감지하여 각종 신호에 맞는 사진, 녹화 기능을 활성화
+sleep(1.5)
+while(True):   	
+  value = db.child("system").child("stop").child("power").get()  //안드로이드 앱에서 보낸 신호를 블랙박스(라즈베리파이)에 받음
+  db.child("system").child("stop").update({"raspi":value.val()}) //받은 신호를 파이어베이스로 다시 보내기   (안드로이드 앱에서 보낸 신호와 블랙박스에서 보낸 신호가 일치하면 블랙박스 작동 가능) 
+  
+ //현재 시간 받아오기(파일 저장 및 파일 이름)
+  now = time.gmtime(time.time())
+  year = str(now.tm_year)
+  month = str(now.tm_mon)
+  day = str(now.tm_mday)
+  hour = str(now.tm_hour-3)
+  minute = str(now.tm_min)
+  second = str(now.tm_sec)
+
+  time1= year+month+day+hour+minute+second
+  photoname = time1+'.jpg' //사진파일 확장자
+  videoname = time1+'.h264'  //녹화파일 확장자
+ 
+ //사진,녹화 기능 활성화 신호 & 상세 녹화 설정 데이터 받아오기 
+  photodata = db.child("photo").child("photo").child("power").get()
+  videodata = db.child("video").child("video").child("power").get()
+  videodata_time = db.child("video").child("video").child("time").get()
+  auto_video_power = db.child("video_auto").child("video_auto").child("power").get()
+  auto_video_time = db.child("video_auto").child("video_auto").child("time").get()
+  auto_video_count = db.child("video_auto").child("video_auto").child("count").get()
+  motion_video_power = db.child("motion").child("motion").child("power").get()
+  motion_video_time = db.child("motion").child("motion").child("time").get()
+  motion_video_count = db.child("motion").child("motion").child("count").get()
+  
+  //사진 촬영 
+  if(photodata.val()=="ON"):   //파이어베이스에서 사진 촬영 신호가 ON이면 촬영 시작 
+     os.system('sudo pkill uv4l') //촬영 중에는 실시간 영상 모드 OFF(동시에 작업을 하면 충돌 일어나서 시스템 오류 발생)
+     print("photo ON")       
+     sleep(1.5)
+     camera = PiCamera()
+     camera.resolution = (640,480)
+     camera.rotation = 180
+     camera.start_preview()
+     camera.capture('/home/cj/cj_project/photo/' + photoname) //녹화된 파일 저장 경로 지정
+     camera.stop_preview()
+     camera.close()
+     db.child("photo").child("photo").update({"power":"OFF"})  //녹화후 파이어베이스에 OFF 신호 전송
+
+     uploadPhoto = '/home/cj/cj_project/photo/' + photoname
+     storage.child("photo/"+photoname).put(uploadPhoto)  //파이어베이스 스토리지에 녹화 파일 저장
+     photoUrl = storage.child("photo/"+time1+".jpg").get_url(1)   //스토리지 파일 저장 경로 URL
+     db.child("photo").child("list").child(time1).update({"url": photoUrl,"name": time1+".jpg","date":year+"/"+month+"/"+day+"/"+hour+":"+minute,"key":time1})  //파이어베이스 데이터베이스에 파일 정보 저장
+     os.system('sudo service uv4l_raspicam restart') //촬영이 끝나면 다시 실시간 영상 모드 ON
+  elif(photodata.val()=="OFF"):         
+     print("photo OFF")        
+     
+  if(videodata.val()=="ON"):      //파이어베이스에서 일반녹화 촬영 신호가 ON이면 촬영 시작 
+     os.system('sudo pkill uv4l') //촬영 중에는 실시간 영상 모드 OFF(동시에 작업을 하면 충돌 일어나서 시스템 오류 발생)
+     print("video ON")  
+     sleep(1.5)
+     camera = PiCamera()
+     camera.resolution = (640,480)
+     camera.rotation = 180
+     camera.start_preview()
+     camera.start_recording('/home/cj/cj_project/video/'+videoname)
+     camera.wait_recording(videodata_time.val())
+     camera.stop_recording()
+     camera.close()
+     db.child("video").child("video").update({"power":"OFF"}) //녹화후 파이어베이스에 OFF 신호 전송
+      
+     os.system('MP4Box -add /home/cj/cj_project/video/'+time1+".h264 /home/cj/cj_project/video/"+time1+".mp4")  //h264확장자를 mp4확장자로 변환
+     uploadVideo = '/home/cj/cj_project/video/' + time1+".mp4"     //업로드할 파일 경로
+     storage.child("video/"+time1+".mp4").put(uploadVideo)    //파이어베이스 스토리지에 녹화 파일 저장
+     os.system('rm /home/cj/cj_project/video/'+time1+'.h264')    //mp4확장자로 변환 후  기존 h264파일은 삭제
+     videoUrl = storage.child("video/"+time1+".mp4").get_url(1)   //스토리지 파일 저장 경로 URL
+     db.child("video").child("list").child(time1).update({"url": videoUrl,"name": time1+".mp4","date":year+"/"+month+"/"+day+"/"+hour+":"+minute,"key":time1})  //파이어베이스 데이터베이스에 파일 정보 저장
+     os.system('sudo service uv4l_raspicam restart')         //촬영이 끝나면 다시 실시간 영상 모드 ON
+  elif(videodata.val()=="OFF"):     
+     print("video OFF") 
+     
+          
+  if(auto_video_power.val()=="ON"): //파이어베이스에서 자동녹화 촬영 신호가 ON이면 촬영 시작 
+     os.system('sudo pkill uv4l') //촬영 중에는 실시간 영상 모드 OFF(동시에 작업을 하면 충돌 일어나서 시스템 오류 발생)
+     print("auto video ON")   
+     sleep(1.5)
+     camera = PiCamera()
+     camera.resolution = (640,480)
+     camera.rotation = 180   
+     for i in range(auto_video_count.val()):
+       i+=1
+       autovideo = time1+"_"+str(i)+'.h264'
+       camera.start_preview()
+       camera.start_recording('/home/cj/cj_project/video/'+autovideo)
+       camera.wait_recording(auto_video_time.val())
+       camera.stop_recording()
+       os.system('MP4Box -add /home/cj/cj_project/video/'+time1+"_"+str(i)+".h264 /home/cj/cj_project/video/"+time1+"_"+str(i)+".mp4")  //h264확장자를 mp4확장자로 변환
+       uploadVideo = '/home/cj/cj_project/video/' + time1+"_"+str(i)+".mp4"   //업로드할 파일 경로
+       storage.child("video/"+time1+"_"+str(i)+".mp4").put(uploadVideo)   //파이어베이스 스토리지에 녹화 파일 저장
+       os.system('rm /home/cj/cj_project/video/'+time1+"_"+str(i)+'.h264')    //mp4확장자로 변환 후  기존 h264파일은 삭제
+       videoUrl = storage.child("video/"+time1+"_"+str(i)+".mp4").get_url(1)    //스토리지 파일 저장 경로 URL
+       db.child("video").child("list").child(time1+"_"+str(i)).update({"url": videoUrl,"name": time1+"_"+str(i)+".mp4","date":year+"/"+month+"/"+day+"/"+hour+":"+minute,"key":time1+"_"+str(i)})  //파이어베이스 데이터베이스에 파일 정보 저장
+     db.child("video_auto").child("video_auto").update({"power":"OFF"})  //녹화후 파이어베이스에 OFF 신호 전송
+     camera.close()         
+     os.system('sudo service uv4l_raspicam restart')  //촬영이 끝나면 다시 실시간 영상 모드 ON
+  elif(auto_video_power.val()=="OFF"): #auto_video     
+     print("auto video OFF")   
+           
+  if(motion_video_power.val()=="ON"):  //파이어베이스에서 인체감지녹화 촬영 신호가 ON이면 촬영 시작 
+     os.system('sudo pkill uv4l') //촬영 중에는 실시간 영상 모드 OFF(동시에 작업을 하면 충돌 일어나서 시스템 오류 발생)
+     print("motion ON")
+     sleep(2)      
+     while True:
+        if(GPIO.input(pirPin)==GPIO.LOW):
+         print("motion ON")
+         db.child("motion").child("log").push({"time":year+"/"+month+"/"+day+"/"+hour+":"+minute,"log":"동작 감지 발생!!"})
+         for i in range(motion_video_count.val()):
+           i+=1
+           autovideo = time1+"_"+str(i)+'.h264'
+           camera = PiCamera()
+           camera.resolution = (640,480)
+           camera.rotation = 180 
+           camera.start_preview()
+           camera.start_recording('/home/cj/cj_project/video/'+autovideo)
+           camera.wait_recording(motion_video_time.val())
+           camera.stop_recording()
+           os.system('MP4Box -add /home/cj/cj_project/video/'+time1+"_"+str(i)+".h264 /home/cj/cj_project/video/"+time1+"_"+str(i)+".mp4")  //h264확장자를 mp4확장자로 변환
+           uploadVideo = '/home/cj/cj_project/video/' + time1+"_"+str(i)+".mp4"    //업로드할 파일 경로
+           storage.child("video/"+time1+"_"+str(i)+".mp4").put(uploadVideo)   //파이어베이스 스토리지에 녹화 파일 저장
+           os.system('rm /home/cj/cj_project/video/'+time1+"_"+str(i)+'.h264')       //mp4확장자로 변환 후  기존 h264파일은 삭제
+           videoUrl = storage.child("video/"+time1+"_"+str(i)+".mp4").get_url(1)   //스토리지 파일 저장 경로 URL
+           db.child("video").child("list").child(time1+"_"+str(i)).update({"url": videoUrl,"name": time1+"_"+str(i)+".mp4","date":year+"/"+month+"/"+day+"/"+hour+":"+minute,"key":time1+"_"+str(i)})  //파이어베이스 데이터베이스에 파일 정보 저장
+           camera.close()
+         os.system('sudo service uv4l_raspicam restart')  //촬영이 끝나면 다시 실시간 영상 모드 ON
+         break           
+        else:
+         print("Motion OFF")
+         os.system('sudo service uv4l_raspicam restart')  //촬영이 끝나면 다시 실시간 영상 모드 ON
+         break
+        time.sleep(3)
+
+  elif(motion_video_power.val()=="OFF"):  #motion         
+     #db.child("system").child("motion").update({"power":"OFF"})
+     print("motion OFF")       
+    # os.system('sudo service uv4l_raspicam restart')  //촬영이 끝나면 다시 실시간 영상 모드 ON
+      
+      
+      
+      
+      
+      
+ 
