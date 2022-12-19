@@ -172,7 +172,7 @@ public class Photo extends AppCompatActivity {
                 try {
                     value_1 = snapshot.getValue().toString();
 
-                    //사진
+                    //사진 촬영 ON/OFF 전원 확인용
                     photo_on_off_text = (TextView)findViewById(R.id.photo_on_off_text);
                     database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
                     databaseReference = database.getReference("photo").child("photo").child("power");
@@ -183,13 +183,14 @@ public class Photo extends AppCompatActivity {
                                 photo_power = snapshot.getValue().toString();
 
                                 if(photo_power.equals("ON"))
-                                {
+                                {   //해당 기능 전원이 ON일때 버튼을 구분해줌
                                     photo_on_off.setBackground(getResources().getDrawable(R.drawable.photo_recording_off));
                                     photo_on_off.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#810000")));
                                     photo_on_off_text.setTextColor(Color.parseColor("#810000"));
                                     check.setVisibility(View.VISIBLE);
                                 }
                                 else if(photo_power.equals("OFF")){
+                                    //해당 기능 전원이 OFF일때 버튼을 구분해줌
                                     photo_on_off.setBackground(getResources().getDrawable(R.drawable.photo_recording_on));
                                     photo_on_off.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#666666")));
                                     photo_on_off_text.setTextColor(Color.parseColor("#666666"));
@@ -204,14 +205,14 @@ public class Photo extends AppCompatActivity {
                                         try {
                                             value_2 = snapshot.getValue().toString();
 
-                                            //모션 감기 녹화 ON/OFF 전원 확인용
+                                            //모션 감지 녹화 ON/OFF 전원 확인용
                                             databaseReference_motion = database.getReference("motion").child("motion").child("power");
                                             databaseReference_motion.addValueEventListener(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                     try {
                                                         value_3 = snapshot.getValue().toString();
-
+                                                        //모든 파일 삭제 버튼
                                                         all_delete.setOnClickListener(new View.OnClickListener() {
                                                             @Override
                                                             public void onClick(View v) {
@@ -222,7 +223,6 @@ public class Photo extends AppCompatActivity {
                                                                 }
                                                                 //한 번의 뒤로가기 버튼이 눌린 후 0~2초 사이에 한 번더 눌리게 되면 현재 엑티비티를 호출
                                                                 if(System.currentTimeMillis() <= backKeyPressedTime + 2000){
-
                                                                     databaseReference_photo.removeValue();
                                                                     Toast.makeText(Photo.this, "모두 삭제 완료", Toast.LENGTH_SHORT).show();
                                                                 }

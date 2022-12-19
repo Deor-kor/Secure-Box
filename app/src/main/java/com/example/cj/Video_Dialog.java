@@ -28,6 +28,7 @@ public class Video_Dialog extends AppCompatActivity {
         setContentView(R.layout.video_dialog);
 
         video = (VideoView) findViewById(R.id.video);
+        //Intent로 전달 받은 value값으로 해당 영상 재생해줌
         Uri uri = Uri.parse(getIntent().getStringExtra("url"));
         video.setVideoURI(uri);
 

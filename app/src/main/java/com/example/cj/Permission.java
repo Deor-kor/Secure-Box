@@ -23,6 +23,8 @@ public class Permission extends AppCompatActivity {
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setContentView(R.layout.permission);
 
+        //로그인 화면에서 권한 설정이 거부되면 띄워지는 다이얼로그 화면
+
         //다이얼로그 끄기
         close =(TextView)findViewById(R.id.close);
         close.setOnClickListener(new View.OnClickListener() {

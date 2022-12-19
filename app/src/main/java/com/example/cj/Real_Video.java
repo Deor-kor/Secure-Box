@@ -91,7 +91,7 @@ public class Real_Video extends AppCompatActivity {
         webSettings.setBuiltInZoomControls(false); // 화면 확대 축소 허용 여부
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE); // 브라우저 캐시 허용 여부
 
-
+        //블랙박스의 연결된 와이파이 IP주소 읽어오기
         database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
         databaseReference_ip = database.getReference("system").child("option").child("ip");
         databaseReference_ip.addValueEventListener(new ValueEventListener() {
@@ -100,8 +100,9 @@ public class Real_Video extends AppCompatActivity {
                 try {
                     String value = snapshot.getValue().toString();
                     url= value+"/stream";
-                    webview.loadUrl(url);
+                    webview.loadUrl(url); //IP주소를 읽어오면 해당 블랙박스의 실시간 영상 웹뷰에 띄워줌
 
+                    //녹화 주행 모드
                     drive = (LinearLayout)findViewById(R.id.drive);
                     drive.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -191,6 +192,7 @@ public class Real_Video extends AppCompatActivity {
                     real_video_text = (TextView)findViewById(R.id.real_video_text);
                     real_video_text.setText("Load image..");
 
+                    //웹뷰 화면 클릭시 화면 새로고침
                     webview.setOnTouchListener(new View.OnTouchListener() {
                         @SuppressLint("ClickableViewAccessibility")
                         @Override

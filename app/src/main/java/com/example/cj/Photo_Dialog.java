@@ -23,6 +23,7 @@ public class Photo_Dialog extends AppCompatActivity {
         setContentView(R.layout.photo_dialog);
 
         photo=(ImageView)findViewById(R.id.photo);
+        //Intent로 전달 받은 value값으로 해당 이미지 띄워줌
         Glide.with(Photo_Dialog.this).load(getIntent().getStringExtra("url")).into(photo);
 
 

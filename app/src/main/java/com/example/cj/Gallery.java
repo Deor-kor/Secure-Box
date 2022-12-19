@@ -45,8 +45,7 @@ public class Gallery extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gallery);
 
-
-
+        //데이터베이스에 저장되어있는 사진 목록 불러오기
         recyclerView1 = (RecyclerView)findViewById(R.id.recyclerviewe1);
         recyclerView1.setLayoutManager(new GridLayoutManager(this,3));
         recyclerView1.setHasFixedSize(true);
@@ -77,10 +76,10 @@ public class Gallery extends AppCompatActivity {
 
             }
         });
-
         adapter1 = new CustomAdapter_Photo(arrayList_photo, Gallery.this);
         recyclerView1.setAdapter(adapter1);
 
+        //데이터베이스에 저장되어있는 영상 목록 불러오기
         recyclerView2 = (RecyclerView)findViewById(R.id.recyclerviewe2);
         recyclerView2.setVisibility(GONE);
         recyclerView2.setLayoutManager(new GridLayoutManager(this,3));
@@ -113,7 +112,6 @@ public class Gallery extends AppCompatActivity {
             }
 
         });
-
         adapter2 = new CustomAdapter_Video(arrayList_video, Gallery.this);
         recyclerView2.setAdapter(adapter2);
 
@@ -133,6 +131,7 @@ public class Gallery extends AppCompatActivity {
         all_delete_video = (LinearLayout)findViewById(R.id.all_delete_video);
         all_delete_video.setVisibility(View.GONE);
 
+        //사진 목록으로 이동
         gallery_capture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,6 +144,7 @@ public class Gallery extends AppCompatActivity {
             }
         });
 
+        //영상 목록으로 이동
         galley_recording.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,7 +157,7 @@ public class Gallery extends AppCompatActivity {
             }
         });
 
-
+        //사진 파일 목록 전체 삭제
         all_delete_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,6 +174,7 @@ public class Gallery extends AppCompatActivity {
             }
         });
 
+        //영상 파일 목록 전체 삭제
         all_delete_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

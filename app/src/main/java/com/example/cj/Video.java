@@ -171,6 +171,7 @@ public class Video extends AppCompatActivity {
         adapter = new CustomAdapter_Video(arraylist,Video.this);
         list.setAdapter(adapter);
 
+        //사진 촬영 ON/OFF 전원 확인용
         databaseReference_p = database.getReference("photo").child("photo").child("power");
         databaseReference_p.addValueEventListener(new ValueEventListener() {
             @Override
@@ -178,7 +179,7 @@ public class Video extends AppCompatActivity {
                 try {
                     photo_power = snapshot.getValue().toString();
 
-                    //동영상
+                    //수동 녹화 ON/OFF 전원 확인용
                     database = FirebaseDatabase.getInstance("https://cj-2team-default-rtdb.firebaseio.com/");
                     databaseReference = database.getReference("video").child("video").child("power");
                     databaseReference.addValueEventListener(new ValueEventListener() {
@@ -187,6 +188,7 @@ public class Video extends AppCompatActivity {
                             try {
                                 value_1 = snapshot.getValue().toString();
 
+                                //자동 녹화 ON/OFF 전원 확인용
                                 databaseReference_auto =database.getReference("video_auto").child("video_auto").child("power");
                                 databaseReference_auto.addValueEventListener(new ValueEventListener() {
                                     @Override
@@ -194,6 +196,7 @@ public class Video extends AppCompatActivity {
                                         try {
                                             value_2 = snapshot.getValue().toString();
 
+                                            //모션 감지 녹화 ON/OFF 전원 확인용
                                             databaseReference_motion = database.getReference("motion").child("motion").child("power");
                                             databaseReference_motion.addValueEventListener(new ValueEventListener() {
                                                 @Override
@@ -269,6 +272,7 @@ public class Video extends AppCompatActivity {
                                                             }
                                                         });
 
+                                                        //모든 파일 삭제 버튼
                                                         all_delete.setOnClickListener(new View.OnClickListener() {
                                                             @Override
                                                             public void onClick(View v) {
@@ -375,7 +379,7 @@ public class Video extends AppCompatActivity {
                                                         });
 
 
-                                                        //일반 동영상
+                                                        //일반 녹화
                                                         text1.setOnClickListener(new View.OnClickListener() {
                                                             @Override
                                                             public void onClick(View v) {
@@ -463,7 +467,7 @@ public class Video extends AppCompatActivity {
                                                         });
 
 
-                                                        //자동 동영상
+                                                        //자동 녹화
                                                         text2.setOnClickListener(new View.OnClickListener() {
                                                             @Override
                                                             public void onClick(View v) {

@@ -59,19 +59,16 @@ public class Login extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
-                    arrayList.clear();
+                    arrayList.clear();//리스트 초기화
 
                     for (DataSnapshot dataSnapshot : snapshot.getChildren())
-                    {
+                    {   //불러온 데이터 리스트에 담기
                         arrayList.add(dataSnapshot.getValue(Ob_User.class));
                     }
-
                 }
                 catch (NullPointerException nullPointerException){
-
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -111,10 +108,11 @@ public class Login extends AppCompatActivity {
             if (hasPermission(Login.this, PERMISSIONS))
             {
                 TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+                //장치의 전화번호 읽어오는 권한 여부
                 if (ActivityCompat.checkSelfPermission(Login.this, Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
-                //number EDITTEXT에 전화번호 띄워줌
+                //장치의 전화번호를 읽어오는 권한이 허용되면 number EDITTEXT에 전화번호 띄워줌
                 String user = telephonyManager.getLine1Number().replace("+82","0");
                 number.setText(user);
             }
