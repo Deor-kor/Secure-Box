@@ -62,16 +62,16 @@ while(True):
      os.system('sudo pkill uv4l') //촬영 중에는 실시간 영상 모드 OFF(동시에 작업을 하면 충돌 일어나서 시스템 오류 발생)
      print("photo ON")       
      sleep(1.5)
-     camera = PiCamera()
-     camera.resolution = (640,480)
-     camera.rotation = 180
-     camera.start_preview()
+     camera = PiCamera()              //camera 변수 선언
+     camera.resolution = (640,480) //카메라 해상도 지정
+     camera.rotation = 180             //카메라 각도 180도 회전
+     camera.start_preview()            //촬영 시작
      camera.capture('/home/cj/cj_project/photo/' + photoname) //녹화된 파일 저장 경로 지정
-     camera.stop_preview()
-     camera.close()
+     camera.stop_preview()            //촬영 중단
+     camera.close()                       //camera 종료
      db.child("photo").child("photo").update({"power":"OFF"})  //녹화후 파이어베이스에 OFF 신호 전송
 
-     uploadPhoto = '/home/cj/cj_project/photo/' + photoname
+     uploadPhoto = '/home/cj/cj_project/photo/' + photoname  //업로드 할 파일 경로
      storage.child("photo/"+photoname).put(uploadPhoto)  //파이어베이스 스토리지에 녹화 파일 저장
      photoUrl = storage.child("photo/"+time1+".jpg").get_url(1)   //스토리지 파일 저장 경로 URL
      db.child("photo").child("list").child(time1).update({"url": photoUrl,"name": time1+".jpg","date":year+"/"+month+"/"+day+"/"+hour+":"+minute,"key":time1})  //파이어베이스 데이터베이스에 파일 정보 저장
@@ -94,7 +94,7 @@ while(True):
      db.child("video").child("video").update({"power":"OFF"}) //녹화후 파이어베이스에 OFF 신호 전송
       
      os.system('MP4Box -add /home/cj/cj_project/video/'+time1+".h264 /home/cj/cj_project/video/"+time1+".mp4")  //h264확장자를 mp4확장자로 변환
-     uploadVideo = '/home/cj/cj_project/video/' + time1+".mp4"     //업로드할 파일 경로
+     uploadVideo = '/home/cj/cj_project/video/' + time1+".mp4"     //업로드 할 파일 경로
      storage.child("video/"+time1+".mp4").put(uploadVideo)    //파이어베이스 스토리지에 녹화 파일 저장
      os.system('rm /home/cj/cj_project/video/'+time1+'.h264')    //mp4확장자로 변환 후  기존 h264파일은 삭제
      videoUrl = storage.child("video/"+time1+".mp4").get_url(1)   //스토리지 파일 저장 경로 URL
@@ -119,7 +119,7 @@ while(True):
        camera.wait_recording(auto_video_time.val())
        camera.stop_recording()
        os.system('MP4Box -add /home/cj/cj_project/video/'+time1+"_"+str(i)+".h264 /home/cj/cj_project/video/"+time1+"_"+str(i)+".mp4")  //h264확장자를 mp4확장자로 변환
-       uploadVideo = '/home/cj/cj_project/video/' + time1+"_"+str(i)+".mp4"   //업로드할 파일 경로
+       uploadVideo = '/home/cj/cj_project/video/' + time1+"_"+str(i)+".mp4"   //업로드 할 파일 경로
        storage.child("video/"+time1+"_"+str(i)+".mp4").put(uploadVideo)   //파이어베이스 스토리지에 녹화 파일 저장
        os.system('rm /home/cj/cj_project/video/'+time1+"_"+str(i)+'.h264')    //mp4확장자로 변환 후  기존 h264파일은 삭제
        videoUrl = storage.child("video/"+time1+"_"+str(i)+".mp4").get_url(1)    //스토리지 파일 저장 경로 URL
@@ -149,7 +149,7 @@ while(True):
            camera.wait_recording(motion_video_time.val())
            camera.stop_recording()
            os.system('MP4Box -add /home/cj/cj_project/video/'+time1+"_"+str(i)+".h264 /home/cj/cj_project/video/"+time1+"_"+str(i)+".mp4")  //h264확장자를 mp4확장자로 변환
-           uploadVideo = '/home/cj/cj_project/video/' + time1+"_"+str(i)+".mp4"    //업로드할 파일 경로
+           uploadVideo = '/home/cj/cj_project/video/' + time1+"_"+str(i)+".mp4"    //업로드 할 파일 경로
            storage.child("video/"+time1+"_"+str(i)+".mp4").put(uploadVideo)   //파이어베이스 스토리지에 녹화 파일 저장
            os.system('rm /home/cj/cj_project/video/'+time1+"_"+str(i)+'.h264')       //mp4확장자로 변환 후  기존 h264파일은 삭제
            videoUrl = storage.child("video/"+time1+"_"+str(i)+".mp4").get_url(1)   //스토리지 파일 저장 경로 URL
