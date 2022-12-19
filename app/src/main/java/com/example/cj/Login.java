@@ -32,12 +32,13 @@ public class Login extends AppCompatActivity {
     TextView number;
     LinearLayout login;
 
+    //유저 전화번호 가져오기 권한 및 블루트스 사용 권한 설정
     int PERMISSION_ALL = 100;
     String[] PERMISSIONS = {Manifest.permission.READ_PHONE_NUMBERS,
             Manifest.permission.BLUETOOTH_CONNECT,
             Manifest.permission.BLUETOOTH,
             Manifest.permission.BLUETOOTH_ADMIN};
-
+    //등록된 유저 전화번호 목록 가져오기
     FirebaseDatabase database;
     DatabaseReference databaseReference;
     ArrayList<Ob_User> arrayList;

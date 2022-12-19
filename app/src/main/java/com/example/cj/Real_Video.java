@@ -236,7 +236,7 @@ public class Real_Video extends AppCompatActivity {
             }
         });
 
-
+        //사진 캡쳐 엑티비티로 이동
         photo = (LinearLayout)findViewById(R.id.photo);
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -246,7 +246,7 @@ public class Real_Video extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        //영상 녹화 엑티비티로 이동
         video = (LinearLayout)findViewById(R.id.video);
         video.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -256,7 +256,7 @@ public class Real_Video extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        //각종 옵션 설정 엑티비티로 이동
         option =(LinearLayout)findViewById(R.id.option);
         option.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -265,7 +265,7 @@ public class Real_Video extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        //모션 감지 로그 목록 불러오기
         recyclerview = (RecyclerView)findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(Real_Video.this);
         layoutManager.setReverseLayout(true); //리사이클러뷰 역순으로 보여짐
@@ -299,7 +299,7 @@ public class Real_Video extends AppCompatActivity {
         adapter = new CustomAdapter_Log(arrayList,Real_Video.this);
         recyclerview.setAdapter(adapter);
 
-
+        //로그 삭제
         log_delete = (TextView)findViewById(R.id.log_delete);
         log_delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -308,7 +308,7 @@ public class Real_Video extends AppCompatActivity {
             }
         });
 
-
+        //사진,영상 파일 갤러리 이동
         gallery = (LinearLayout)findViewById(R.id.gallery);
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override

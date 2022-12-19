@@ -117,7 +117,7 @@ public class Video extends AppCompatActivity {
 
             }
         });
-
+        //블랙박스와 앱의 연결 확인
         databaseReference2 =database.getReference("system").child("stop").child("raspi");
         databaseReference2.addValueEventListener(new ValueEventListener() {
             @Override
@@ -302,7 +302,7 @@ public class Video extends AppCompatActivity {
                                                             @Override
                                                             public void onClick(View v) {
 
-                                                                //블랙박스 연결확인
+                                                                //블랙박스와 앱이 연결되어야 촬영 가능
                                                                 if (raspi_power1.equals(raspi_power2))
                                                                 {
                                                                     if (photo_power.equals("ON"))
@@ -379,7 +379,7 @@ public class Video extends AppCompatActivity {
                                                         text1.setOnClickListener(new View.OnClickListener() {
                                                             @Override
                                                             public void onClick(View v) {
-                                                                //블랙박스 연결확인
+                                                                //블랙박스와 앱이 연결되어야 촬영 가능
                                                                 if (raspi_power1.equals(raspi_power2))
                                                                 {
                                                                     if (photo_power.equals("ON"))
@@ -467,7 +467,7 @@ public class Video extends AppCompatActivity {
                                                         text2.setOnClickListener(new View.OnClickListener() {
                                                             @Override
                                                             public void onClick(View v) {
-                                                                //블랙박스 연결확인
+                                                                //블랙박스와 앱이 연결되어야 촬영 가능
                                                                 if (raspi_power1.equals(raspi_power2))
                                                                 {
                                                                     if (photo_power.equals("ON"))

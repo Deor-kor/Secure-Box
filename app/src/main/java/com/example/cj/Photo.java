@@ -110,7 +110,7 @@ public class Photo extends AppCompatActivity {
 
             }
         });
-
+        //블랙박스와 앱의 연결 확인
         databaseReference2 =database.getReference("system").child("stop").child("raspi");
         databaseReference2.addValueEventListener(new ValueEventListener() {
             @Override
@@ -163,7 +163,7 @@ public class Photo extends AppCompatActivity {
         adapter = new CustomAdapter_Photo(arraylist,Photo.this);
         list.setAdapter(adapter);
 
-
+        //수동 녹화 ON/OFF 전원 확인용
         photo_on_off = (TextView)findViewById(R.id.photo_on_off);
         databaseReference_v = database.getReference("video").child("video").child("power");
         databaseReference_v.addValueEventListener(new ValueEventListener() {
@@ -196,6 +196,7 @@ public class Photo extends AppCompatActivity {
                                     check.setVisibility(View.INVISIBLE);
                                 }
 
+                                //자동 녹화 ON/OFF 전원 확인용
                                 databaseReference_auto =database.getReference("video_auto").child("video_auto").child("power");
                                 databaseReference_auto.addValueEventListener(new ValueEventListener() {
                                     @Override
@@ -203,6 +204,7 @@ public class Photo extends AppCompatActivity {
                                         try {
                                             value_2 = snapshot.getValue().toString();
 
+                                            //모션 감기 녹화 ON/OFF 전원 확인용
                                             databaseReference_motion = database.getReference("motion").child("motion").child("power");
                                             databaseReference_motion.addValueEventListener(new ValueEventListener() {
                                                 @Override
@@ -226,11 +228,11 @@ public class Photo extends AppCompatActivity {
                                                                 }
                                                             }
                                                         });
-
+                                                        //사진 촬영 버튼
                                                         text.setOnClickListener(new View.OnClickListener() {
                                                             @Override
                                                             public void onClick(View v) {
-
+                                                                //블랙박스와 앱이 연결되어야 촬영 가능
                                                                 if (raspi_power1.equals(raspi_power2))
                                                                 {
                                                                     //녹화 기능과 출동여부 확인(녹화중에는 사진캡쳐기능 사용할 수 없음)
