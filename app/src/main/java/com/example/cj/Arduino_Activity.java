@@ -83,6 +83,7 @@ public class Arduino_Activity extends AppCompatActivity {
         manual_button = (LinearLayout)findViewById(R.id.manual_button);
         auto_button = (LinearLayout)findViewById(R.id.auto_button);
 
+        //실시간 영상 출력을 위한 웹뷰
         webview = (WebView) findViewById(R.id.webview);
         webview.setWebViewClient(new WebViewClient());
         webSettings = webview.getSettings();
@@ -96,6 +97,7 @@ public class Arduino_Activity extends AppCompatActivity {
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE); // 브라우저 캐시 허용 여부
         webview.loadUrl(getIntent().getStringExtra("url"));
 
+        //주행모드 초기값으로 OFF 지정
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("주행모드");
         databaseReference.child("자율주행").child("auto").child("mode").setValue("OFF");
@@ -104,6 +106,7 @@ public class Arduino_Activity extends AppCompatActivity {
         stop1 = (LinearLayout) findViewById(R.id.stop1);
         stop2 = (LinearLayout) findViewById(R.id.stop2);
 
+        //기본 값은 수동주행이고 자율주행 모드로 제어 가능
         databaseReference_auto = database.getReference("주행모드").child("자율주행").child("auto").child("mode");
         databaseReference_auto.addValueEventListener(new ValueEventListener() {
             @Override
@@ -129,30 +132,6 @@ public class Arduino_Activity extends AppCompatActivity {
             }
         });
 
-        databaseReference_manual = database.getReference("주행모드").child("수동주행").child("manual").child("mode");
-        databaseReference_manual.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                try {
-                    MANUAL = snapshot.getValue().toString();
-
-                    if (MANUAL.equals("ON")) {
-                        manual.setVisibility(View.GONE);
-                        stop1.setVisibility(View.VISIBLE);
-                    } else if (MANUAL.equals("OFF")) {
-                        manual.setVisibility(View.VISIBLE);
-                        stop1.setVisibility(View.GONE);
-                    }
-                } catch (NullPointerException nullPointerException) {
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         log_back = (TextView) findViewById(R.id.log_back);
         log_back.setOnClickListener(new View.OnClickListener() {
@@ -172,12 +151,12 @@ public class Arduino_Activity extends AppCompatActivity {
         } catch (Exception ignored) {
         }
 
+        //블루투스 연결
         BTButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if (!onBT) { //Connect
-
                     mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
                     if (mBluetoothAdapter == null) { //장치가 블루투스를 지원하지 않는 경우.
                         Toast.makeText(getApplicationContext(), "Bluetooth 지원을 하지 않는 기기입니다.", Toast.LENGTH_SHORT).show();
@@ -193,13 +172,6 @@ public class Arduino_Activity extends AppCompatActivity {
                             // 블루투스를 지원하며 활성 상태인 경우
                             // 페어링된 기기 목록을 보여주고 연결할 장치를 선택.
                             if (ActivityCompat.checkSelfPermission(Arduino_Activity.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                                // TODO: Consider calling
-                                //    ActivityCompat#requestPermissions
-                                // here to request the missing permissions, and then overriding
-                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                //                                          int[] grantResults)
-                                // to handle the case where the user grants the permission. See the documentation
-                                // for ActivityCompat#requestPermissions for more details.
                                 return;
                             }
                             Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices(); // 버젼문제
@@ -210,27 +182,23 @@ public class Arduino_Activity extends AppCompatActivity {
                                 // 페어링 된 장치가 없는 경우.
                                 Toast.makeText(getApplicationContext(), "먼저 Bluetooth 설정에 들어가 페어링을 진행해 주세요.", Toast.LENGTH_SHORT).show();
                             }
-
                         }
-
                     }
-
                 } else { //DisConnect
-
-                    try {
-                        BTSend.interrupt();   // 데이터 송신 쓰레드 종료
-                        mInputStream.close();
-                        mOutputStream.close();
-                        bSocket.close();
-                        onBT = false;
-                        BTButton.setText("connect");
-                    } catch (Exception ignored) {
+                        try {
+                            BTSend.interrupt();   // 데이터 송신 쓰레드 종료
+                            mInputStream.close();
+                            mOutputStream.close();
+                            bSocket.close();
+                            onBT = false;
+                            BTButton.setText("connect");
+                        } catch (Exception ignored) {
                     }
-
                 }
             }
         });
 
+        //자율 주행 모드 ON
         auto_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -260,12 +228,12 @@ public class Arduino_Activity extends AppCompatActivity {
                 int action = event.getAction();
 
                 if (action == MotionEvent.ACTION_DOWN) {
-                    Toast.makeText(Arduino_Activity.this, "전진", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(Arduino_Activity.this, "전진", Toast.LENGTH_SHORT).show();
                     android_date = "g";
                     sendbtData(android_date);
                 } else if (action == MotionEvent.ACTION_UP) {
                     android_date = "s";
-                    Toast.makeText(Arduino_Activity.this, "멈춤", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(Arduino_Activity.this, "멈춤", Toast.LENGTH_SHORT).show();
                     sendbtData(android_date);
                 }
                 return false;
@@ -332,13 +300,6 @@ public class Arduino_Activity extends AppCompatActivity {
 
     public void selectDevice() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         mDevices = mBluetoothAdapter.getBondedDevices(); // 버젼문제
@@ -348,22 +309,12 @@ public class Arduino_Activity extends AppCompatActivity {
             //  페어링 된 장치가 없는 경우
             Toast.makeText(getApplicationContext(), "장치를 페어링 해주세요!", Toast.LENGTH_SHORT).show();
         }
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("블루투스 장치 선택");
-
-
         // 페어링 된 블루투스 장치의 이름 목록 작성
         List<String> listItems = new ArrayList<>();
         for (BluetoothDevice device : mDevices) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
                 return;
             }
             listItems.add(device.getName()); // 버젼문제
@@ -384,18 +335,13 @@ public class Arduino_Activity extends AppCompatActivity {
                 }
             }
         });
-
-
         builder.setCancelable(false);    // 뒤로 가기 버튼 사용 금지
         AlertDialog alert = builder.create();
         alert.show();
-
     }
-
 
     public void connectToSelectedDevice(final String selectedDeviceName) {
         mRemoteDevice = getDeviceFromBondedList(selectedDeviceName);
-
         //Progress Dialog
         asyncDialog = new ProgressDialog(Arduino_Activity.this);
         asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -405,44 +351,29 @@ public class Arduino_Activity extends AppCompatActivity {
 
         Thread BTConnect = new Thread(new Runnable() {
             public void run() {
-
                 try {
                     UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb"); //HC-06 UUID
                     // 소켓 생성
                     if (ActivityCompat.checkSelfPermission(Arduino_Activity.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                        // TODO: Consider calling
-                        //    ActivityCompat#requestPermissions
-                        // here to request the missing permissions, and then overriding
-                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                        //                                          int[] grantResults)
-                        // to handle the case where the user grants the permission. See the documentation
-                        // for ActivityCompat#requestPermissions for more details.
                         return;
                     }
                     bSocket = mRemoteDevice.createRfcommSocketToServiceRecord(uuid); // 버젼문제
-
-
                     // RFCOMM 채널을 통한 연결
                     bSocket.connect(); // 버젼문제
-
                     // 데이터 송수신을 위한 스트림 열기
                     mOutputStream = bSocket.getOutputStream();
                     mInputStream = bSocket.getInputStream();
-
 
                     runOnUiThread(new Runnable() {
                         @SuppressLint({"ShowToast", "SetTextI18n"})
                         @Override
                         public void run() {
                             Toast.makeText(getApplicationContext(), selectedDeviceName + " 연결 완료", Toast.LENGTH_LONG).show();
-                            //  tvBT.setText(selectedDeviceName + " Connected");
                             BTButton.setText("disconnect");
                             asyncDialog.dismiss();
                         }
                     });
-
                     onBT = true;
-
 
                 } catch (Exception e) {
                     // 블루투스 연결 중 오류 발생
@@ -455,15 +386,10 @@ public class Arduino_Activity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "블루투스 연결 오류", Toast.LENGTH_SHORT).show();
                         }
                     });
-
                 }
-
-
             }
         });
         BTConnect.start();
-
-
     }
 
     public BluetoothDevice getDeviceFromBondedList(String name) {
@@ -471,8 +397,6 @@ public class Arduino_Activity extends AppCompatActivity {
 
         for (BluetoothDevice device : mDevices) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-
-
             }
             if (name.equals(device.getName())) { // 버젼문제
                 selectedDevice = device;
@@ -481,8 +405,6 @@ public class Arduino_Activity extends AppCompatActivity {
         }
         return selectedDevice;
     }
-
-
 
     Thread BTSend  = new Thread(new Runnable() {
         public void run() {
@@ -504,4 +426,5 @@ public class Arduino_Activity extends AppCompatActivity {
         sendByte = btLightPercent;
         BTSend.run();
     }
+
 }

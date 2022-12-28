@@ -108,7 +108,7 @@ public class Login extends AppCompatActivity {
             if (hasPermission(Login.this, PERMISSIONS))
             {
                 TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-                //장치의 전화번호 읽어오는 권한 여부
+                //장치의 전화번호를 읽어오는 권한 설정 여부
                 if (ActivityCompat.checkSelfPermission(Login.this, Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
@@ -120,11 +120,8 @@ public class Login extends AppCompatActivity {
             else {
                 Intent intent = new Intent(Login.this,Permission.class);
                 startActivity(intent);
-
             }
-
     }
-
 
     private boolean hasPermission(Context context, String... permissions) {
         if(context != null && permissions != null) {

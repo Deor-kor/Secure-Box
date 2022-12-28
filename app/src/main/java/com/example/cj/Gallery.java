@@ -57,12 +57,12 @@ public class Gallery extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
-                    arrayList_photo.clear();
+                    arrayList_photo.clear(); //리스트 초기화
                     for(DataSnapshot dataSnapshot : snapshot.getChildren())
-                    {
+                    {   //데이터베이스에서 가져온 데이터 리스트에 담기
                         arrayList_photo.add(dataSnapshot.getValue(Ob_List.class));
                     }
-
+                    //리스트 갱신
                     adapter1.notifyDataSetChanged();
 
                 }
@@ -76,6 +76,7 @@ public class Gallery extends AppCompatActivity {
 
             }
         });
+        //리사이클러뷰 어뎁터 연결(리스트 목록 출력)
         adapter1 = new CustomAdapter_Photo(arrayList_photo, Gallery.this);
         recyclerView1.setAdapter(adapter1);
 
@@ -91,13 +92,13 @@ public class Gallery extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
-                    arrayList_video.clear();
+                    arrayList_video.clear(); //리스트 초기화
                     for(DataSnapshot dataSnapshot : snapshot.getChildren())
-                    {
+                    {   //데이터베이스에서 가져온 데이터 리스트에 담기
                         arrayList_video.add(dataSnapshot.getValue(Ob_List.class));
 
                     }
-
+                    //리스트 갱신
                     adapter2.notifyDataSetChanged();
 
                 }
@@ -112,6 +113,7 @@ public class Gallery extends AppCompatActivity {
             }
 
         });
+        //리사이클러뷰 어뎁터 연결(리스트 목록 출력)
         adapter2 = new CustomAdapter_Video(arrayList_video, Gallery.this);
         recyclerView2.setAdapter(adapter2);
 

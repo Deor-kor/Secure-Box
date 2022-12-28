@@ -148,12 +148,12 @@ public class Video extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
-                    arraylist.clear();
+                    arraylist.clear(); //리스트 초기화
                     for(DataSnapshot dataSnapshot : snapshot.getChildren())
-                    {
+                    {   //데이터베이스에서 불러온 데이터 리스트에 담기
                         arraylist.add(dataSnapshot.getValue(Ob_List.class));
                     }
-
+                    //리사이클러뷰 어뎁터 갱신
                     adapter.notifyDataSetChanged();
 
                 }
@@ -167,9 +167,9 @@ public class Video extends AppCompatActivity {
 
             }
         });
-
+        //리사이클러뷰 어뎁터 생성
         adapter = new CustomAdapter_Video(arraylist,Video.this);
-        list.setAdapter(adapter);
+        list.setAdapter(adapter); //어뎁터와 리사이클러뷰 연결
 
         //사진 촬영 ON/OFF 전원 확인용
         databaseReference_p = database.getReference("photo").child("photo").child("power");
@@ -320,7 +320,6 @@ public class Video extends AppCompatActivity {
                                                                                 check.setTextColor(Color.parseColor("#cccccc"));
                                                                             }
                                                                         },2000);
-                                                                        // Toast.makeText(Video.this, "사진 촬영 중에는 녹화 불가", Toast.LENGTH_SHORT).show();
                                                                     }
                                                                     else if(value_2.equals("ON")||value_1.equals("ON")){
                                                                         check.setText("녹화를 종료하고 시도해주세요.");
@@ -332,7 +331,6 @@ public class Video extends AppCompatActivity {
                                                                                 check.setTextColor(Color.parseColor("#cccccc"));
                                                                             }
                                                                         },2000);
-                                                                        // Toast.makeText(Video.this, "녹화 중에는 동작 감지 불가", Toast.LENGTH_SHORT).show();
                                                                     }
                                                                     else{
                                                                         if(value_3.equals("OFF"))
@@ -379,7 +377,7 @@ public class Video extends AppCompatActivity {
                                                         });
 
 
-                                                        //일반 녹화
+                                                        //수동 녹화
                                                         text1.setOnClickListener(new View.OnClickListener() {
                                                             @Override
                                                             public void onClick(View v) {
@@ -397,7 +395,6 @@ public class Video extends AppCompatActivity {
                                                                                 check.setTextColor(Color.parseColor("#cccccc"));
                                                                             }
                                                                             },2000);
-                                                                        // Toast.makeText(Video.this, "사진 촬영 중에는 영상 녹화 불가", Toast.LENGTH_SHORT).show();
                                                                     }
                                                                     else if(value_2.equals("ON")){
                                                                         check.setText("녹화를 종료하고 시도해주세요.");
@@ -409,8 +406,6 @@ public class Video extends AppCompatActivity {
                                                                                 check.setTextColor(Color.parseColor("#cccccc"));
                                                                             }
                                                                         },2000);
-                                                                        // Toast.makeText(Video.this, "자동 녹화 중에는 일반 녹화 불가", Toast.LENGTH_SHORT).show();
-
                                                                     }
                                                                     else if(value_3.equals("ON")){
                                                                         check.setText("녹화를 종료하고 시도해주세요.");
@@ -422,7 +417,6 @@ public class Video extends AppCompatActivity {
                                                                                 check.setTextColor(Color.parseColor("#cccccc"));
                                                                             }
                                                                         },2000);
-                                                                        // Toast.makeText(Video.this, "동작 감지 모드 중에는 녹화 불가", Toast.LENGTH_SHORT).show();
                                                                     }
                                                                     else{
                                                                         if(value_1.equals("OFF"))
@@ -485,7 +479,6 @@ public class Video extends AppCompatActivity {
                                                                                 check.setTextColor(Color.parseColor("#cccccc"));
                                                                             }
                                                                         },2000);
-                                                                        // Toast.makeText(Video.this, "사진 촬영 중에는 영상 녹화 불가", Toast.LENGTH_SHORT).show();
                                                                     }
                                                                     else if(value_1.equals("ON")){
                                                                         check.setText("녹화를 종료하고 시도해주세요.");
@@ -497,8 +490,6 @@ public class Video extends AppCompatActivity {
                                                                                 check.setTextColor(Color.parseColor("#cccccc"));
                                                                             }
                                                                         },2000);
-                                                                        // Toast.makeText(Video.this, "일반 녹화 중에는 자동 녹화 불가", Toast.LENGTH_SHORT).show();
-
                                                                     }
                                                                     else if(value_3.equals("ON")){
                                                                         check.setText("녹화를 종료하고 시도해주세요.");
@@ -510,7 +501,6 @@ public class Video extends AppCompatActivity {
                                                                                 check.setTextColor(Color.parseColor("#cccccc"));
                                                                             }
                                                                         },2000);
-                                                                        // Toast.makeText(Video.this, "동작 감지 모드 중에는 녹화 불가", Toast.LENGTH_SHORT).show();
                                                                     }
                                                                     else{
                                                                         if(value_2.equals("OFF"))

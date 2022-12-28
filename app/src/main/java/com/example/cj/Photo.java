@@ -110,6 +110,8 @@ public class Photo extends AppCompatActivity {
 
             }
         });
+
+
         //블랙박스와 앱의 연결 확인
         databaseReference2 =database.getReference("system").child("stop").child("raspi");
         databaseReference2.addValueEventListener(new ValueEventListener() {
@@ -141,13 +143,13 @@ public class Photo extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
-                    arraylist.clear();
-                    for(DataSnapshot dataSnapshot : snapshot.getChildren())
-                    {
-                        arraylist.add(dataSnapshot.getValue(Ob_List.class));
-                    }
-
-                    adapter.notifyDataSetChanged();
+                        arraylist.clear(); //리스트 초기화
+                        for(DataSnapshot dataSnapshot : snapshot.getChildren())
+                        {   //데이터베이스에서 불러온 데이터 리스트에 담기
+                            arraylist.add(dataSnapshot.getValue(Ob_List.class));
+                        }
+                        //리사이클러뷰 어뎁터 갱신
+                        adapter.notifyDataSetChanged();
 
                 }
                 catch (NullPointerException nullPointerException){
@@ -160,8 +162,9 @@ public class Photo extends AppCompatActivity {
 
             }
         });
+        //리사이클러뷰 어뎁터 생성
         adapter = new CustomAdapter_Photo(arraylist,Photo.this);
-        list.setAdapter(adapter);
+        list.setAdapter(adapter); //어뎁터와 리사이클러뷰 연결
 
         //수동 녹화 ON/OFF 전원 확인용
         photo_on_off = (TextView)findViewById(R.id.photo_on_off);
@@ -228,6 +231,7 @@ public class Photo extends AppCompatActivity {
                                                                 }
                                                             }
                                                         });
+
                                                         //사진 촬영 버튼
                                                         text.setOnClickListener(new View.OnClickListener() {
                                                             @Override
@@ -265,6 +269,7 @@ public class Photo extends AppCompatActivity {
                                                                     }
 
                                                                 }
+
                                                                 else{
                                                                     try {
                                                                         dialog.show();
@@ -292,6 +297,7 @@ public class Photo extends AppCompatActivity {
 
                                                             }
                                                         });
+
 
                                                     }
                                                     catch (NullPointerException nullPointerException){

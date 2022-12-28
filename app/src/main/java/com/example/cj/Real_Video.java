@@ -101,17 +101,6 @@ public class Real_Video extends AppCompatActivity {
                     String value = snapshot.getValue().toString();
                     url= value+"/stream";
                     webview.loadUrl(url); //IP주소를 읽어오면 해당 블랙박스의 실시간 영상 웹뷰에 띄워줌
-
-                    //녹화 주행 모드
-                    drive = (LinearLayout)findViewById(R.id.drive);
-                    drive.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(Real_Video.this, Arduino_Activity.class);
-                            intent.putExtra("url",url);
-                            startActivity(intent);
-                        }
-                    });
                 }
                 catch (NullPointerException nullPointerException){
 
@@ -152,14 +141,14 @@ public class Real_Video extends AppCompatActivity {
                         public void run() {
 
                             if (check_power.equals(value)){//앱에서 보낸신호가 블랙박스랑 일치하면 블랙박스 연결
-                                dialog.dismiss();
+                                dialog.dismiss(); //블랙박스 연결 여부 다이얼로그 종료
                                 power.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
 
                                         if (check_power.equals(value)){
 
-                                            dialog.dismiss();
+                                            dialog.dismiss();//블랙박스 연결 여부 다이얼로그 종료
                                             Toast.makeText(Real_Video.this, "연결 성공", Toast.LENGTH_SHORT).show();
 
                                         }
@@ -170,6 +159,7 @@ public class Real_Video extends AppCompatActivity {
                             else{
 
                                 try {
+                                    //블랙박스가 연결이 되지 않으면 연결 실패 다이얼로그 띄워줌
                                     dialog.show();
                                 }
                                 catch (WindowManager.BadTokenException e){
@@ -238,35 +228,7 @@ public class Real_Video extends AppCompatActivity {
             }
         });
 
-        //사진 캡쳐 엑티비티로 이동
-        photo = (LinearLayout)findViewById(R.id.photo);
-        photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Real_Video.this,Photo.class);
-                intent.putExtra("url",url);
-                startActivity(intent);
-            }
-        });
-        //영상 녹화 엑티비티로 이동
-        video = (LinearLayout)findViewById(R.id.video);
-        video.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Real_Video.this,Video.class);
-                intent.putExtra("url",url);
-                startActivity(intent);
-            }
-        });
-        //각종 옵션 설정 엑티비티로 이동
-        option =(LinearLayout)findViewById(R.id.option);
-        option.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Real_Video.this,Option.class);
-                startActivity(intent);
-            }
-        });
+
         //모션 감지 로그 목록 불러오기
         recyclerview = (RecyclerView)findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(Real_Video.this);
@@ -310,12 +272,51 @@ public class Real_Video extends AppCompatActivity {
             }
         });
 
+        //사진 캡쳐 엑티비티로 이동
+        photo = (LinearLayout)findViewById(R.id.photo);
+        photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Real_Video.this,Photo.class);
+                intent.putExtra("url",url);
+                startActivity(intent);
+            }
+        });
+        //영상 녹화 엑티비티로 이동
+        video = (LinearLayout)findViewById(R.id.video);
+        video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Real_Video.this,Video.class);
+                intent.putExtra("url",url);
+                startActivity(intent);
+            }
+        });
+        //녹화 주행 모드
+        drive = (LinearLayout)findViewById(R.id.drive);
+        drive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Real_Video.this, Arduino_Activity.class);
+                intent.putExtra("url",url);
+                startActivity(intent);
+            }
+        });
         //사진,영상 파일 갤러리 이동
         gallery = (LinearLayout)findViewById(R.id.gallery);
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Real_Video.this, Gallery.class);
+                startActivity(intent);
+            }
+        });
+        //각종 옵션 설정 엑티비티로 이동
+        option =(LinearLayout)findViewById(R.id.option);
+        option.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Real_Video.this,Option.class);
                 startActivity(intent);
             }
         });
